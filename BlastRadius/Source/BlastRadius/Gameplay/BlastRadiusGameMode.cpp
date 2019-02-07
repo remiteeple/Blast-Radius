@@ -1,7 +1,7 @@
 // Copyright 1998-2018 Epic Games, Inc. All Rights Reserved.
 
 #include "BlastRadiusGameMode.h"
-#include "BlastRadiusCharacter.h"
+#include "BlastRadius/Character/BlastRadiusCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 
 ABlastRadiusGameMode::ABlastRadiusGameMode()
