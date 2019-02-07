@@ -1,0 +1,976 @@
+﻿Log file open, 02/07/19 14:03:17
+LogWindows: Failed to load 'aqProf.dll' (GetLastError=126)
+LogWindows: File 'aqProf.dll' does not exist
+LogWindows: Failed to load 'VSPerf140.dll' (GetLastError=126)
+LogWindows: File 'VSPerf140.dll' does not exist
+LogWindows: Failed to load 'VtuneApi.dll' (GetLastError=126)
+LogWindows: File 'VtuneApi.dll' does not exist
+LogWindows: Failed to load 'VtuneApi32e.dll' (GetLastError=126)
+LogWindows: File 'VtuneApi32e.dll' does not exist
+LogInit: Display: Running engine for game: BlastRadius
+LogPlatformFile: Not using cached read wrapper
+LogTaskGraph: Started task graph with 5 named threads and 23 total threads with 3 sets of task threads.
+LogStats: Stats thread started at 0.278467
+LogD3D11RHI: Loaded GFSDK_Aftermath_Lib.x64.dll
+LogICUInternationalization: Display: ICU TimeZone Detection - Raw Offset: -5:00, Platform Override: ''
+LogPluginManager: Mounting plugin Paper2D
+LogPluginManager: Mounting plugin AISupport
+LogPluginManager: Mounting plugin LightPropagationVolume
+LogPluginManager: Mounting plugin CLionSourceCodeAccess
+LogPluginManager: Mounting plugin CodeLiteSourceCodeAccess
+LogPluginManager: Mounting plugin GitSourceControl
+LogPluginManager: Mounting plugin KDevelopSourceCodeAccess
+LogPluginManager: Mounting plugin NullSourceCodeAccess
+LogPluginManager: Mounting plugin PerforceSourceControl
+LogPluginManager: Mounting plugin SubversionSourceControl
+LogPluginManager: Mounting plugin UObjectPlugin
+LogPluginManager: Mounting plugin VisualStudioCodeSourceCodeAccess
+LogPluginManager: Mounting plugin VisualStudioSourceCodeAccess
+LogPluginManager: Mounting plugin XCodeSourceCodeAccess
+LogPluginManager: Mounting plugin AssetManagerEditor
+LogPluginManager: Mounting plugin CryptoKeys
+LogPluginManager: Mounting plugin DataValidation
+LogPluginManager: Mounting plugin FacialAnimation
+LogPluginManager: Mounting plugin GameplayTagsEditor
+LogPluginManager: Mounting plugin MacGraphicsSwitching
+LogPluginManager: Mounting plugin MeshEditor
+LogPluginManager: Mounting plugin MobileLauncherProfileWizard
+LogPluginManager: Mounting plugin PluginBrowser
+LogPluginManager: Mounting plugin SpeedTreeImporter
+LogPluginManager: Mounting plugin DatasmithContent
+LogPluginManager: Mounting plugin AlembicImporter
+LogPluginManager: Mounting plugin AppleImageUtils
+LogPluginManager: Mounting plugin AppleVision
+LogPluginManager: Mounting plugin BackChannel
+LogPluginManager: Mounting plugin CharacterAI
+LogPluginManager: Mounting plugin GeometryCache
+LogPluginManager: Mounting plugin HTML5Networking
+LogPluginManager: Mounting plugin ProxyLODPlugin
+LogPluginManager: Mounting plugin MagicLeap
+LogPluginManager: Mounting plugin MagicLeapEmulator
+LogPluginManager: Mounting plugin MagicLeapMedia
+LogPluginManager: Mounting plugin AndroidMedia
+LogPluginManager: Mounting plugin AvfMedia
+LogPluginManager: Mounting plugin ImgMedia
+LogPluginManager: Mounting plugin LinearTimecode
+LogPluginManager: Mounting plugin MediaCompositing
+LogPluginManager: Mounting plugin MediaPlayerEditor
+LogPluginManager: Mounting plugin WmfMedia
+LogPluginManager: Mounting plugin TcpMessaging
+LogPluginManager: Mounting plugin UdpMessaging
+LogPluginManager: Mounting plugin ActorSequence
+LogPluginManager: Mounting plugin LevelSequenceEditor
+LogPluginManager: Mounting plugin MatineeToLevelSequence
+LogPluginManager: Mounting plugin NetcodeUnitTest
+LogPluginManager: Mounting plugin NUTUnrealEngine4
+LogPluginManager: Mounting plugin OnlineSubsystemGooglePlay
+LogPluginManager: Mounting plugin OnlineSubsystemIOS
+LogPluginManager: Mounting plugin OnlineSubsystem
+LogPluginManager: Mounting plugin OnlineSubsystemNull
+LogPluginManager: Mounting plugin OnlineSubsystemUtils
+LogPluginManager: Mounting plugin LauncherChunkInstaller
+LogPluginManager: Mounting plugin AndroidDeviceProfileSelector
+LogPluginManager: Mounting plugin AndroidMoviePlayer
+LogPluginManager: Mounting plugin AndroidPermission
+LogPluginManager: Mounting plugin AppleMoviePlayer
+LogPluginManager: Mounting plugin ArchVisCharacter
+LogPluginManager: Mounting plugin AudioCapture
+LogPluginManager: Mounting plugin CableComponent
+LogPluginManager: Mounting plugin CustomMeshComponent
+LogPluginManager: Mounting plugin EditableMesh
+LogPluginManager: Mounting plugin ExampleDeviceProfileSelector
+LogPluginManager: Mounting plugin GoogleCloudMessaging
+LogPluginManager: Mounting plugin ImmediatePhysics
+LogPluginManager: Mounting plugin IOSDeviceProfileSelector
+LogPluginManager: Mounting plugin LinuxDeviceProfileSelector
+LogPluginManager: Mounting plugin LocationServicesBPLibrary
+LogPluginManager: Mounting plugin MobilePatchingUtils
+LogPluginManager: Mounting plugin OculusVR
+LogPluginManager: Plugin shader directory ../../../Engine/Plugins/Runtime/Oculus/OculusVR/Shaders found
+LogPluginManager: Mapping shader source directory ../../../Engine/Plugins/Runtime/Oculus/OculusVR/Shaders to virtual directory /Plugin/OculusVR
+LogPluginManager: Mounting plugin PhysXVehicles
+LogPluginManager: Mounting plugin ProceduralMeshComponent
+LogPluginManager: Mounting plugin RuntimePhysXCooking
+LogPluginManager: Mounting plugin SteamVR
+LogPluginManager: Mounting plugin WindowsMoviePlayer
+LogStreaming: Display: Took  0.123s to configure plugins.
+LogInit: Warning: Incompatible or missing module: BlastRadius
+Running D:/Program Files/Epic Games/UE_4.20/Engine/Binaries/DotNET/UnrealBuildTool.exe Development Win64 -Project="C:/Users/teep0009/Documents/Unreal Projects/TeamJ-SON/BlastRadius/BlastRadius.uproject" -TargetType=Editor -Progress -NoHotReloadFromIDE
+Using 'git status' to determine working set for adaptive non-unity build.
+Creating makefile for BlastRadiusEditor (no existing makefile)
+Performing full C++ include scan (no include cache file)
+Using Visual Studio 2017 14.14.26428 toolchain (C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.14.26428) and Windows 10.0.17134.0 SDK (C:\Program Files (x86)\Windows Kits\10).
+@progress push 5%
+Parsing headers for BlastRadiusEditor
+  Running UnrealHeaderTool "C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\BlastRadius.uproject" "C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\BlastRadiusEditor\Development\BlastRadiusEditor.uhtmanifest" -LogCmds="loginit warning, logexit warning, logdatabase error" -Unattended -WarningsAsErrors -installed
+Reflection code generated for BlastRadiusEditor in 9.5036735 seconds
+@progress pop
+Building 10 actions with 8 processes...
+  @progress 'Compiling C++ source code...' 0%
+  PCLaunch.rc
+  @progress 'Compiling C++ source code...' 10%
+  SharedPCH.Engine.cpp
+  @progress 'Compiling C++ source code...' 20%
+  BlastRadius.cpp
+  @progress 'Compiling C++ source code...' 30%
+  BlastRadius.init.gen.cpp
+  @progress 'Compiling C++ source code...' 40%
+  BlastRadiusGameMode.gen.cpp
+  @progress 'Compiling C++ source code...' 50%
+  BlastRadiusGameMode.cpp
+  @progress 'Compiling C++ source code...' 60%
+  BlastRadiusCharacter.gen.cpp
+  @progress 'Compiling C++ source code...' 70%
+  BlastRadiusCharacter.cpp
+  @progress 'Compiling C++ source code...' 80%
+  UE4Editor-BlastRadius.lib
+     Creating library C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\UE4Editor\Development\BlastRadius\UE4Editor-BlastRadius.lib and object C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\UE4Editor\Development\BlastRadius\UE4Editor-BlastRadius.exp
+  @progress 'Compiling C++ source code...' 90%
+  UE4Editor-BlastRadius.dll
+     Creating library C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\UE4Editor\Development\BlastRadius\UE4Editor-BlastRadius.suppressed.lib and object C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\UE4Editor\Development\BlastRadius\UE4Editor-BlastRadius.suppressed.exp
+  @progress 'Compiling C++ source code...' 100%
+Total build time: 39.11 seconds (Parallel executor: 24.42 seconds)
+LogInit: Using libcurl 7.55.1-DEV
+LogInit:  - built for x86_64-pc-win32
+LogInit:  - supports SSL with OpenSSL/1.0.2h
+LogInit:  - supports HTTP deflate (compression) using libz 1.2.8
+LogInit:  - other features:
+LogInit:      CURL_VERSION_SSL
+LogInit:      CURL_VERSION_LIBZ
+LogInit:      CURL_VERSION_IPV6
+LogInit:      CURL_VERSION_ASYNCHDNS
+LogInit:      CURL_VERSION_LARGEFILE
+LogInit:      CURL_VERSION_IDN
+LogInit:  CurlRequestOptions (configurable via config and command line):
+LogInit:  - bVerifyPeer = false  - Libcurl will NOT verify peer certificate
+LogInit:  - bUseHttpProxy = false  - Libcurl will NOT use HTTP proxy
+LogInit:  - bDontReuseConnections = false  - Libcurl will reuse connections
+LogInit:  - CertBundlePath = nullptr  - Libcurl will use whatever was configured at build time.
+LogInit:  - MaxHostConnections = 16  - Libcurl will limit the number of connections to a host
+LogInit:  - LocalHostAddr = Default
+LogInit:  - BufferSize = 65536
+LogInit: WinSock: version 1.1 (2.2), MaxSocks=32767, MaxUdp=65467
+LogInit: Build: ++UE4+Release-4.20-CL-4233996
+LogInit: Engine Version: 4.20.1-4233996+++UE4+Release-4.20
+LogInit: Compatible Engine Version: 4.20.0-4212847+++UE4+Release-4.20
+LogInit: Net CL: 4212847
+LogInit: OS: Windows 10 (), CPU:        Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz, GPU: NVIDIA GeForce GTX 670
+LogInit: Compiled (64-bit): Jul 26 2018 10:07:30
+LogInit: Compiled with Visual C++: 19.13.26129.00
+LogInit: Build Configuration: Development
+LogInit: Branch Name: ++UE4+Release-4.20
+LogInit: Command Line:  
+LogInit: Base Directory: D:/Program Files/Epic Games/UE_4.20/Engine/Binaries/Win64/
+LogInit: Installed Engine Build: 1
+LogDevObjectVersion: Number of dev versions registered: 20
+LogDevObjectVersion:   Dev-Blueprints (B0D832E4-1F89-4F0D-ACCF-7EB736FD4AA2): 10
+LogDevObjectVersion:   Dev-Build (E1C64328-A22C-4D53-A36C-8E866417BD8C): 0
+LogDevObjectVersion:   Dev-Core (375EC13C-06E4-48FB-B500-84F0262A717E): 2
+LogDevObjectVersion:   Dev-Editor (E4B068ED-F494-42E9-A231-DA0B2E46BB41): 24
+LogDevObjectVersion:   Dev-Framework (CFFC743F-43B0-4480-9391-14DF171D2073): 34
+LogDevObjectVersion:   Dev-Mobile (B02B49B5-BB20-44E9-A304-32B752E40360): 2
+LogDevObjectVersion:   Dev-Networking (A4E4105C-59A1-49B5-A7C5-40C4547EDFEE): 0
+LogDevObjectVersion:   Dev-Online (39C831C9-5AE6-47DC-9A44-9C173E1C8E7C): 0
+LogDevObjectVersion:   Dev-Physics (78F01B33-EBEA-4F98-B9B4-84EACCB95AA2): 0
+LogDevObjectVersion:   Dev-Platform (6631380F-2D4D-43E0-8009-CF276956A95A): 0
+LogDevObjectVersion:   Dev-Rendering (12F88B9F-8875-4AFC-A67C-D90C383ABD29): 26
+LogDevObjectVersion:   Dev-Sequencer (7B5AE74C-D270-4C10-A958-57980B212A5A): 9
+LogDevObjectVersion:   Dev-VR (D7296918-1DD6-4BDD-9DE2-64A83CC13884): 2
+LogDevObjectVersion:   Dev-LoadTimes (C2A15278-BFE7-4AFE-6C17-90FF531DF755): 1
+LogDevObjectVersion:   Private-Geometry (6EACA3D4-40EC-4CC1-B786-8BED09428FC5): 3
+LogDevObjectVersion:   Dev-AnimPhys (29E575DD-E0A3-4627-9D10-D276232CDCEA): 17
+LogDevObjectVersion:   Dev-ReflectionCapture (6B266CEC-1EC7-4B8F-A30B-E4D90942FC07): 1
+LogDevObjectVersion:   Dev-Automation (0DF73D61-A23F-47EA-B727-89E90C41499A): 1
+LogDevObjectVersion:   FortniteMain (601D1886-AC64-4F84-AA16-D3DE0DEAC7D6): 12
+LogDevObjectVersion:   Dev-Enterprise (9DFFBCD6-494F-0158-E221-12823C92A888): 1
+LogStreaming: Display: Took  0.000s to delete old logs.
+LogInit: Presizing for max 8388607 objects, including 0 objects not considered by GC, pre-allocating 0 bytes for permanent pool.
+LogInit: Object subsystem initialized
+[2019.02.07-19.04.36:874][  0]LogInit: Selected Device Profile: [Windows]
+[2019.02.07-19.04.36:874][  0]LogInit: Applying CVar settings loaded from the selected device profile: [Windows]
+[2019.02.07-19.04.36:883][  0]LogHAL: Display: Platform has ~ 16 GB [17119178752 / 17179869184 / 16], which maps to Larger [LargestMinGB=32, LargerMinGB=12, DefaultMinGB=8, SmallerMinGB=6, SmallestMinGB=0)
+[2019.02.07-19.04.36:883][  0]LogInit: Setting Device Profile CVar: [[r.Vulkan.UseRealUBs:1]]
+[2019.02.07-19.04.36:883][  0]LogInit: Going up to parent DeviceProfile []
+[2019.02.07-19.04.36:883][  0]LogInit: Computer: WJ316-35
+[2019.02.07-19.04.36:883][  0]LogInit: User: teep0009
+[2019.02.07-19.04.36:883][  0]LogInit: CPU Page size=4096, Cores=4
+[2019.02.07-19.04.36:883][  0]LogInit: High frequency timer resolution =3.428038 MHz
+[2019.02.07-19.04.36:883][  0]LogMemory: Memory total: Physical=15.9GB (16GB approx)
+[2019.02.07-19.04.36:883][  0]LogMemory: Platform Memory Stats for Windows
+[2019.02.07-19.04.36:883][  0]LogMemory: Process Physical Memory: 105.47 MB used, 105.47 MB peak
+[2019.02.07-19.04.36:883][  0]LogMemory: Process Virtual Memory: 90.02 MB used, 90.02 MB peak
+[2019.02.07-19.04.36:884][  0]LogMemory: Physical Memory: 3832.95 MB used,  12493.17 MB free, 16326.12 MB total
+[2019.02.07-19.04.36:884][  0]LogMemory: Virtual Memory: 581.07 MB used,  12493.17 MB free, 134217728.00 MB total
+[2019.02.07-19.04.36:904][  0]LogInit: Using OS detected language (en-US).
+[2019.02.07-19.04.36:904][  0]LogInit: Using OS detected locale (en-US).
+[2019.02.07-19.04.36:905][  0]LogTextLocalizationManager: No specific localization for 'en-US' exists, so the 'en' localization will be used.
+[2019.02.07-19.04.37:243][  0]LogStreaming: Display: Took  0.340s to InitEngineTextLocalization.
+[2019.02.07-19.04.37:244][  0]LogInit: Setting process to per monitor DPI aware
+[2019.02.07-19.04.37:269][  0]LogSlate: New Slate User Created.  User Index 0, Is Virtual User: 0
+[2019.02.07-19.04.37:269][  0]LogSlate: Slate User Registered.  User Index 0, Is Virtual User: 0
+[2019.02.07-19.04.37:606][  0]LogHMD: Failed to initialize OpenVR with code 110
+[2019.02.07-19.04.37:606][  0]LogD3D11RHI: D3D11 adapters:
+[2019.02.07-19.04.37:659][  0]LogD3D11RHI:    0. 'NVIDIA GeForce GTX 670' (Feature Level 11_0)
+[2019.02.07-19.04.37:659][  0]LogD3D11RHI:       4052/0/8163 MB DedicatedVideo/DedicatedSystem/SharedSystem, Outputs:1, VendorId:0x10de
+[2019.02.07-19.04.37:661][  0]LogD3D11RHI:    1. 'Microsoft Basic Render Driver' (Feature Level 11_0)
+[2019.02.07-19.04.37:661][  0]LogD3D11RHI:       0/0/8163 MB DedicatedVideo/DedicatedSystem/SharedSystem, Outputs:0, VendorId:0x1414
+[2019.02.07-19.04.37:661][  0]LogD3D11RHI: Chosen D3D11 Adapter: 0
+[2019.02.07-19.04.37:666][  0]LogD3D11RHI: Creating new Direct3DDevice
+[2019.02.07-19.04.37:666][  0]LogD3D11RHI:     GPU DeviceId: 0x1189 (for the marketing name, search the web for "GPU Device Id")
+[2019.02.07-19.04.37:666][  0]LogWindows: EnumDisplayDevices:
+[2019.02.07-19.04.37:666][  0]LogWindows:    0. 'NVIDIA GeForce GTX 670' (P:1 D:1)
+[2019.02.07-19.04.37:666][  0]LogWindows:    1. 'NVIDIA GeForce GTX 670' (P:0 D:0)
+[2019.02.07-19.04.37:666][  0]LogWindows:    2. 'NVIDIA GeForce GTX 670' (P:0 D:0)
+[2019.02.07-19.04.37:666][  0]LogWindows:    3. 'NVIDIA GeForce GTX 670' (P:0 D:0)
+[2019.02.07-19.04.37:666][  0]LogWindows: DebugString: FoundDriverCount:4 
+[2019.02.07-19.04.37:666][  0]LogD3D11RHI:     Adapter Name: NVIDIA GeForce GTX 670
+[2019.02.07-19.04.37:666][  0]LogD3D11RHI:   Driver Version: 391.35 (internal:23.21.13.9135, unified:391.35)
+[2019.02.07-19.04.37:666][  0]LogD3D11RHI:      Driver Date: 3-23-2018
+[2019.02.07-19.04.37:666][  0]LogRHI: Texture pool is 2836 MB (70% of 4052 MB)
+[2019.02.07-19.04.37:701][  0]LogD3D11RHI: Async texture creation enabled
+[2019.02.07-19.04.37:720][  0]LogD3D11RHI: GPU Timing Frequency: 1000.000000 (Debug: 2 2)
+[2019.02.07-19.04.37:721][  0]LogShaderCompilers: Guid format shader working directory is -16 characters bigger than the processId version (C:/Users/teep0009/Documents/Unreal Projects/TeamJ-SON/BlastRadius/Intermediate/Shaders/WorkingDirectory/5752/).
+[2019.02.07-19.04.37:721][  0]LogShaderCompilers: Cleaned the shader compiler working directory 'C:/Users/teep0009/AppData/Local/Temp/UnrealShaderWorkingDir/E7D592C0440132B3EE11A3BC507A207A/'.
+[2019.02.07-19.04.37:960][  0]LogTemp: Display: Loaded TP AllDesktopTargetPlatform
+[2019.02.07-19.04.37:973][  0]LogTemp: Display: Loaded TP MacClientTargetPlatform
+[2019.02.07-19.04.37:985][  0]LogTemp: Display: Loaded TP MacNoEditorTargetPlatform
+[2019.02.07-19.04.37:999][  0]LogTemp: Display: Loaded TP MacServerTargetPlatform
+[2019.02.07-19.04.38:013][  0]LogTemp: Display: Loaded TP MacTargetPlatform
+[2019.02.07-19.04.38:027][  0]LogTemp: Display: Loaded TP WindowsClientTargetPlatform
+[2019.02.07-19.04.38:041][  0]LogTemp: Display: Loaded TP WindowsNoEditorTargetPlatform
+[2019.02.07-19.04.38:054][  0]LogTemp: Display: Loaded TP WindowsServerTargetPlatform
+[2019.02.07-19.04.38:060][  0]LogTemp: Display: Loaded TP WindowsTargetPlatform
+[2019.02.07-19.04.38:140][  0]LogTemp: Display: Loaded TP AndroidTargetPlatform
+[2019.02.07-19.04.38:140][  0]LogTemp: Display: Loaded TP AndroidTargetPlatform
+[2019.02.07-19.04.38:140][  0]LogTemp: Display: Loaded TP AndroidTargetPlatform
+[2019.02.07-19.04.38:140][  0]LogTemp: Display: Loaded TP AndroidTargetPlatform
+[2019.02.07-19.04.38:140][  0]LogTemp: Display: Loaded TP AndroidTargetPlatform
+[2019.02.07-19.04.38:140][  0]LogTemp: Display: Loaded TP AndroidTargetPlatform
+[2019.02.07-19.04.38:140][  0]LogTemp: Display: Loaded TP AndroidTargetPlatform
+[2019.02.07-19.04.38:140][  0]LogTemp: Display: Loaded TP AndroidTargetPlatform
+[2019.02.07-19.04.38:140][  0]LogTemp: Display: Loaded TP AndroidTargetPlatform
+[2019.02.07-19.04.38:140][  0]LogTemp: Display: Loaded TP AndroidTargetPlatform
+[2019.02.07-19.04.38:140][  0]LogTemp: Display: Loaded TP AndroidTargetPlatform
+[2019.02.07-19.04.38:140][  0]LogTemp: Display: Loaded TP AndroidTargetPlatform
+[2019.02.07-19.04.38:140][  0]LogTemp: Display: Loaded TP AndroidTargetPlatform
+[2019.02.07-19.04.38:140][  0]LogTemp: Display: Loaded TP AndroidTargetPlatform
+[2019.02.07-19.04.38:140][  0]LogTemp: Display: Loaded TP AndroidTargetPlatform
+[2019.02.07-19.04.38:140][  0]LogTemp: Display: Loaded TP AndroidTargetPlatform
+[2019.02.07-19.04.38:140][  0]LogTemp: Display: Loaded TP AndroidTargetPlatform
+[2019.02.07-19.04.38:140][  0]LogTemp: Display: Loaded TP AndroidTargetPlatform
+[2019.02.07-19.04.38:141][  0]LogTemp: Display: Loaded TP HTML5TargetPlatform
+[2019.02.07-19.04.38:202][  0]LogTemp: Display: Loaded TP IOSTargetPlatform
+[2019.02.07-19.04.38:202][  0]LogTemp: Display: Loaded TP IOSTargetPlatform
+[2019.02.07-19.04.38:226][  0]LogTemp: Display: Loaded TP TVOSTargetPlatform
+[2019.02.07-19.04.38:226][  0]LogTemp: Display: Loaded TP TVOSTargetPlatform
+[2019.02.07-19.04.38:239][  0]LogTemp: Display: Loaded TP LinuxClientTargetPlatform
+[2019.02.07-19.04.38:252][  0]LogTemp: Display: Loaded TP LinuxNoEditorTargetPlatform
+[2019.02.07-19.04.38:264][  0]LogTemp: Display: Loaded TP LinuxServerTargetPlatform
+[2019.02.07-19.04.38:278][  0]LogTemp: Display: Loaded TP LinuxTargetPlatform
+[2019.02.07-19.04.38:287][  0]LogTemp: Display: Loaded TP LuminTargetPlatform
+[2019.02.07-19.04.38:287][  0]LogTargetPlatformManager: Display: Building Assets For Windows
+[2019.02.07-19.04.38:333][  0]LogXGEController: Cleaning working directory: C:/Users/teep0009/AppData/Local/Temp/UnrealXGEWorkingDir/
+[2019.02.07-19.04.38:333][  0]LogXGEController: Cannot use XGE Controller as Incredibuild is not installed on this machine.
+[2019.02.07-19.04.38:333][  0]LogShaderCompilers: Cannot use XGE Shader Compiler as Incredibuild is not installed on this machine.
+[2019.02.07-19.04.38:333][  0]LogShaderCompilers: Display: Using Local Shader Compiler.
+[2019.02.07-19.04.39:074][  0]LogDerivedDataCache: Display: Max Cache Size: 512 MB
+[2019.02.07-19.04.39:122][  0]LogDerivedDataCache: Loaded boot cache 0.05s 73MB C:/Users/teep0009/AppData/Local/UnrealEngine/4.20/DerivedDataCache/Boot.ddc.
+[2019.02.07-19.04.39:123][  0]LogDerivedDataCache: Display: Loaded Boot cache: C:/Users/teep0009/AppData/Local/UnrealEngine/4.20/DerivedDataCache/Boot.ddc
+[2019.02.07-19.04.39:123][  0]LogDerivedDataCache: FDerivedDataBackendGraph:  Pak pak cache file C:/Users/teep0009/Documents/Unreal Projects/TeamJ-SON/BlastRadius/DerivedDataCache/DDC.ddp not found, will not use a pak cache.
+[2019.02.07-19.04.39:123][  0]LogDerivedDataCache: Unable to find inner node Pak for hierarchical cache Hierarchy.
+[2019.02.07-19.04.39:123][  0]LogDerivedDataCache: FDerivedDataBackendGraph:  CompressedPak pak cache file C:/Users/teep0009/Documents/Unreal Projects/TeamJ-SON/BlastRadius/DerivedDataCache/Compressed.ddp not found, will not use a pak cache.
+[2019.02.07-19.04.39:123][  0]LogDerivedDataCache: Unable to find inner node CompressedPak for hierarchical cache Hierarchy.
+[2019.02.07-19.04.39:136][  0]LogDerivedDataCache: Display: Pak cache opened for reading ../../../Engine/DerivedDataCache/Compressed.ddp.
+[2019.02.07-19.04.39:148][  0]LogDerivedDataCache: Using Local data cache path C:/Users/teep0009/AppData/Local/UnrealEngine/Common/DerivedDataCache: Writable
+[2019.02.07-19.04.39:148][  0]LogDerivedDataCache: Shared data cache path not found in *engine.ini, will not use an Shared cache.
+[2019.02.07-19.04.39:148][  0]LogDerivedDataCache: Unable to find inner node Shared for hierarchical cache Hierarchy.
+[2019.02.07-19.04.39:166][  0]LogMaterial: Verifying Global Shaders for PCD3D_SM5
+[2019.02.07-19.04.39:168][  0]LogSlate: Using FreeType 2.6.0
+[2019.02.07-19.04.39:169][  0]LogSlate: SlateFontServices - WITH_FREETYPE: 1, WITH_HARFBUZZ: 1
+[2019.02.07-19.04.39:300][  0]LogAssetRegistry: FAssetRegistry took 0.0268 seconds to start up
+[2019.02.07-19.04.39:673][  0]LogInit: Selected Device Profile: [Windows]
+[2019.02.07-19.04.39:803][  0]LogSimplygon: Simplygon DLL not present - disabling.
+[2019.02.07-19.04.39:806][  0]LogMeshReduction: Using SimplygonSwarm for distributed automatic mesh merging
+[2019.02.07-19.04.39:806][  0]LogMeshReduction: Using ProxyLODMeshReduction for automatic mesh merging
+[2019.02.07-19.04.39:806][  0]LogMeshReduction: Using QuadricMeshReduction for automatic static mesh reduction
+[2019.02.07-19.04.39:806][  0]LogMeshReduction: No automatic skeletal mesh reduction module available
+[2019.02.07-19.04.39:820][  0]LogNetVersion: BlastRadius 1.0.0, NetCL: 4212847, EngineNetVer: 5, GameNetVer: 0 (Checksum: 1291830414)
+[2019.02.07-19.04.40:308][  0]LogPackageLocalizationCache: Processed 11 localized package path(s) for 2 prioritized culture(s) in 0.092146 seconds
+[2019.02.07-19.04.40:316][  0]LogUObjectArray: 38425 objects as part of root set at end of initial load.
+[2019.02.07-19.04.40:316][  0]LogUObjectAllocator: 6690872 out of 0 bytes used by permanent object pool.
+[2019.02.07-19.04.40:316][  0]LogUObjectArray: CloseDisregardForGC: 0/0 objects in disregard for GC pool
+[2019.02.07-19.04.41:377][  0]LogTcpMessaging: Initializing TcpMessaging bridge
+[2019.02.07-19.04.41:400][  0]LogUdpMessaging: Initializing bridge on interface 0.0.0.0:0 to multicast group 230.0.0.1:6666.
+[2019.02.07-19.04.41:774][  0]SourceControl: Source control is disabled
+[2019.02.07-19.04.41:774][  0]SourceControl: Source control is disabled
+[2019.02.07-19.04.41:775][  0]SourceControl: Source control is disabled
+[2019.02.07-19.04.41:776][  0]SourceControl: Source control is disabled
+[2019.02.07-19.04.41:947][  0]LogAndroidPermission: UAndroidPermissionCallbackProxy::GetInstance
+[2019.02.07-19.04.41:988][  0]LogOcInput: OculusInput pre-init called
+[2019.02.07-19.04.42:047][  0]LogEngine: Initializing Engine...
+[2019.02.07-19.04.42:048][  0]LogHMD: Failed to initialize OpenVR with code 110
+[2019.02.07-19.04.42:050][  0]LogStats: UGameplayTagsManager::ConstructGameplayTagTree: ImportINI prefixes -  0.000 s
+[2019.02.07-19.04.42:050][  0]LogStats: UGameplayTagsManager::ConstructGameplayTagTree: Construct from data asset -  0.000 s
+[2019.02.07-19.04.42:050][  0]LogStats: UGameplayTagsManager::ConstructGameplayTagTree: ImportINI -  0.000 s
+[2019.02.07-19.04.42:050][  0]LogStats: UGameplayTagsManager::ConstructGameplayTagTree: GameplayTagTreeChangedEvent.Broadcast -  0.000 s
+[2019.02.07-19.04.42:267][  0]LogInit: Initializing FReadOnlyCVARCache
+[2019.02.07-19.04.42:276][  0]LogAIModule: Creating AISystem for world Untitled
+[2019.02.07-19.04.42:282][  0]LogInit: XAudio2 using 'Realtek Digital Output(Optical) (Realtek High Definition Audio)' : 2 channels at 48 kHz using 16 bits per sample (channel mask 0x3)
+[2019.02.07-19.04.42:309][  0]LogInit: FAudioDevice initialized.
+[2019.02.07-19.04.42:309][  0]LogNetVersion: Set ProjectVersion to 1.0.0.0. Version Checksum will be recalculated on next use.
+[2019.02.07-19.04.42:390][  0]LogDerivedDataCache: Saved boot cache 0.08s 73MB C:/Users/teep0009/AppData/Local/UnrealEngine/4.20/DerivedDataCache/Boot.ddc.
+[2019.02.07-19.04.42:393][  0]LogInit: Texture streaming: Enabled
+[2019.02.07-19.04.42:407][  0]LogEngineSessionManager: EngineSessionManager initialized
+[2019.02.07-19.04.42:416][  0]LogInit: Transaction tracking system initialized
+[2019.02.07-19.04.42:431][  0]BlueprintLog: New page: Editor Load
+[2019.02.07-19.04.42:529][  0]LocalizationService: Localization service is disabled
+[2019.02.07-19.04.42:772][  0]LogCook: Display: Max memory allowance for cook 16384mb min free memory 0mb
+[2019.02.07-19.04.42:772][  0]LogCook: Display: Mobile HDR setting 1
+[2019.02.07-19.04.42:772][  0]LogGameplayTags: Display: UGameplayTagsManager::DoneAddingNativeTags. DelegateIsBound: 0
+[2019.02.07-19.04.42:772][  0]LogStats: UGameplayTagsManager::ConstructGameplayTagTree: ImportINI prefixes -  0.000 s
+[2019.02.07-19.04.42:772][  0]LogStats: UGameplayTagsManager::ConstructGameplayTagTree: Construct from data asset -  0.000 s
+[2019.02.07-19.04.42:773][  0]LogStats: UGameplayTagsManager::ConstructGameplayTagTree: ImportINI -  0.000 s
+[2019.02.07-19.04.42:773][  0]LogStats: UGameplayTagsManager::ConstructGameplayTagTree: GameplayTagTreeChangedEvent.Broadcast -  0.000 s
+[2019.02.07-19.04.42:889][  0]LogFileCache: Scanning file cache for directory 'C:/Users/teep0009/Documents/Unreal Projects/TeamJ-SON/BlastRadius/Content/' took 0.01s
+[2019.02.07-19.04.42:889][  0]SourceControl: Source control is disabled
+[2019.02.07-19.04.42:889][  0]Cmd: MAP LOAD FILE="C:/Users/teep0009/Documents/Unreal Projects/TeamJ-SON/BlastRadius/Content/ThirdPersonCPP/Maps/ThirdPersonExampleMap.umap" TEMPLATE=0 SHOWPROGRESS=1 FEATURELEVEL=3
+[2019.02.07-19.04.42:890][  0]LightingResults: New page: Lighting Build
+[2019.02.07-19.04.42:891][  0]MapCheck: New page: Map Check
+[2019.02.07-19.04.42:891][  0]LightingResults: New page: Lighting Build
+[2019.02.07-19.04.43:104][  0]LogAIModule: Creating AISystem for world ThirdPersonExampleMap
+[2019.02.07-19.04.43:113][  0]LogEditorServer: Finished looking for orphan Actors (0.000 secs)
+[2019.02.07-19.04.43:134][  0]Cmd: MAP CHECKDEP NOCLEARLOG
+[2019.02.07-19.04.43:214][  0]MapCheck: Map check complete: 0 Error(s), 0 Warning(s), took 79.557ms to complete.
+[2019.02.07-19.04.43:214][  0]LogFileHelpers: Loading map 'ThirdPersonExampleMap' took 0.325
+[2019.02.07-19.04.43:290][  0]LogSlate: Updating window title bar state: overlay mode, drag disabled, window buttons hidden, title bar hidden
+[2019.02.07-19.04.43:298][  0]LogSlate: Updating window title bar state: overlay mode, drag disabled, window buttons hidden, title bar hidden
+[2019.02.07-19.04.43:306][  0]LogSlate: Updating window title bar state: overlay mode, drag disabled, window buttons hidden, title bar hidden
+[2019.02.07-19.04.43:314][  0]LogSlate: Updating window title bar state: overlay mode, drag disabled, window buttons hidden, title bar hidden
+[2019.02.07-19.04.43:318][  0]LogCollectionManager: Loaded 0 collections in 0.000778 seconds
+[2019.02.07-19.04.43:356][  0]LogFileCache: Scanning file cache for directory 'C:/Users/teep0009/Documents/Unreal Projects/TeamJ-SON/BlastRadius/Saved/Collections/' took 0.01s
+[2019.02.07-19.04.43:356][  0]LogFileCache: Scanning file cache for directory 'C:/Users/teep0009/Documents/Unreal Projects/TeamJ-SON/BlastRadius/Content/Developers/teep0009/Collections/' took 0.01s
+[2019.02.07-19.04.43:356][  0]LogFileCache: Scanning file cache for directory 'C:/Users/teep0009/Documents/Unreal Projects/TeamJ-SON/BlastRadius/Content/Collections/' took 0.01s
+[2019.02.07-19.04.43:356][  0]LogCollectionManager: Rebuilt the GUID cache for 0 collections in 0.000000 seconds
+[2019.02.07-19.04.43:366][  0]LogContentBrowser: Native class hierarchy populated in 0.0100 seconds. Added 2574 classes and 605 folders.
+[2019.02.07-19.04.43:371][  0]LogContentBrowser: Native class hierarchy updated for 'WidgetCarousel' in 0.0003 seconds. Added 0 classes and 0 folders.
+[2019.02.07-19.04.43:418][  0]LogContentBrowser: Native class hierarchy updated for 'AddContentDialog' in 0.0004 seconds. Added 0 classes and 0 folders.
+[2019.02.07-19.04.43:422][  0]LogContentBrowser: Native class hierarchy updated for 'SceneOutliner' in 0.0005 seconds. Added 1 classes and 2 folders.
+[2019.02.07-19.04.43:438][  0]LogSlate: Took 0.000327 seconds to synchronously load lazily loaded font '../../../Engine/Content/Slate/Fonts/Roboto-Regular.ttf' (155K)
+[2019.02.07-19.04.43:440][  0]LogSlate: Took 0.000303 seconds to synchronously load lazily loaded font '../../../Engine/Content/Slate/Fonts/Roboto-Bold.ttf' (160K)
+[2019.02.07-19.04.43:446][  0]LogSlate: Took 0.000382 seconds to synchronously load lazily loaded font '../../../Engine/Content/Editor/Slate/Fonts/FontAwesome.ttf' (139K)
+[2019.02.07-19.04.43:526][  0]LogRenderer: Reallocating scene render targets to support 1208x576 Format 10 NumSamples 1 (Frame:1).
+[2019.02.07-19.04.43:607][  0]LogSlate: FSceneViewport::OnFocusLost() reason 2
+[2019.02.07-19.04.43:620][  0]LogSlate: Window 'Tutorials' being destroyed
+[2019.02.07-19.04.43:650][  0]LogContentBrowser: Native class hierarchy updated for 'HierarchicalLODOutliner' in 0.0004 seconds. Added 0 classes and 0 folders.
+[2019.02.07-19.04.43:650][  0]LogLoad: (Engine Initialization) Total time: 87.40 seconds
+[2019.02.07-19.04.43:650][  0]LogLoad: (Engine Initialization) Total Blueprint compile time: 0.00 seconds
+[2019.02.07-19.04.43:660][  0]LogWindowsTextInputMethodSystem: Display: IME system now deactivated.
+[2019.02.07-19.04.43:683][  0]LogContentStreaming: Texture pool size now 3000 MB
+[2019.02.07-19.04.43:703][  0]LogSlate: Took 0.000354 seconds to synchronously load lazily loaded font '../../../Engine/Content/Slate/Fonts/Roboto-Light.ttf' (167K)
+[2019.02.07-19.04.43:716][  1]LogAssetRegistry: Asset discovery search completed in 4.4382 seconds
+[2019.02.07-19.04.43:718][  1]LogCollectionManager: Rebuilt the object cache for 0 collections in 0.000001 seconds (found 0 objects)
+[2019.02.07-19.04.43:718][  1]LogCollectionManager: Fixed up redirectors for 0 collections in 0.000038 seconds (updated 0 objects)
+[2019.02.07-19.13.55:502][341]LogSlate: FSceneViewport::OnFocusLost() reason 0
+[2019.02.07-19.13.55:585][351]LogTemp: Repeating last play command: Selected Viewport
+[2019.02.07-19.13.55:614][351]LogBlueprintUserMessages: Early PlayInEditor Detection: Level '/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel' has LevelScriptBlueprint '/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.ThirdPersonExampleMap' with GeneratedClass '/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap_C' with ClassGeneratedBy '/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.ThirdPersonExampleMap'
+[2019.02.07-19.13.55:615][351]LogPlayLevel: PlayLevel: No blueprints needed recompiling
+[2019.02.07-19.13.55:657][351]PIE: New page: PIE session: ThirdPersonExampleMap (Feb 7, 2019, 9:13:55 AM)
+[2019.02.07-19.13.55:657][351]LogPlayLevel: Creating play world package: /Game/ThirdPersonCPP/Maps/UEDPIE_0_ThirdPersonExampleMap
+[2019.02.07-19.13.55:688][351]LogPlayLevel: PIE: StaticDuplicateObject took: (0.030630s)
+[2019.02.07-19.13.55:704][351]LogAIModule: Creating AISystem for world ThirdPersonExampleMap
+[2019.02.07-19.13.55:705][351]LogPlayLevel: PIE: World Init took: (0.000963s)
+[2019.02.07-19.13.55:705][351]LogPlayLevel: PIE: Created PIE world by copying editor world from /Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap to /Game/ThirdPersonCPP/Maps/UEDPIE_0_ThirdPersonExampleMap.ThirdPersonExampleMap (0.047521s)
+[2019.02.07-19.13.55:726][351]LogInit: XAudio2 using 'Realtek Digital Output(Optical) (Realtek High Definition Audio)' : 2 channels at 48 kHz using 16 bits per sample (channel mask 0x3)
+[2019.02.07-19.13.55:737][351]LogInit: FAudioDevice initialized.
+[2019.02.07-19.13.55:787][351]LogLoad: Game class is 'BlastRadiusGameMode'
+[2019.02.07-19.13.55:797][351]LogWorld: Bringing World /Game/ThirdPersonCPP/Maps/UEDPIE_0_ThirdPersonExampleMap.ThirdPersonExampleMap up for play (max tick rate 0) at 2019.02.07-14.13.55
+[2019.02.07-19.13.55:805][351]LogWorld: Bringing up level for play took: 0.010819
+[2019.02.07-19.13.55:882][351]LogContentBrowser: Native class hierarchy updated for 'MovieSceneCapture' in 0.0010 seconds. Added 10 classes and 0 folders.
+[2019.02.07-19.13.55:884][351]PIE: Play in editor start time for /Game/ThirdPersonCPP/Maps/UEDPIE_0_ThirdPersonExampleMap 0.456
+[2019.02.07-19.13.55:884][351]LogBlueprintUserMessages: Late PlayInEditor Detection: Level '/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel' has LevelScriptBlueprint '/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.ThirdPersonExampleMap' with GeneratedClass '/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap_C' with ClassGeneratedBy '/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.ThirdPersonExampleMap'
+[2019.02.07-19.14.02:785][165]LogBlueprintUserMessages: Early EndPlayMap Detection: Level '/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel' has LevelScriptBlueprint '/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.ThirdPersonExampleMap' with GeneratedClass '/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap_C' with ClassGeneratedBy '/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.ThirdPersonExampleMap'
+[2019.02.07-19.14.02:808][165]LogSlate: Updating window title bar state: overlay mode, drag disabled, window buttons hidden, title bar hidden
+[2019.02.07-19.14.02:838][165]LogPlayLevel: Display: Shutting down PIE online subsystems
+[2019.02.07-19.14.02:838][165]LogBlueprintUserMessages: Late EndPlayMap Detection: Level '/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel' has LevelScriptBlueprint '/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.ThirdPersonExampleMap' with GeneratedClass '/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap_C' with ClassGeneratedBy '/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.ThirdPersonExampleMap'
+[2019.02.07-19.14.02:857][165]LogSlate: Updating window title bar state: overlay mode, drag disabled, window buttons hidden, title bar hidden
+[2019.02.07-19.14.02:899][167]LogPlayLevel: Display: Destroying online subsystem :Context_1
+[2019.02.07-19.24.11:226][117]LogEditorViewport: Clicking on Actor (LMB): DocumentationActor (DocumentationActor1)
+[2019.02.07-19.24.17:156][810]Cmd: DELETE
+[2019.02.07-19.24.17:156][810]Cmd: ACTOR DELETE
+[2019.02.07-19.24.17:218][810]LogEditorActor: Deleted Actor: DocumentationActor
+[2019.02.07-19.24.17:237][810]LogEditorActor: Deleted 1 Actors (0.064 secs)
+[2019.02.07-19.24.18:599][971]LogEditorViewport: Clicking on Actor (LMB): TextRenderActor (TextRenderActor)
+[2019.02.07-19.24.19:359][ 52]Cmd: DELETE
+[2019.02.07-19.24.19:359][ 52]Cmd: ACTOR DELETE
+[2019.02.07-19.24.19:361][ 52]LogEditorActor: Deleted Actor: TextRenderActor
+[2019.02.07-19.24.19:379][ 52]LogEditorActor: Deleted 1 Actors (0.020 secs)
+[2019.02.07-19.24.20:225][153]LogEditorViewport: Clicking on Actor (LMB): StaticMeshActor (LeftArm_StaticMesh)
+[2019.02.07-19.24.23:730][537]LogEditorViewport: Clicking on Actor (LMB): StaticMeshActor (1M_Cube_Chamfer)
+[2019.02.07-19.24.32:234][537]Cmd: DELETE
+[2019.02.07-19.24.32:234][537]Cmd: ACTOR DELETE
+[2019.02.07-19.24.32:236][537]LogEditorActor: Deleted Actor: StaticMeshActor
+[2019.02.07-19.24.32:256][537]LogEditorActor: Deleted 1 Actors (0.023 secs)
+[2019.02.07-19.24.35:750][948]Cmd: TRANSACTION UNDO
+[2019.02.07-19.24.35:750][948]LogEditorTransaction: Undo Delete Actors
+[2019.02.07-19.24.35:796][948]LogSlate: Took 0.000304 seconds to synchronously load lazily loaded font '../../../Engine/Content/Slate/Fonts/Roboto-Light.ttf' (167K)
+[2019.02.07-19.24.40:574][459]LogEditorViewport: Clicking on Actor (LMB): ThirdPersonCharacter_C (ThirdPersonCharacter)
+[2019.02.07-19.24.43:189][696]LogEditorViewport: Clicking on Actor (LMB): ThirdPersonCharacter_C (ThirdPersonCharacter)
+[2019.02.07-19.24.45:797][943]LogSlate: FSceneViewport::OnFocusLost() reason 0
+[2019.02.07-19.24.53:871][657]LogAssetEditorManager: Opening Asset editor for Blueprint /Game/ThirdPersonCPP/Blueprints/ThirdPersonCharacter.ThirdPersonCharacter
+[2019.02.07-19.24.54:760][657]LogContentBrowser: Native class hierarchy updated for 'BlueprintGraph' in 0.0016 seconds. Added 116 classes and 0 folders.
+[2019.02.07-19.24.57:918][774]LogSlate: Window 'ThirdPersonCharacter' being destroyed
+[2019.02.07-19.24.58:008][774]LogAssetEditorManager: Opening Asset editor for Blueprint /Game/ThirdPersonCPP/Blueprints/ThirdPersonCharacter.ThirdPersonCharacter
+[2019.02.07-19.24.58:450][774]LogSlate: Took 0.029889 seconds to synchronously load lazily loaded font '../../../Engine/Content/Slate/Fonts/Roboto-BoldCondensed.ttf' (158K)
+[2019.02.07-19.25.09:133][416]LogSlate: FSceneViewport::OnFocusLost() reason 0
+[2019.02.07-19.25.20:093][116]LogSlate: FSceneViewport::OnFocusLost() reason 0
+[2019.02.07-19.25.20:172][121]BlueprintLog: New page: Compile ThirdPersonCharacter
+[2019.02.07-19.25.21:104][146]LogTemp: Repeating last play command: Selected Viewport
+[2019.02.07-19.25.21:118][146]LogBlueprintUserMessages: Early PlayInEditor Detection: Level '/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel' has LevelScriptBlueprint '/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.ThirdPersonExampleMap' with GeneratedClass '/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap_C' with ClassGeneratedBy '/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.ThirdPersonExampleMap'
+[2019.02.07-19.25.21:118][146]LogPlayLevel: PlayLevel: No blueprints needed recompiling
+[2019.02.07-19.25.21:118][146]PIE: New page: PIE session: ThirdPersonExampleMap (Feb 7, 2019, 9:25:21 AM)
+[2019.02.07-19.25.21:118][146]LogPlayLevel: Creating play world package: /Game/ThirdPersonCPP/Maps/UEDPIE_0_ThirdPersonExampleMap
+[2019.02.07-19.25.21:129][146]LogPlayLevel: PIE: StaticDuplicateObject took: (0.010626s)
+[2019.02.07-19.25.21:130][146]LogAIModule: Creating AISystem for world ThirdPersonExampleMap
+[2019.02.07-19.25.21:130][146]LogPlayLevel: PIE: World Init took: (0.000976s)
+[2019.02.07-19.25.21:130][146]LogPlayLevel: PIE: Created PIE world by copying editor world from /Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap to /Game/ThirdPersonCPP/Maps/UEDPIE_0_ThirdPersonExampleMap.ThirdPersonExampleMap (0.011780s)
+[2019.02.07-19.25.21:188][146]LogInit: XAudio2 using 'Realtek Digital Output(Optical) (Realtek High Definition Audio)' : 2 channels at 48 kHz using 16 bits per sample (channel mask 0x3)
+[2019.02.07-19.25.21:199][146]LogInit: FAudioDevice initialized.
+[2019.02.07-19.25.21:237][146]LogLoad: Game class is 'BlastRadiusGameMode'
+[2019.02.07-19.25.21:240][146]LogWorld: Bringing World /Game/ThirdPersonCPP/Maps/UEDPIE_0_ThirdPersonExampleMap.ThirdPersonExampleMap up for play (max tick rate 0) at 2019.02.07-14.25.21
+[2019.02.07-19.25.21:240][146]LogWorld: Bringing up level for play took: 0.002111
+[2019.02.07-19.25.21:252][146]PIE: Play in editor start time for /Game/ThirdPersonCPP/Maps/UEDPIE_0_ThirdPersonExampleMap -0.181
+[2019.02.07-19.25.21:253][146]LogBlueprintUserMessages: Late PlayInEditor Detection: Level '/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel' has LevelScriptBlueprint '/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.ThirdPersonExampleMap' with GeneratedClass '/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap_C' with ClassGeneratedBy '/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.ThirdPersonExampleMap'
+[2019.02.07-19.25.31:985][188]LogBlueprintUserMessages: Early EndPlayMap Detection: Level '/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel' has LevelScriptBlueprint '/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.ThirdPersonExampleMap' with GeneratedClass '/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap_C' with ClassGeneratedBy '/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.ThirdPersonExampleMap'
+[2019.02.07-19.25.31:985][188]LogSlate: Updating window title bar state: overlay mode, drag disabled, window buttons hidden, title bar hidden
+[2019.02.07-19.25.32:023][188]LogPlayLevel: Display: Shutting down PIE online subsystems
+[2019.02.07-19.25.32:023][188]LogBlueprintUserMessages: Late EndPlayMap Detection: Level '/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel' has LevelScriptBlueprint '/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.ThirdPersonExampleMap' with GeneratedClass '/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap_C' with ClassGeneratedBy '/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.ThirdPersonExampleMap'
+[2019.02.07-19.25.32:046][188]LogSlate: Updating window title bar state: overlay mode, drag disabled, window buttons hidden, title bar hidden
+[2019.02.07-19.25.32:110][190]LogPlayLevel: Display: Destroying online subsystem :Context_8
+[2019.02.07-19.25.32:528][234]LogSlate: Took 0.016867 seconds to synchronously load lazily loaded font '../../../Engine/Content/Slate/Fonts/Roboto-Italic.ttf' (157K)
+[2019.02.07-19.25.34:547][434]LogSlate: FSceneViewport::OnFocusLost() reason 0
+[2019.02.07-19.25.34:608][441]LogSlate: Window 'ThirdPersonCharacter*' being destroyed
+[2019.02.07-19.25.34:612][441]LogSlate: Window 'ThirdPersonCharacter*' being destroyed
+[2019.02.07-19.25.59:820][ 65]LogSavePackage: Moving 'C:/Users/teep0009/Documents/Unreal Projects/TeamJ-SON/BlastRadius/Saved/ThirdPersonExampleMap_Auto1B6AC984B436F20B4778744B95DC998B0.tmp' to 'C:/Users/teep0009/Documents/Unreal Projects/TeamJ-SON/BlastRadius/Saved/Autosaves/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap_Auto1.umap'
+[2019.02.07-19.25.59:832][ 65]LogFileHelpers: Editor autosave (incl. sublevels) for '/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap' took 0.233
+[2019.02.07-19.25.59:832][ 65]LogFileHelpers: Editor autosave (incl. sublevels) for all levels took 0.233
+[2019.02.07-19.25.59:835][ 65]OBJ SavePackage: Generating thumbnails for [1] asset(s) in package [/Game/ThirdPersonCPP/Blueprints/ThirdPersonCharacter] ([1] browsable assets)...
+[2019.02.07-19.25.59:850][ 65]OBJ SavePackage:     Rendered thumbnail for [Blueprint /Game/ThirdPersonCPP/Blueprints/ThirdPersonCharacter.ThirdPersonCharacter]
+[2019.02.07-19.25.59:850][ 65]OBJ SavePackage: Finished generating thumbnails for package [/Game/ThirdPersonCPP/Blueprints/ThirdPersonCharacter]
+[2019.02.07-19.25.59:870][ 65]LogSavePackage: Moving 'C:/Users/teep0009/Documents/Unreal Projects/TeamJ-SON/BlastRadius/Saved/ThirdPersonCharacter_Auto1A557DC2E408706487A9C2AA0C2B63249.tmp' to 'C:/Users/teep0009/Documents/Unreal Projects/TeamJ-SON/BlastRadius/Saved/Autosaves/Game/ThirdPersonCPP/Blueprints/ThirdPersonCharacter_Auto1.uasset'
+[2019.02.07-19.25.59:872][ 65]LogFileHelpers: Auto-saving content packages took 0.038
+[2019.02.07-19.29.43:689][350]Running D:/Program Files/Epic Games/UE_4.20/Engine/Binaries/DotNET/UnrealBuildTool.exe  -projectfiles -project="C:/Users/teep0009/Documents/Unreal Projects/TeamJ-SON/BlastRadius/BlastRadius.uproject" -game -rocket -progress
+[2019.02.07-19.29.43:992][350]Discovering modules, targets and source code for project...
+[2019.02.07-19.29.45:699][350]D:\Program Files\Epic Games\UE_4.20\Engine\Source\ThirdParty\Expat\Expat.Build.cs: warning: Referenced directory 'D:\Program Files\Epic Games\UE_4.20\Engine\Source\ThirdParty\Expat\expat-2.2.0\Win64\VS2015\Release' does not exist.
+[2019.02.07-19.29.47:531][350]LogVSAccessor: Warning: Couldn't access Visual Studio
+[2019.02.07-19.29.47:537][350]Candidate modules for hot reload:
+[2019.02.07-19.29.47:537][350]  BlastRadius
+[2019.02.07-19.29.47:537][350]Launching UnrealBuildTool... [D:/Program Files/Epic Games/UE_4.20/Engine/Binaries/DotNET/UnrealBuildTool.exe  -ModuleWithSuffix=BlastRadius,5181 Win64 Development -TargetType=Editor -Project="C:/Users/teep0009/Documents/Unreal Projects/TeamJ-SON/BlastRadius/BlastRadius.uproject" -canskiplink "C:/Users/teep0009/Documents/Unreal Projects/TeamJ-SON/BlastRadius/BlastRadius.uproject" ]
+[2019.02.07-19.30.05:368][350]CompilerResultsLog: New page: Compilation - Feb 7, 2019, 9:30:05 AM
+[2019.02.07-19.30.05:368][350]CompilerResultsLog: Performing full C++ include scan (hot reloading a new target)
+[2019.02.07-19.30.05:368][350]CompilerResultsLog: Using 'git status' to determine working set for adaptive non-unity build.
+[2019.02.07-19.30.05:368][350]CompilerResultsLog: Creating makefile for hot reloading BlastRadiusEditor (no existing makefile)
+[2019.02.07-19.30.05:368][350]CompilerResultsLog: Compiling game modules for hot reload
+[2019.02.07-19.30.05:368][350]CompilerResultsLog: Using Visual Studio 2017 14.14.26428 toolchain (C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.14.26428) and Windows 10.0.17134.0 SDK (C:\Program Files (x86)\Windows Kits\10).
+[2019.02.07-19.30.05:368][350]CompilerResultsLog: Parsing headers for BlastRadiusEditor
+[2019.02.07-19.30.05:368][350]CompilerResultsLog:   Running UnrealHeaderTool "C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\BlastRadius.uproject" "C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\BlastRadiusEditor\Development\BlastRadiusEditor.uhtmanifest" -LogCmds="loginit warning, logexit warning, logdatabase error" -Unattended -WarningsAsErrors -installed
+[2019.02.07-19.30.05:368][350]CompilerResultsLog: Reflection code generated for BlastRadiusEditor in 9.6886093 seconds
+[2019.02.07-19.30.05:368][350]CompilerResultsLog: Building 10 actions with 8 processes...
+[2019.02.07-19.30.05:368][350]CompilerResultsLog:   BlastRadius.cpp
+[2019.02.07-19.30.05:368][350]CompilerResultsLog:   BlastRadius.init.gen.cpp
+[2019.02.07-19.30.05:368][350]CompilerResultsLog:   BlastRadiusWeapon.cpp
+[2019.02.07-19.30.05:368][350]CompilerResultsLog:   BlastRadiusWeapon.gen.cpp
+[2019.02.07-19.30.05:368][350]CompilerResultsLog:   BlastRadiusGameMode.gen.cpp
+[2019.02.07-19.30.05:368][350]CompilerResultsLog:   BlastRadiusGameMode.cpp
+[2019.02.07-19.30.05:368][350]CompilerResultsLog:   BlastRadiusCharacter.gen.cpp
+[2019.02.07-19.30.05:368][350]CompilerResultsLog:   BlastRadiusCharacter.cpp
+[2019.02.07-19.30.05:368][350]CompilerResultsLog:   UE4Editor-BlastRadius-5181.lib
+[2019.02.07-19.30.05:368][350]CompilerResultsLog:      Creating library C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\UE4Editor\Development\BlastRadius\UE4Editor-BlastRadius-5181.lib and object C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\UE4Editor\Development\BlastRadius\UE4Editor-BlastRadius-5181.exp
+[2019.02.07-19.30.05:368][350]CompilerResultsLog:   UE4Editor-BlastRadius-5181.dll
+[2019.02.07-19.30.05:369][350]CompilerResultsLog:      Creating library C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\UE4Editor\Development\BlastRadius\UE4Editor-BlastRadius-5181.suppressed.lib and object C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\UE4Editor\Development\BlastRadius\UE4Editor-BlastRadius-5181.suppressed.exp
+[2019.02.07-19.30.05:369][350]CompilerResultsLog: Total build time: 17.54 seconds (Parallel executor: 2.44 seconds)
+[2019.02.07-19.30.05:369][350]LogMainFrame: MainFrame: Module compiling took 17.837 seconds
+[2019.02.07-19.30.05:408][350]LogClass: Could not find existing class BlastRadiusWeapon in package /Script/BlastRadius for HotReload, assuming new class
+[2019.02.07-19.30.05:412][350]LogContentBrowser: Native class hierarchy updated for 'BlastRadius' in 0.0005 seconds. Added 3 classes and 2 folders.
+[2019.02.07-19.30.05:415][350]Display: HotReload successful (0 functions remapped  0 scriptstructs remapped)
+[2019.02.07-19.30.05:876][350]LogContentBrowser: Native class hierarchy populated in 0.0100 seconds. Added 2576 classes and 607 folders.
+[2019.02.07-19.30.05:891][350]Display: HotReload took 18.4s.
+[2019.02.07-19.30.05:893][350]Warning: HotReload operation took 18.4s.
+[2019.02.07-19.30.05:916][350]LogSlate: Window 'Add C++ Class' being destroyed
+[2019.02.07-19.30.05:925][350]LogHotReload: New module detected: UE4Editor-BlastRadius-5181.dll
+[2019.02.07-19.30.05:969][351]LogHotReload: Starting Hot-Reload from IDE
+[2019.02.07-19.30.06:058][351]LogContentBrowser: Native class hierarchy updated for 'BlastRadius' in 0.0004 seconds. Added 3 classes and 2 folders.
+[2019.02.07-19.30.06:062][351]Display: HotReload successful (0 functions remapped  0 scriptstructs remapped)
+[2019.02.07-19.30.06:481][351]LogContentBrowser: Native class hierarchy populated in 0.0105 seconds. Added 2576 classes and 607 folders.
+[2019.02.07-19.30.06:484][351]Display: HotReload took  0.5s.
+[2019.02.07-19.30.32:264][657]LogVSAccessor: Warning: Visual Studio is open but could not be queried - it may be blocked by a modal operation
+[2019.02.07-19.30.37:301][658]LogVSAccessor: Warning: Couldn't goto line number '1' in 'C:/Users/teep0009/Documents/Unreal Projects/TeamJ-SON/BlastRadius/Source/BlastRadius/BlastRadiusWeapon.h'
+[2019.02.07-19.31.06:302][395]Running D:/Program Files/Epic Games/UE_4.20/Engine/Binaries/DotNET/UnrealBuildTool.exe Win64 Development -TargetType=Editor -Project="C:/Users/teep0009/Documents/Unreal Projects/TeamJ-SON/BlastRadius/BlastRadius.uproject" -invalidatemakefilesonly
+[2019.02.07-19.31.07:105][395]Invalidating makefiles only in this run.
+[2019.02.07-19.31.07:221][395]Candidate modules for hot reload:
+[2019.02.07-19.31.07:221][395]  BlastRadius
+[2019.02.07-19.31.07:222][395]Launching UnrealBuildTool... [D:/Program Files/Epic Games/UE_4.20/Engine/Binaries/DotNET/UnrealBuildTool.exe  -ModuleWithSuffix=BlastRadius,9802 Win64 Development -TargetType=Editor -Project="C:/Users/teep0009/Documents/Unreal Projects/TeamJ-SON/BlastRadius/BlastRadius.uproject" -canskiplink "C:/Users/teep0009/Documents/Unreal Projects/TeamJ-SON/BlastRadius/BlastRadius.uproject" ]
+[2019.02.07-19.31.46:436][395]CompilerResultsLog: New page: Compilation - Feb 7, 2019, 9:31:46 AM
+[2019.02.07-19.31.46:436][395]CompilerResultsLog: Using 'git status' to determine working set for adaptive non-unity build.
+[2019.02.07-19.31.46:436][395]CompilerResultsLog: Creating makefile for hot reloading BlastRadiusEditor (no existing makefile)
+[2019.02.07-19.31.46:436][395]CompilerResultsLog: Compiling game modules for hot reload
+[2019.02.07-19.31.46:436][395]CompilerResultsLog: Using Visual Studio 2017 14.14.26428 toolchain (C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.14.26428) and Windows 10.0.17134.0 SDK (C:\Program Files (x86)\Windows Kits\10).
+[2019.02.07-19.31.46:436][395]CompilerResultsLog: Parsing headers for BlastRadiusEditor
+[2019.02.07-19.31.46:436][395]CompilerResultsLog:   Running UnrealHeaderTool "C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\BlastRadius.uproject" "C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\BlastRadiusEditor\Development\BlastRadiusEditor.uhtmanifest" -LogCmds="loginit warning, logexit warning, logdatabase error" -Unattended -WarningsAsErrors -installed
+[2019.02.07-19.31.46:436][395]CompilerResultsLog: Reflection code generated for BlastRadiusEditor in 17.7325948 seconds
+[2019.02.07-19.31.46:436][395]CompilerResultsLog: Building 5 actions with 8 processes...
+[2019.02.07-19.31.46:436][395]CompilerResultsLog:   BlastRadiusProjectile.cpp
+[2019.02.07-19.31.46:436][395]CompilerResultsLog:   BlastRadius.init.gen.cpp
+[2019.02.07-19.31.46:436][395]CompilerResultsLog:   BlastRadiusProjectile.gen.cpp
+[2019.02.07-19.31.46:436][395]CompilerResultsLog:   UE4Editor-BlastRadius-9802.lib
+[2019.02.07-19.31.46:436][395]CompilerResultsLog:      Creating library C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\UE4Editor\Development\BlastRadius\UE4Editor-BlastRadius-9802.lib and object C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\UE4Editor\Development\BlastRadius\UE4Editor-BlastRadius-9802.exp
+[2019.02.07-19.31.46:436][395]CompilerResultsLog:   UE4Editor-BlastRadius-9802.dll
+[2019.02.07-19.31.46:436][395]CompilerResultsLog:      Creating library C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\UE4Editor\Development\BlastRadius\UE4Editor-BlastRadius-9802.suppressed.lib and object C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\UE4Editor\Development\BlastRadius\UE4Editor-BlastRadius-9802.suppressed.exp
+[2019.02.07-19.31.46:436][395]CompilerResultsLog: Total build time: 38.94 seconds (Parallel executor: 11.19 seconds)
+[2019.02.07-19.31.46:436][395]LogMainFrame: MainFrame: Module compiling took 39.217 seconds
+[2019.02.07-19.31.46:535][395]LogClass: Could not find existing class BlastRadiusProjectile in package /Script/BlastRadius for HotReload, assuming new class
+[2019.02.07-19.31.46:546][395]LogContentBrowser: Native class hierarchy updated for 'BlastRadius' in 0.0007 seconds. Added 4 classes and 2 folders.
+[2019.02.07-19.31.46:552][395]Display: HotReload successful (0 functions remapped  0 scriptstructs remapped)
+[2019.02.07-19.31.47:230][395]LogContentBrowser: Native class hierarchy populated in 0.0205 seconds. Added 2577 classes and 607 folders.
+[2019.02.07-19.31.47:231][395]Display: HotReload took 40.0s.
+[2019.02.07-19.31.47:232][395]Warning: HotReload operation took 40.0s.
+[2019.02.07-19.31.47:846][395]LogSlate: Window 'Add C++ Class' being destroyed
+[2019.02.07-19.31.47:852][395]LogHotReload: New module detected: UE4Editor-BlastRadius-9802.dll
+[2019.02.07-19.31.47:901][396]LogHotReload: Starting Hot-Reload from IDE
+[2019.02.07-19.31.48:018][396]LogContentBrowser: Native class hierarchy updated for 'BlastRadius' in 0.0007 seconds. Added 4 classes and 2 folders.
+[2019.02.07-19.31.48:024][396]Display: HotReload successful (0 functions remapped  0 scriptstructs remapped)
+[2019.02.07-19.31.48:699][396]LogContentBrowser: Native class hierarchy populated in 0.0206 seconds. Added 2577 classes and 607 folders.
+[2019.02.07-19.31.48:702][396]Display: HotReload took  0.8s.
+[2019.02.07-19.32.22:813][ 83]Running D:/Program Files/Epic Games/UE_4.20/Engine/Binaries/DotNET/UnrealBuildTool.exe Win64 Development -TargetType=Editor -Project="C:/Users/teep0009/Documents/Unreal Projects/TeamJ-SON/BlastRadius/BlastRadius.uproject" -invalidatemakefilesonly
+[2019.02.07-19.32.23:616][ 83]Invalidating makefiles only in this run.
+[2019.02.07-19.32.23:731][ 83]Candidate modules for hot reload:
+[2019.02.07-19.32.23:731][ 83]  BlastRadius
+[2019.02.07-19.32.23:731][ 83]Launching UnrealBuildTool... [D:/Program Files/Epic Games/UE_4.20/Engine/Binaries/DotNET/UnrealBuildTool.exe  -ModuleWithSuffix=BlastRadius,1845 Win64 Development -TargetType=Editor -Project="C:/Users/teep0009/Documents/Unreal Projects/TeamJ-SON/BlastRadius/BlastRadius.uproject" -canskiplink "C:/Users/teep0009/Documents/Unreal Projects/TeamJ-SON/BlastRadius/BlastRadius.uproject" ]
+[2019.02.07-19.33.15:216][ 83]CompilerResultsLog: New page: Compilation - Feb 7, 2019, 9:33:15 AM
+[2019.02.07-19.33.15:216][ 83]CompilerResultsLog: Using 'git status' to determine working set for adaptive non-unity build.
+[2019.02.07-19.33.15:216][ 83]CompilerResultsLog: Creating makefile for hot reloading BlastRadiusEditor (no existing makefile)
+[2019.02.07-19.33.15:216][ 83]CompilerResultsLog: Compiling game modules for hot reload
+[2019.02.07-19.33.15:216][ 83]CompilerResultsLog: Using Visual Studio 2017 14.14.26428 toolchain (C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.14.26428) and Windows 10.0.17134.0 SDK (C:\Program Files (x86)\Windows Kits\10).
+[2019.02.07-19.33.15:217][ 83]CompilerResultsLog: Parsing headers for BlastRadiusEditor
+[2019.02.07-19.33.15:217][ 83]CompilerResultsLog:   Running UnrealHeaderTool "C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\BlastRadius.uproject" "C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\BlastRadiusEditor\Development\BlastRadiusEditor.uhtmanifest" -LogCmds="loginit warning, logexit warning, logdatabase error" -Unattended -WarningsAsErrors -installed
+[2019.02.07-19.33.15:217][ 83]CompilerResultsLog: Reflection code generated for BlastRadiusEditor in 19.7230841 seconds
+[2019.02.07-19.33.15:217][ 83]CompilerResultsLog: Building 5 actions with 8 processes...
+[2019.02.07-19.33.15:217][ 83]CompilerResultsLog:   BlastRadiusPlayerController.cpp
+[2019.02.07-19.33.15:217][ 83]CompilerResultsLog:   BlastRadiusPlayerController.gen.cpp
+[2019.02.07-19.33.15:217][ 83]CompilerResultsLog:   BlastRadius.init.gen.cpp
+[2019.02.07-19.33.15:217][ 83]CompilerResultsLog:   UE4Editor-BlastRadius-1845.lib
+[2019.02.07-19.33.15:217][ 83]CompilerResultsLog:      Creating library C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\UE4Editor\Development\BlastRadius\UE4Editor-BlastRadius-1845.lib and object C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\UE4Editor\Development\BlastRadius\UE4Editor-BlastRadius-1845.exp
+[2019.02.07-19.33.15:217][ 83]CompilerResultsLog:   UE4Editor-BlastRadius-1845.dll
+[2019.02.07-19.33.15:217][ 83]CompilerResultsLog:      Creating library C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\UE4Editor\Development\BlastRadius\UE4Editor-BlastRadius-1845.suppressed.lib and object C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\UE4Editor\Development\BlastRadius\UE4Editor-BlastRadius-1845.suppressed.exp
+[2019.02.07-19.33.15:217][ 83]CompilerResultsLog: Total build time: 51.21 seconds (Parallel executor: 21.84 seconds)
+[2019.02.07-19.33.15:217][ 83]LogMainFrame: MainFrame: Module compiling took 51.489 seconds
+[2019.02.07-19.33.15:319][ 83]LogClass: Could not find existing class BlastRadiusPlayerController in package /Script/BlastRadius for HotReload, assuming new class
+[2019.02.07-19.33.15:334][ 83]LogContentBrowser: Native class hierarchy updated for 'BlastRadius' in 0.0009 seconds. Added 5 classes and 2 folders.
+[2019.02.07-19.33.15:344][ 83]Display: HotReload successful (0 functions remapped  0 scriptstructs remapped)
+[2019.02.07-19.33.16:105][ 83]LogContentBrowser: Native class hierarchy populated in 0.0245 seconds. Added 2578 classes and 607 folders.
+[2019.02.07-19.33.16:105][ 83]Display: HotReload took 52.4s.
+[2019.02.07-19.33.16:107][ 83]Warning: HotReload operation took 52.4s.
+[2019.02.07-19.33.16:617][ 83]LogSlate: Window 'Add C++ Class' being destroyed
+[2019.02.07-19.33.16:624][ 83]LogHotReload: New module detected: UE4Editor-BlastRadius-1845.dll
+[2019.02.07-19.33.16:679][ 84]LogHotReload: Starting Hot-Reload from IDE
+[2019.02.07-19.33.16:814][ 84]LogContentBrowser: Native class hierarchy updated for 'BlastRadius' in 0.0007 seconds. Added 5 classes and 2 folders.
+[2019.02.07-19.33.16:820][ 84]Display: HotReload successful (0 functions remapped  0 scriptstructs remapped)
+[2019.02.07-19.33.17:601][ 84]LogContentBrowser: Native class hierarchy populated in 0.0210 seconds. Added 2578 classes and 607 folders.
+[2019.02.07-19.33.17:605][ 84]Display: HotReload took  0.9s.
+[2019.02.07-19.34.48:563][ 69]Running D:/Program Files/Epic Games/UE_4.20/Engine/Binaries/DotNET/UnrealBuildTool.exe Win64 Development -TargetType=Editor -Project="C:/Users/teep0009/Documents/Unreal Projects/TeamJ-SON/BlastRadius/BlastRadius.uproject" -invalidatemakefilesonly
+[2019.02.07-19.34.49:467][ 69]Invalidating makefiles only in this run.
+[2019.02.07-19.34.49:584][ 69]Candidate modules for hot reload:
+[2019.02.07-19.34.49:584][ 69]  BlastRadius
+[2019.02.07-19.34.49:585][ 69]Launching UnrealBuildTool... [D:/Program Files/Epic Games/UE_4.20/Engine/Binaries/DotNET/UnrealBuildTool.exe  -ModuleWithSuffix=BlastRadius,5537 Win64 Development -TargetType=Editor -Project="C:/Users/teep0009/Documents/Unreal Projects/TeamJ-SON/BlastRadius/BlastRadius.uproject" -canskiplink "C:/Users/teep0009/Documents/Unreal Projects/TeamJ-SON/BlastRadius/BlastRadius.uproject" ]
+[2019.02.07-19.35.38:092][ 69]CompilerResultsLog: New page: Compilation - Feb 7, 2019, 9:35:38 AM
+[2019.02.07-19.35.38:092][ 69]CompilerResultsLog: Using 'git status' to determine working set for adaptive non-unity build.
+[2019.02.07-19.35.38:092][ 69]CompilerResultsLog: Creating makefile for hot reloading BlastRadiusEditor (no existing makefile)
+[2019.02.07-19.35.38:092][ 69]CompilerResultsLog: Compiling game modules for hot reload
+[2019.02.07-19.35.38:092][ 69]CompilerResultsLog: Using Visual Studio 2017 14.14.26428 toolchain (C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.14.26428) and Windows 10.0.17134.0 SDK (C:\Program Files (x86)\Windows Kits\10).
+[2019.02.07-19.35.38:092][ 69]CompilerResultsLog: Parsing headers for BlastRadiusEditor
+[2019.02.07-19.35.38:092][ 69]CompilerResultsLog:   Running UnrealHeaderTool "C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\BlastRadius.uproject" "C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\BlastRadiusEditor\Development\BlastRadiusEditor.uhtmanifest" -LogCmds="loginit warning, logexit warning, logdatabase error" -Unattended -WarningsAsErrors -installed
+[2019.02.07-19.35.38:092][ 69]CompilerResultsLog: Reflection code generated for BlastRadiusEditor in 19.5342843 seconds
+[2019.02.07-19.35.38:092][ 69]CompilerResultsLog: Building 5 actions with 8 processes...
+[2019.02.07-19.35.38:092][ 69]CompilerResultsLog:   BlastRadius.init.gen.cpp
+[2019.02.07-19.35.38:092][ 69]CompilerResultsLog:   BlastRadiusGameStateBase.cpp
+[2019.02.07-19.35.38:092][ 69]CompilerResultsLog:   BlastRadiusGameStateBase.gen.cpp
+[2019.02.07-19.35.38:092][ 69]CompilerResultsLog:   UE4Editor-BlastRadius-5537.lib
+[2019.02.07-19.35.38:092][ 69]CompilerResultsLog:      Creating library C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\UE4Editor\Development\BlastRadius\UE4Editor-BlastRadius-5537.lib and object C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\UE4Editor\Development\BlastRadius\UE4Editor-BlastRadius-5537.exp
+[2019.02.07-19.35.38:092][ 69]CompilerResultsLog:   UE4Editor-BlastRadius-5537.dll
+[2019.02.07-19.35.38:092][ 69]CompilerResultsLog:      Creating library C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\UE4Editor\Development\BlastRadius\UE4Editor-BlastRadius-5537.suppressed.lib and object C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\UE4Editor\Development\BlastRadius\UE4Editor-BlastRadius-5537.suppressed.exp
+[2019.02.07-19.35.38:092][ 69]CompilerResultsLog: Total build time: 48.24 seconds (Parallel executor: 13.28 seconds)
+[2019.02.07-19.35.38:092][ 69]LogMainFrame: MainFrame: Module compiling took 48.511 seconds
+[2019.02.07-19.35.38:190][ 69]LogClass: Could not find existing class BlastRadiusGameStateBase in package /Script/BlastRadius for HotReload, assuming new class
+[2019.02.07-19.35.38:205][ 69]LogContentBrowser: Native class hierarchy updated for 'BlastRadius' in 0.0006 seconds. Added 6 classes and 2 folders.
+[2019.02.07-19.35.38:210][ 69]Display: HotReload successful (0 functions remapped  0 scriptstructs remapped)
+[2019.02.07-19.35.38:764][ 69]LogContentBrowser: Native class hierarchy populated in 0.0204 seconds. Added 2579 classes and 607 folders.
+[2019.02.07-19.35.38:764][ 69]Display: HotReload took 49.2s.
+[2019.02.07-19.35.38:766][ 69]Warning: HotReload operation took 49.2s.
+[2019.02.07-19.35.39:168][ 69]LogSlate: Window 'Add C++ Class' being destroyed
+[2019.02.07-19.35.39:179][ 69]LogHotReload: New module detected: UE4Editor-BlastRadius-5537.dll
+[2019.02.07-19.35.39:251][ 70]LogHotReload: Starting Hot-Reload from IDE
+[2019.02.07-19.35.39:449][ 70]LogContentBrowser: Native class hierarchy updated for 'BlastRadius' in 0.0005 seconds. Added 6 classes and 2 folders.
+[2019.02.07-19.35.39:454][ 70]Display: HotReload successful (0 functions remapped  0 scriptstructs remapped)
+[2019.02.07-19.35.40:058][ 70]LogContentBrowser: Native class hierarchy populated in 0.0132 seconds. Added 2579 classes and 607 folders.
+[2019.02.07-19.35.40:062][ 70]Display: HotReload took  0.8s.
+[2019.02.07-19.36.33:135][450]Running D:/Program Files/Epic Games/UE_4.20/Engine/Binaries/DotNET/UnrealBuildTool.exe Win64 Development -TargetType=Editor -Project="C:/Users/teep0009/Documents/Unreal Projects/TeamJ-SON/BlastRadius/BlastRadius.uproject" -invalidatemakefilesonly
+[2019.02.07-19.36.34:039][450]Invalidating makefiles only in this run.
+[2019.02.07-19.36.34:159][450]Candidate modules for hot reload:
+[2019.02.07-19.36.34:159][450]  BlastRadius
+[2019.02.07-19.36.34:159][450]Launching UnrealBuildTool... [D:/Program Files/Epic Games/UE_4.20/Engine/Binaries/DotNET/UnrealBuildTool.exe  -ModuleWithSuffix=BlastRadius,1989 Win64 Development -TargetType=Editor -Project="C:/Users/teep0009/Documents/Unreal Projects/TeamJ-SON/BlastRadius/BlastRadius.uproject" -canskiplink "C:/Users/teep0009/Documents/Unreal Projects/TeamJ-SON/BlastRadius/BlastRadius.uproject" ]
+[2019.02.07-19.36.53:339][450]CompilerResultsLog: New page: Compilation - Feb 7, 2019, 9:36:53 AM
+[2019.02.07-19.36.53:340][450]CompilerResultsLog: Using 'git status' to determine working set for adaptive non-unity build.
+[2019.02.07-19.36.53:340][450]CompilerResultsLog: Creating makefile for hot reloading BlastRadiusEditor (no existing makefile)
+[2019.02.07-19.36.53:340][450]CompilerResultsLog: Compiling game modules for hot reload
+[2019.02.07-19.36.53:340][450]CompilerResultsLog: Using Visual Studio 2017 14.14.26428 toolchain (C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.14.26428) and Windows 10.0.17134.0 SDK (C:\Program Files (x86)\Windows Kits\10).
+[2019.02.07-19.36.53:340][450]CompilerResultsLog: Parsing headers for BlastRadiusEditor
+[2019.02.07-19.36.53:340][450]CompilerResultsLog:   Running UnrealHeaderTool "C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\BlastRadius.uproject" "C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\BlastRadiusEditor\Development\BlastRadiusEditor.uhtmanifest" -LogCmds="loginit warning, logexit warning, logdatabase error" -Unattended -WarningsAsErrors -installed
+[2019.02.07-19.36.53:340][450]CompilerResultsLog: Reflection code generated for BlastRadiusEditor in 11.5912968 seconds
+[2019.02.07-19.36.53:340][450]CompilerResultsLog: Building 5 actions with 8 processes...
+[2019.02.07-19.36.53:340][450]CompilerResultsLog:   BlastRadiusPlayerState.cpp
+[2019.02.07-19.36.53:340][450]CompilerResultsLog:   BlastRadius.init.gen.cpp
+[2019.02.07-19.36.53:340][450]CompilerResultsLog:   BlastRadiusPlayerState.gen.cpp
+[2019.02.07-19.36.53:340][450]CompilerResultsLog:   UE4Editor-BlastRadius-1989.lib
+[2019.02.07-19.36.53:340][450]CompilerResultsLog:      Creating library C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\UE4Editor\Development\BlastRadius\UE4Editor-BlastRadius-1989.lib and object C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\UE4Editor\Development\BlastRadius\UE4Editor-BlastRadius-1989.exp
+[2019.02.07-19.36.53:340][450]CompilerResultsLog:   UE4Editor-BlastRadius-1989.dll
+[2019.02.07-19.36.53:340][450]CompilerResultsLog:      Creating library C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\UE4Editor\Development\BlastRadius\UE4Editor-BlastRadius-1989.suppressed.lib and object C:\Users\teep0009\Documents\Unreal Projects\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\UE4Editor\Development\BlastRadius\UE4Editor-BlastRadius-1989.suppressed.exp
+[2019.02.07-19.36.53:340][450]CompilerResultsLog: Total build time: 18.91 seconds (Parallel executor: 1.35 seconds)
+[2019.02.07-19.36.53:340][450]LogMainFrame: MainFrame: Module compiling took 19.184 seconds
+[2019.02.07-19.36.53:414][450]LogClass: Could not find existing class BlastRadiusPlayerState in package /Script/BlastRadius for HotReload, assuming new class
+[2019.02.07-19.36.53:427][450]LogContentBrowser: Native class hierarchy updated for 'BlastRadius' in 0.0009 seconds. Added 7 classes and 2 folders.
+[2019.02.07-19.36.53:431][450]Display: HotReload successful (0 functions remapped  0 scriptstructs remapped)
+[2019.02.07-19.36.53:855][450]LogContentBrowser: Native class hierarchy populated in 0.0132 seconds. Added 2580 classes and 607 folders.
+[2019.02.07-19.36.53:855][450]Display: HotReload took 19.7s.
+[2019.02.07-19.36.53:856][450]Warning: HotReload operation took 19.7s.
+[2019.02.07-19.36.54:138][450]LogSlate: Window 'Add C++ Class' being destroyed
+[2019.02.07-19.36.54:147][450]LogHotReload: New module detected: UE4Editor-BlastRadius-1989.dll
+[2019.02.07-19.36.54:182][451]LogHotReload: Starting Hot-Reload from IDE
+[2019.02.07-19.36.54:270][451]LogContentBrowser: Native class hierarchy updated for 'BlastRadius' in 0.0006 seconds. Added 7 classes and 2 folders.
+[2019.02.07-19.36.54:274][451]Display: HotReload successful (0 functions remapped  0 scriptstructs remapped)
+[2019.02.07-19.36.54:757][451]LogContentBrowser: Native class hierarchy populated in 0.0131 seconds. Added 2580 classes and 607 folders.
+[2019.02.07-19.36.54:762][451]Display: HotReload took  0.6s.
+[2019.02.07-19.38.19:530][693]LogSlate: Window 'Save Content' being destroyed
+[2019.02.07-19.38.19:583][693]LogSavePackage: Moving 'C:/Users/teep0009/Documents/Unreal Projects/TeamJ-SON/BlastRadius/Saved/ThirdPersonCharacter450BE92847AE408A0E25E6BD003CF384.tmp' to 'C:/Users/teep0009/Documents/Unreal Projects/TeamJ-SON/BlastRadius/Content/ThirdPersonCPP/Blueprints/ThirdPersonCharacter.uasset'
+[2019.02.07-19.38.19:859][693]LogSavePackage: Moving 'C:/Users/teep0009/Documents/Unreal Projects/TeamJ-SON/BlastRadius/Saved/ThirdPersonExampleMapAF0A1A1B4FD9DAAD240147BF5184D1BF.tmp' to 'C:/Users/teep0009/Documents/Unreal Projects/TeamJ-SON/BlastRadius/Content/ThirdPersonCPP/Maps/ThirdPersonExampleMap.umap'
+[2019.02.07-19.38.19:873][693]LogFileHelpers: Saving map 'ThirdPersonExampleMap' took 0.282
+[2019.02.07-19.38.19:905][693]LogSlate: Window 'BlastRadius - Unreal Editor' being destroyed
+[2019.02.07-19.38.19:906][693]LogWindowsTextInputMethodSystem: Display: IME system now deactivated.
+[2019.02.07-19.38.20:081][694]Cmd: QUIT_EDITOR
+[2019.02.07-19.38.20:382][694]LogExit: Preparing to exit.
+[2019.02.07-19.38.20:724][694]LogExit: Editor shut down
+[2019.02.07-19.38.20:724][694]LogExit: Transaction tracking system shut down
+[2019.02.07-19.38.21:341][694]LogExit: Object subsystem successfully closed.
+[2019.02.07-19.38.21:358][694]LogShaderCompilers: Display: Shaders left to compile 0
+[2019.02.07-19.38.21:361][694]LogD3D11RHI: Shutdown
+[2019.02.07-19.38.21:361][694]LogD3D11RHI: CleanupD3DDevice
+[2019.02.07-19.38.21:364][694]LogD3D11RHI: ~FD3D11DynamicRHI
+[2019.02.07-19.38.21:381][694]LogModuleManager: Shutting down and abandoning module BlastRadius (628)
+[2019.02.07-19.38.21:381][694]LogModuleManager: Shutting down and abandoning module BlueprintGraph (618)
+[2019.02.07-19.38.21:381][694]LogModuleManager: Shutting down and abandoning module MovieSceneCapture (616)
+[2019.02.07-19.38.21:381][694]LogModuleManager: Shutting down and abandoning module Voice (614)
+[2019.02.07-19.38.21:391][694]LogModuleManager: Shutting down and abandoning module HierarchicalLODOutliner (612)
+[2019.02.07-19.38.21:391][694]LogModuleManager: Shutting down and abandoning module SceneOutliner (610)
+[2019.02.07-19.38.21:391][694]LogModuleManager: Shutting down and abandoning module AddContentDialog (608)
+[2019.02.07-19.38.21:391][694]LogModuleManager: Shutting down and abandoning module WidgetCarousel (607)
+[2019.02.07-19.38.21:391][694]LogModuleManager: Shutting down and abandoning module EditorWidgets (604)
+[2019.02.07-19.38.21:391][694]LogModuleManager: Shutting down and abandoning module CollectionManager (602)
+[2019.02.07-19.38.21:392][694]LogModuleManager: Shutting down and abandoning module StatsViewer (600)
+[2019.02.07-19.38.21:392][694]LogModuleManager: Shutting down and abandoning module FoliageEdit (598)
+[2019.02.07-19.38.21:392][694]LogModuleManager: Shutting down and abandoning module LandscapeEditor (596)
+[2019.02.07-19.38.21:392][694]LogModuleManager: Shutting down and abandoning module MeshPaintMode (594)
+[2019.02.07-19.38.21:392][694]LogModuleManager: Shutting down and abandoning module SceneDepthPickerMode (592)
+[2019.02.07-19.38.21:392][694]LogModuleManager: Shutting down and abandoning module ActorPickerMode (590)
+[2019.02.07-19.38.21:392][694]LogModuleManager: Shutting down and abandoning module GeometryMode (588)
+[2019.02.07-19.38.21:392][694]LogModuleManager: Shutting down and abandoning module TextureAlignMode (586)
+[2019.02.07-19.38.21:392][694]LogModuleManager: Shutting down and abandoning module BspMode (584)
+[2019.02.07-19.38.21:392][694]LogModuleManager: Shutting down and abandoning module PIEPreviewDeviceProfileSelector (582)
+[2019.02.07-19.38.21:392][694]LogModuleManager: Shutting down and abandoning module SequenceRecorderSections (580)
+[2019.02.07-19.38.21:392][694]LogModuleManager: Shutting down and abandoning module AutomationWorker (578)
+[2019.02.07-19.38.21:392][694]LogModuleManager: Shutting down and abandoning module AudioCaptureEditor (576)
+[2019.02.07-19.38.21:392][694]LogModuleManager: Shutting down and abandoning module SequenceRecorder (575)
+[2019.02.07-19.38.21:392][694]LogModuleManager: Shutting down and abandoning module MatineeToLevelSequence (572)
+[2019.02.07-19.38.21:392][694]LogModuleManager: Shutting down and abandoning module LevelSequenceEditor (570)
+[2019.02.07-19.38.21:392][694]LogModuleManager: Shutting down and abandoning module PlacementMode (569)
+[2019.02.07-19.38.21:392][694]LogModuleManager: Shutting down and abandoning module MaterialEditor (568)
+[2019.02.07-19.38.21:392][694]LogModuleManager: Shutting down and abandoning module WmfMediaFactory (564)
+[2019.02.07-19.38.21:392][694]LogModuleManager: Shutting down and abandoning module WmfMediaEditor (562)
+[2019.02.07-19.38.21:392][694]LogModuleManager: Shutting down and abandoning module MediaPlayerEditor (560)
+[2019.02.07-19.38.21:392][694]LogModuleManager: Shutting down and abandoning module OpenExrWrapper (558)
+[2019.02.07-19.38.21:392][694]LogModuleManager: Shutting down and abandoning module ImgMediaFactory (556)
+[2019.02.07-19.38.21:392][694]LogModuleManager: Shutting down and abandoning module ImgMediaEditor (554)
+[2019.02.07-19.38.21:392][694]LogModuleManager: Shutting down and abandoning module AvfMediaFactory (552)
+[2019.02.07-19.38.21:393][694]LogModuleManager: Shutting down and abandoning module AvfMediaEditor (550)
+[2019.02.07-19.38.21:393][694]LogModuleManager: Shutting down and abandoning module AndroidMediaFactory (548)
+[2019.02.07-19.38.21:393][694]LogModuleManager: Shutting down and abandoning module AndroidMediaEditor (546)
+[2019.02.07-19.38.21:393][694]LogModuleManager: Shutting down and abandoning module MagicLeapCameraPreviewFactory (544)
+[2019.02.07-19.38.21:393][694]LogModuleManager: Shutting down and abandoning module MagicLeapMediaFactory (542)
+[2019.02.07-19.38.21:393][694]LogModuleManager: Shutting down and abandoning module MagicLeapMediaEditor (540)
+[2019.02.07-19.38.21:393][694]LogModuleManager: Shutting down and abandoning module CharacterAI (538)
+[2019.02.07-19.38.21:393][694]LogModuleManager: Shutting down and abandoning module SmartSnapping (536)
+[2019.02.07-19.38.21:393][694]LogModuleManager: Shutting down and abandoning module SessionServices (534)
+[2019.02.07-19.38.21:393][694]LogModuleManager: Shutting down and abandoning module ViewportSnapping (532)
+[2019.02.07-19.38.21:393][694]LogModuleManager: Shutting down and abandoning module ViewportInteraction (530)
+[2019.02.07-19.38.21:393][694]LogModuleManager: Shutting down and abandoning module ClothPainter (528)
+[2019.02.07-19.38.21:393][694]LogModuleManager: Shutting down and abandoning module SkeletalMeshEditor (527)
+[2019.02.07-19.38.21:393][694]LogModuleManager: Shutting down and abandoning module LogVisualizer (524)
+[2019.02.07-19.38.21:393][694]LogModuleManager: Shutting down and abandoning module IntroTutorials (522)
+[2019.02.07-19.38.21:393][694]LogModuleManager: Shutting down and abandoning module GameProjectGeneration (521)
+[2019.02.07-19.38.21:393][694]LogModuleManager: Shutting down and abandoning module LuminPlatformEditor (518)
+[2019.02.07-19.38.21:393][694]LogModuleManager: Shutting down and abandoning module IOSPlatformEditor (516)
+[2019.02.07-19.38.21:393][694]LogModuleManager: Shutting down and abandoning module HTML5PlatformEditor (514)
+[2019.02.07-19.38.21:393][694]LogModuleManager: Shutting down and abandoning module AndroidPlatformEditor (512)
+[2019.02.07-19.38.21:393][694]LogModuleManager: Shutting down and abandoning module AndroidDeviceDetection (511)
+[2019.02.07-19.38.21:918][694]LogModuleManager: Shutting down and abandoning module WindowsPlatformEditor (508)
+[2019.02.07-19.38.21:918][694]LogModuleManager: Shutting down and abandoning module LuminRuntimeSettings (506)
+[2019.02.07-19.38.21:919][694]LogModuleManager: Shutting down and abandoning module IOSRuntimeSettings (504)
+[2019.02.07-19.38.21:919][694]LogModuleManager: Shutting down and abandoning module AndroidRuntimeSettings (502)
+[2019.02.07-19.38.21:919][694]LogModuleManager: Shutting down and abandoning module InputBindingEditor (500)
+[2019.02.07-19.38.21:919][694]LogModuleManager: Shutting down and abandoning module MergeActors (498)
+[2019.02.07-19.38.21:919][694]LogModuleManager: Shutting down and abandoning module LocalizationDashboard (496)
+[2019.02.07-19.38.21:919][694]LogModuleManager: Shutting down and abandoning module LocalizationService (495)
+[2019.02.07-19.38.21:919][694]LogModuleManager: Shutting down and abandoning module HardwareTargeting (492)
+[2019.02.07-19.38.21:919][694]LogModuleManager: Shutting down and abandoning module DeviceProfileEditor (490)
+[2019.02.07-19.38.21:919][694]LogModuleManager: Shutting down and abandoning module UndoHistory (488)
+[2019.02.07-19.38.21:919][694]LogModuleManager: Shutting down and abandoning module XmlParser (486)
+[2019.02.07-19.38.21:919][694]LogModuleManager: Shutting down and abandoning module Blutility (484)
+[2019.02.07-19.38.21:919][694]LogModuleManager: Shutting down and abandoning module ProjectSettingsViewer (482)
+[2019.02.07-19.38.21:919][694]LogModuleManager: Shutting down and abandoning module ProjectTargetPlatformEditor (481)
+[2019.02.07-19.38.21:919][694]LogModuleManager: Shutting down and abandoning module EditorSettingsViewer (478)
+[2019.02.07-19.38.21:920][694]LogModuleManager: Shutting down and abandoning module SettingsEditor (476)
+[2019.02.07-19.38.21:920][694]LogModuleManager: Shutting down and abandoning module ProjectLauncher (474)
+[2019.02.07-19.38.21:920][694]LogModuleManager: Shutting down and abandoning module SessionFrontend (472)
+[2019.02.07-19.38.21:920][694]LogModuleManager: Shutting down and abandoning module ProfilerClient (470)
+[2019.02.07-19.38.21:920][694]LogModuleManager: Shutting down and abandoning module DeviceManager (468)
+[2019.02.07-19.38.21:920][694]LogModuleManager: Shutting down and abandoning module TargetDeviceServices (467)
+[2019.02.07-19.38.21:986][694]LogModuleManager: Shutting down and abandoning module AutomationController (464)
+[2019.02.07-19.38.21:986][694]LogModuleManager: Shutting down and abandoning module AutomationWindow (462)
+[2019.02.07-19.38.21:986][694]LogModuleManager: Shutting down and abandoning module Layers (460)
+[2019.02.07-19.38.21:986][694]LogModuleManager: Shutting down and abandoning module ComponentVisualizers (458)
+[2019.02.07-19.38.21:986][694]LogModuleManager: Shutting down and abandoning module DetailCustomizations (456)
+[2019.02.07-19.38.21:986][694]LogModuleManager: Shutting down and abandoning module PackagesDialog (454)
+[2019.02.07-19.38.21:987][694]LogModuleManager: Shutting down and abandoning module Persona (452)
+[2019.02.07-19.38.21:987][694]LogModuleManager: Shutting down and abandoning module AdvancedPreviewScene (451)
+[2019.02.07-19.38.21:987][694]LogModuleManager: Shutting down and abandoning module AnimGraph (449)
+[2019.02.07-19.38.21:987][694]LogModuleManager: Shutting down and abandoning module Kismet (446)
+[2019.02.07-19.38.21:990][694]LogModuleManager: Shutting down and abandoning module GraphEditor (444)
+[2019.02.07-19.38.21:990][694]LogModuleManager: Shutting down and abandoning module ClassViewer (442)
+[2019.02.07-19.38.21:994][694]LogModuleManager: Shutting down and abandoning module Toolbox (440)
+[2019.02.07-19.38.21:994][694]LogModuleManager: Shutting down and abandoning module ModuleUI (438)
+[2019.02.07-19.38.21:994][694]LogModuleManager: Shutting down and abandoning module MovieSceneTools (436)
+[2019.02.07-19.38.21:994][694]LogModuleManager: Shutting down and abandoning module OutputLog (434)
+[2019.02.07-19.38.21:994][694]LogModuleManager: Shutting down and abandoning module GammaUI (432)
+[2019.02.07-19.38.21:994][694]LogModuleManager: Shutting down and abandoning module Documentation (430)
+[2019.02.07-19.38.21:994][694]LogModuleManager: Shutting down and abandoning module MovieSceneTracks (428)
+[2019.02.07-19.38.21:994][694]LogModuleManager: Shutting down and abandoning module MovieScene (426)
+[2019.02.07-19.38.21:994][694]LogModuleManager: Shutting down and abandoning module StreamingPauseRendering (424)
+[2019.02.07-19.38.21:994][694]LogModuleManager: Shutting down and abandoning module LauncherPlatform (422)
+[2019.02.07-19.38.21:995][694]LogModuleManager: Shutting down and abandoning module AnalyticsET (420)
+[2019.02.07-19.38.21:995][694]LogModuleManager: Shutting down and abandoning module PortalServices (418)
+[2019.02.07-19.38.21:995][694]LogModuleManager: Shutting down and abandoning module PortalRpc (416)
+[2019.02.07-19.38.21:995][694]LogModuleManager: Shutting down and abandoning module MessagingRpc (414)
+[2019.02.07-19.38.21:995][694]LogModuleManager: Shutting down and abandoning module AIModule (412)
+[2019.02.07-19.38.21:995][694]LogModuleManager: Shutting down and abandoning module GameplayDebugger (411)
+[2019.02.07-19.38.21:995][694]LogModuleManager: Shutting down and abandoning module AITestSuite (409)
+[2019.02.07-19.38.21:995][694]LogModuleManager: Shutting down and abandoning module NavigationSystem (407)
+[2019.02.07-19.38.21:995][694]LogModuleManager: Shutting down and abandoning module ProfilerService (404)
+[2019.02.07-19.38.22:134][694]LogModuleManager: Shutting down and abandoning module TaskGraph (402)
+[2019.02.07-19.38.22:134][694]LogModuleManager: Shutting down and abandoning module SteamVRController (400)
+[2019.02.07-19.38.22:134][694]LogModuleManager: Shutting down and abandoning module ProceduralMeshComponentEditor (398)
+[2019.02.07-19.38.22:134][694]LogModuleManager: Shutting down and abandoning module ProceduralMeshComponent (396)
+[2019.02.07-19.38.22:134][694]LogModuleManager: Shutting down and abandoning module OculusInput (394)
+[2019.02.07-19.38.22:134][694]LogModuleManager: Shutting down and abandoning module MobilePatchingUtils (392)
+[2019.02.07-19.38.22:134][694]LogModuleManager: Shutting down and abandoning module EditableMesh (390)
+[2019.02.07-19.38.22:134][694]LogModuleManager: Shutting down and abandoning module CustomMeshComponent (388)
+[2019.02.07-19.38.22:134][694]LogModuleManager: Shutting down and abandoning module CableComponent (386)
+[2019.02.07-19.38.22:135][694]LogModuleManager: Shutting down and abandoning module AudioCapture (384)
+[2019.02.07-19.38.22:135][694]LogModuleManager: Shutting down and abandoning module ArchVisCharacter (382)
+[2019.02.07-19.38.22:135][694]LogModuleManager: Shutting down and abandoning module AndroidPermission (380)
+[2019.02.07-19.38.22:135][694]LogModuleManager: Shutting down and abandoning module NUTUnrealEngine4 (378)
+[2019.02.07-19.38.22:135][694]LogModuleManager: Shutting down and abandoning module NetcodeUnitTest (376)
+[2019.02.07-19.38.22:135][694]LogModuleManager: Shutting down and abandoning module MediaCompositingEditor (374)
+[2019.02.07-19.38.22:135][694]LogModuleManager: Shutting down and abandoning module MediaCompositing (372)
+[2019.02.07-19.38.22:135][694]LogModuleManager: Shutting down and abandoning module LinearTimecode (370)
+[2019.02.07-19.38.22:135][694]LogModuleManager: Shutting down and abandoning module ImgMedia (368)
+[2019.02.07-19.38.22:138][694]LogModuleManager: Shutting down and abandoning module HTML5Networking (366)
+[2019.02.07-19.38.22:138][694]LogModuleManager: Shutting down and abandoning module GeometryCacheTracks (364)
+[2019.02.07-19.38.22:138][694]LogModuleManager: Shutting down and abandoning module GeometryCacheSequencer (362)
+[2019.02.07-19.38.22:138][694]LogModuleManager: Shutting down and abandoning module BackChannel (360)
+[2019.02.07-19.38.22:138][694]LogModuleManager: Shutting down and abandoning module AppleVision (358)
+[2019.02.07-19.38.22:138][694]LogModuleManager: Shutting down and abandoning module AppleImageUtils (356)
+[2019.02.07-19.38.22:138][694]LogModuleManager: Shutting down and abandoning module AlembicImporter (354)
+[2019.02.07-19.38.22:138][694]LogModuleManager: Shutting down and abandoning module AlembicLibrary (353)
+[2019.02.07-19.38.22:138][694]LogModuleManager: Shutting down and abandoning module GeometryCache (352)
+[2019.02.07-19.38.22:138][694]LogModuleManager: Shutting down and abandoning module GeometryCacheEd (351)
+[2019.02.07-19.38.22:138][694]LogModuleManager: Shutting down and abandoning module DatasmithContentEditor (346)
+[2019.02.07-19.38.22:138][694]LogModuleManager: Shutting down and abandoning module DatasmithContent (344)
+[2019.02.07-19.38.22:139][694]LogModuleManager: Shutting down and abandoning module SpeedTreeImporter (342)
+[2019.02.07-19.38.22:139][694]LogModuleManager: Shutting down and abandoning module PluginBrowser (340)
+[2019.02.07-19.38.22:139][694]LogModuleManager: Shutting down and abandoning module MobileLauncherProfileWizard (338)
+[2019.02.07-19.38.22:139][694]LogModuleManager: Shutting down and abandoning module PolygonModeling (336)
+[2019.02.07-19.38.22:139][694]LogModuleManager: Shutting down and abandoning module MeshEditor (334)
+[2019.02.07-19.38.22:139][694]LogModuleManager: Shutting down and abandoning module CryptoKeysOpenSSL (332)
+[2019.02.07-19.38.22:139][694]LogModuleManager: Shutting down and abandoning module CryptoKeys (330)
+[2019.02.07-19.38.22:139][694]LogModuleManager: Shutting down and abandoning module VisualStudioSourceCodeAccess (328)
+[2019.02.07-19.38.22:139][694]LogModuleManager: Shutting down and abandoning module VisualStudioCodeSourceCodeAccess (326)
+[2019.02.07-19.38.22:139][694]LogModuleManager: Shutting down and abandoning module UObjectPlugin (324)
+[2019.02.07-19.38.22:139][694]LogModuleManager: Shutting down and abandoning module SubversionSourceControl (322)
+[2019.02.07-19.38.22:139][694]LogModuleManager: Shutting down and abandoning module PerforceSourceControl (320)
+[2019.02.07-19.38.22:140][694]LogModuleManager: Shutting down and abandoning module GitSourceControl (318)
+[2019.02.07-19.38.22:140][694]LogModuleManager: Shutting down and abandoning module SourceControl (317)
+[2019.02.07-19.38.22:140][694]LogModuleManager: Shutting down and abandoning module CLionSourceCodeAccess (314)
+[2019.02.07-19.38.22:140][694]LogModuleManager: Shutting down and abandoning module LightPropagationVolumeEditor (312)
+[2019.02.07-19.38.22:140][694]LogModuleManager: Shutting down and abandoning module PaperTiledImporter (310)
+[2019.02.07-19.38.22:140][694]LogModuleManager: Shutting down and abandoning module PaperSpriteSheetImporter (308)
+[2019.02.07-19.38.22:140][694]LogModuleManager: Shutting down and abandoning module Paper2DEditor (306)
+[2019.02.07-19.38.22:140][694]LogModuleManager: Shutting down and abandoning module MeshPaint (305)
+[2019.02.07-19.38.22:140][694]LogModuleManager: Shutting down and abandoning module RuntimePhysXCooking (300)
+[2019.02.07-19.38.22:140][694]LogModuleManager: Shutting down and abandoning module PhysXVehiclesEditor (298)
+[2019.02.07-19.38.22:140][694]LogModuleManager: Shutting down and abandoning module PhysXVehicles (296)
+[2019.02.07-19.38.22:140][694]LogModuleManager: Shutting down and abandoning module OculusEditor (294)
+[2019.02.07-19.38.22:140][694]LogModuleManager: Shutting down and abandoning module LocationServicesBPLibrary (292)
+[2019.02.07-19.38.22:140][694]LogModuleManager: Shutting down and abandoning module ImmediatePhysicsEditor (290)
+[2019.02.07-19.38.22:140][694]LogModuleManager: Shutting down and abandoning module ImmediatePhysics (288)
+[2019.02.07-19.38.22:140][694]LogModuleManager: Shutting down and abandoning module ActorSequence (286)
+[2019.02.07-19.38.22:140][694]LogModuleManager: Shutting down and abandoning module UdpMessaging (284)
+[2019.02.07-19.38.22:241][694]LogModuleManager: Shutting down and abandoning module TcpMessaging (282)
+[2019.02.07-19.38.22:341][694]LogModuleManager: Shutting down and abandoning module MagicLeapAudio (280)
+[2019.02.07-19.38.22:341][694]LogModuleManager: Shutting down and abandoning module GameplayTagsEditor (278)
+[2019.02.07-19.38.22:341][694]LogModuleManager: Shutting down and abandoning module FacialAnimationEditor (276)
+[2019.02.07-19.38.22:341][694]LogModuleManager: Shutting down and abandoning module FacialAnimation (274)
+[2019.02.07-19.38.22:341][694]LogModuleManager: Shutting down and abandoning module DataValidation (272)
+[2019.02.07-19.38.22:341][694]LogModuleManager: Shutting down and abandoning module AssetManagerEditor (270)
+[2019.02.07-19.38.22:341][694]LogModuleManager: Shutting down and abandoning module LevelEditor (269)
+[2019.02.07-19.38.22:342][694]LogModuleManager: Shutting down and abandoning module PixelInspectorModule (268)
+[2019.02.07-19.38.22:342][694]LogModuleManager: Shutting down and abandoning module CommonMenuExtensions (266)
+[2019.02.07-19.38.22:343][694]LogModuleManager: Shutting down and abandoning module MainFrame (264)
+[2019.02.07-19.38.22:343][694]LogModuleManager: Shutting down and abandoning module HotReload (263)
+[2019.02.07-19.38.22:344][694]LogModuleManager: Shutting down and abandoning module ContentBrowser (259)
+[2019.02.07-19.38.22:346][694]LogModuleManager: Shutting down and abandoning module TreeMap (257)
+[2019.02.07-19.38.22:346][694]LogModuleManager: Shutting down and abandoning module LightPropagationVolumeRuntime (254)
+[2019.02.07-19.38.22:346][694]LogModuleManager: Shutting down and abandoning module AISupportModule (252)
+[2019.02.07-19.38.22:346][694]LogModuleManager: Shutting down and abandoning module Paper2D (250)
+[2019.02.07-19.38.22:346][694]LogModuleManager: Shutting down and abandoning module WindowsMoviePlayer (248)
+[2019.02.07-19.38.22:346][694]LogModuleManager: Shutting down and abandoning module WmfMedia (246)
+[2019.02.07-19.38.22:349][694]LogModuleManager: Shutting down and abandoning module Media (245)
+[2019.02.07-19.38.22:355][694]LogModuleManager: Shutting down and abandoning module PacketHandler (242)
+[2019.02.07-19.38.22:355][694]LogModuleManager: Shutting down and abandoning module ClothingSystemEditor (240)
+[2019.02.07-19.38.22:355][694]LogModuleManager: Shutting down and abandoning module ClothingSystemRuntime (238)
+[2019.02.07-19.38.22:355][694]LogModuleManager: Shutting down and abandoning module MediaAssets (236)
+[2019.02.07-19.38.22:355][694]LogModuleManager: Shutting down and abandoning module Overlay (234)
+[2019.02.07-19.38.22:355][694]LogModuleManager: Shutting down and abandoning module OverlayEditor (233)
+[2019.02.07-19.38.22:356][694]LogModuleManager: Shutting down and abandoning module VREditor (230)
+[2019.02.07-19.38.22:356][694]LogModuleManager: Shutting down and abandoning module StringTableEditor (228)
+[2019.02.07-19.38.22:356][694]LogModuleManager: Shutting down and abandoning module GameplayTasksEditor (226)
+[2019.02.07-19.38.22:356][694]LogModuleManager: Shutting down and abandoning module BehaviorTreeEditor (224)
+[2019.02.07-19.38.22:356][694]LogModuleManager: Shutting down and abandoning module FunctionalTesting (222)
+[2019.02.07-19.38.22:356][694]LogModuleManager: Shutting down and abandoning module CollisionAnalyzer (220)
+[2019.02.07-19.38.22:356][694]LogModuleManager: Shutting down and abandoning module WorkspaceMenuStructure (219)
+[2019.02.07-19.38.22:356][694]LogModuleManager: Shutting down and abandoning module UMG (216)
+[2019.02.07-19.38.22:356][694]LogModuleManager: Shutting down and abandoning module UMGEditor (215)
+[2019.02.07-19.38.22:356][694]LogModuleManager: Shutting down and abandoning module Sequencer (214)
+[2019.02.07-19.38.22:356][694]LogModuleManager: Shutting down and abandoning module MessageLog (211)
+[2019.02.07-19.38.22:356][694]LogModuleManager: Shutting down and abandoning module SlateReflector (206)
+[2019.02.07-19.38.22:356][694]LogModuleManager: Shutting down and abandoning module Slate (204)
+[2019.02.07-19.38.22:356][694]LogModuleManager: Shutting down and abandoning module EditorStyle (202)
+[2019.02.07-19.38.22:359][694]LogModuleManager: Shutting down and abandoning module MRMesh (200)
+[2019.02.07-19.38.22:359][694]LogModuleManager: Shutting down and abandoning module SourceCodeAccess (198)
+[2019.02.07-19.38.22:360][694]LogModuleManager: Shutting down and abandoning module HeadMountedDisplay (196)
+[2019.02.07-19.38.22:360][694]LogModuleManager: Shutting down and abandoning module XAudio2 (194)
+[2019.02.07-19.38.22:360][694]LogModuleManager: Shutting down and abandoning module Networking (192)
+[2019.02.07-19.38.22:360][694]LogModuleManager: Shutting down and abandoning module Core (190)
+[2019.02.07-19.38.22:360][694]LogModuleManager: Shutting down and abandoning module LevelSequence (188)
+[2019.02.07-19.38.22:360][694]LogModuleManager: Shutting down and abandoning module KismetCompiler (186)
+[2019.02.07-19.38.22:360][694]LogModuleManager: Shutting down and abandoning module MeshUtilities (184)
+[2019.02.07-19.38.22:360][694]LogModuleManager: Shutting down and abandoning module MeshMergeUtilities (183)
+[2019.02.07-19.38.22:360][694]LogModuleManager: Shutting down and abandoning module MeshReductionInterface (182)
+[2019.02.07-19.38.22:360][694]LogModuleManager: Shutting down and abandoning module SimplygonSwarm (181)
+[2019.02.07-19.38.22:360][694]LogModuleManager: Shutting down and abandoning module ProxyLODMeshReduction (179)
+[2019.02.07-19.38.22:360][694]LogModuleManager: Shutting down and abandoning module SimplygonMeshReduction (177)
+[2019.02.07-19.38.22:360][694]LogModuleManager: Shutting down and abandoning module QuadricMeshReduction (175)
+[2019.02.07-19.38.22:360][694]LogModuleManager: Shutting down and abandoning module MaterialBaking (171)
+[2019.02.07-19.38.22:360][694]LogModuleManager: Shutting down and abandoning module DirectoryWatcher (167)
+[2019.02.07-19.38.22:362][694]LogModuleManager: Shutting down and abandoning module DerivedDataCache (164)
+[2019.02.07-19.38.22:410][694]LogDerivedDataCache: Shutdown
+[2019.02.07-19.38.22:410][694]LogModuleManager: Shutting down and abandoning module XGEController (162)
+[2019.02.07-19.38.22:410][694]LogXGEController: Cleaning working directory: C:/Users/teep0009/AppData/Local/Temp/UnrealXGEWorkingDir/
+[2019.02.07-19.38.22:410][694]LogModuleManager: Shutting down and abandoning module TargetPlatform (160)
+[2019.02.07-19.38.22:410][694]LogModuleManager: Shutting down and abandoning module VulkanShaderFormat (159)
+[2019.02.07-19.38.22:410][694]LogModuleManager: Shutting down and abandoning module ShaderFormatVectorVM (157)
+[2019.02.07-19.38.22:410][694]LogModuleManager: Shutting down and abandoning module ShaderFormatOpenGL (155)
+[2019.02.07-19.38.22:410][694]LogModuleManager: Shutting down and abandoning module ShaderFormatD3D (153)
+[2019.02.07-19.38.22:410][694]LogModuleManager: Shutting down and abandoning module MetalShaderFormat (151)
+[2019.02.07-19.38.22:410][694]LogModuleManager: Shutting down and abandoning module TextureFormatUncompressed (149)
+[2019.02.07-19.38.22:410][694]LogModuleManager: Shutting down and abandoning module TextureFormatPVR (147)
+[2019.02.07-19.38.22:411][694]LogModuleManager: Shutting down and abandoning module TextureFormatDXT (145)
+[2019.02.07-19.38.22:411][694]LogModuleManager: Shutting down and abandoning module TextureFormatIntelISPCTexComp (143)
+[2019.02.07-19.38.22:411][694]LogModuleManager: Shutting down and abandoning module TextureFormatASTC (141)
+[2019.02.07-19.38.22:411][694]LogModuleManager: Shutting down and abandoning module ImageWrapper (140)
+[2019.02.07-19.38.22:411][694]LogModuleManager: Shutting down and abandoning module TextureFormatAndroid (137)
+[2019.02.07-19.38.22:411][694]LogModuleManager: Shutting down and abandoning module AudioFormatOpus (135)
+[2019.02.07-19.38.22:411][694]LogModuleManager: Shutting down and abandoning module AudioFormatOgg (133)
+[2019.02.07-19.38.22:411][694]LogModuleManager: Shutting down and abandoning module AudioFormatADPCM (131)
+[2019.02.07-19.38.22:411][694]LogModuleManager: Shutting down and abandoning module LuminTargetPlatform (129)
+[2019.02.07-19.38.22:411][694]LogModuleManager: Shutting down and abandoning module LinuxTargetPlatform (127)
+[2019.02.07-19.38.22:411][694]LogModuleManager: Shutting down and abandoning module LinuxServerTargetPlatform (125)
+[2019.02.07-19.38.22:411][694]LogModuleManager: Shutting down and abandoning module LinuxNoEditorTargetPlatform (123)
+[2019.02.07-19.38.22:411][694]LogModuleManager: Shutting down and abandoning module LinuxClientTargetPlatform (121)
+[2019.02.07-19.38.22:412][694]LogModuleManager: Shutting down and abandoning module TVOSTargetPlatform (119)
+[2019.02.07-19.38.22:413][694]LogModuleManager: Shutting down and abandoning module Messaging (117)
+[2019.02.07-19.38.22:413][694]LogModuleManager: Shutting down and abandoning module IOSTargetPlatform (115)
+[2019.02.07-19.38.22:415][694]LogModuleManager: Shutting down and abandoning module HTML5TargetPlatform (113)
+[2019.02.07-19.38.22:415][694]LogModuleManager: Shutting down and abandoning module AndroidTargetPlatform (111)
+[2019.02.07-19.38.22:427][694]LogModuleManager: Shutting down and abandoning module WindowsTargetPlatform (109)
+[2019.02.07-19.38.22:427][694]LogModuleManager: Shutting down and abandoning module WindowsServerTargetPlatform (107)
+[2019.02.07-19.38.22:427][694]LogModuleManager: Shutting down and abandoning module WindowsNoEditorTargetPlatform (105)
+[2019.02.07-19.38.22:427][694]LogModuleManager: Shutting down and abandoning module WindowsClientTargetPlatform (103)
+[2019.02.07-19.38.22:427][694]LogModuleManager: Shutting down and abandoning module MacTargetPlatform (101)
+[2019.02.07-19.38.22:427][694]LogModuleManager: Shutting down and abandoning module MacServerTargetPlatform (99)
+[2019.02.07-19.38.22:427][694]LogModuleManager: Shutting down and abandoning module MacNoEditorTargetPlatform (97)
+[2019.02.07-19.38.22:427][694]LogModuleManager: Shutting down and abandoning module MacClientTargetPlatform (95)
+[2019.02.07-19.38.22:427][694]LogModuleManager: Shutting down and abandoning module AllDesktopTargetPlatform (93)
+[2019.02.07-19.38.22:427][694]LogModuleManager: Shutting down and abandoning module InputCore (90)
+[2019.02.07-19.38.22:427][694]LogModuleManager: Shutting down and abandoning module Settings (88)
+[2019.02.07-19.38.22:427][694]LogModuleManager: Shutting down and abandoning module PhysXCooking (86)
+[2019.02.07-19.38.22:428][694]LogModuleManager: Shutting down and abandoning module SteamVR (84)
+[2019.02.07-19.38.22:428][694]LogModuleManager: Shutting down and abandoning module OculusHMD (82)
+[2019.02.07-19.38.22:428][694]LogModuleManager: Shutting down and abandoning module ExampleDeviceProfileSelector (80)
+[2019.02.07-19.38.22:428][694]LogModuleManager: Shutting down and abandoning module LauncherChunkInstaller (78)
+[2019.02.07-19.38.22:428][694]LogModuleManager: Shutting down and abandoning module OnlineBlueprintSupport (76)
+[2019.02.07-19.38.22:428][694]LogModuleManager: Shutting down and abandoning module OnlineSubsystem (72)
+[2019.02.07-19.38.22:429][694]LogModuleManager: Shutting down and abandoning module XMPP (67)
+[2019.02.07-19.38.22:429][694]LogModuleManager: Shutting down and abandoning module WebSockets (66)
+[2019.02.07-19.38.22:462][694]LogModuleManager: Shutting down and abandoning module HTTP (63)
+[2019.02.07-19.38.22:462][694]LogHttp: Display: Http module shutting down, but needs to wait on 1 outstanding Http requests:
+[2019.02.07-19.38.22:462][694]LogHttp: Display: 	verb=[POST] url=[https://datarouter.ol.epicgames.com/datarouter/api/v1/public/data?SessionID=%7B00CA0894-4FF9-1910-887A-A8BE12019989%7D&AppID=UEEditor.Rocket.Release&AppVersion=4.20.1-4233996%2B%2B%2BUE4%2BRelease-4.20&UserID=840ed134491f4fa17ce4998775de4477%7C03961fdac6ed4f96aaed588f47d757f5%7C12a2e959-9ffc-404d-9239-76e7f6d4dec4&AppEnvironment=datacollector-binary&UploadType=eteventstream] status=Processing
+[2019.02.07-19.38.22:464][694]LogModuleManager: Shutting down and abandoning module SSL (62)
+[2019.02.07-19.38.22:466][694]LogModuleManager: Shutting down and abandoning module MagicLeapEmulator (58)
+[2019.02.07-19.38.22:466][694]LogModuleManager: Shutting down and abandoning module MagicLeapPrivileges (56)
+[2019.02.07-19.38.22:466][694]LogModuleManager: Shutting down and abandoning module MagicLeapIdentity (54)
+[2019.02.07-19.38.22:466][694]LogModuleManager: Shutting down and abandoning module MagicLeapHelperVulkan (52)
+[2019.02.07-19.38.22:466][694]LogModuleManager: Shutting down and abandoning module MagicLeapHelperOpenGL (50)
+[2019.02.07-19.38.22:466][694]LogModuleManager: Shutting down and abandoning module MagicLeapSecureStorage (48)
+[2019.02.07-19.38.22:466][694]LogModuleManager: Shutting down and abandoning module MagicLeapGestures (46)
+[2019.02.07-19.38.22:466][694]LogModuleManager: Shutting down and abandoning module MagicLeapEyeTracker (44)
+[2019.02.07-19.38.22:466][694]LogModuleManager: Shutting down and abandoning module MagicLeapController (42)
+[2019.02.07-19.38.22:466][694]LogSlate: Slate User Destroyed.  User Index 0, Is Virtual User: 0
+[2019.02.07-19.38.22:467][694]LogModuleManager: Shutting down and abandoning module MagicLeap (40)
+[2019.02.07-19.38.22:467][694]LogModuleManager: Shutting down and abandoning module DesktopPlatform (38)
+[2019.02.07-19.38.22:467][694]LogModuleManager: Shutting down and abandoning module AnimationModifiers (36)
+[2019.02.07-19.38.22:467][694]LogModuleManager: Shutting down and abandoning module PropertyEditor (35)
+[2019.02.07-19.38.22:467][694]LogModuleManager: Shutting down and abandoning module AudioEditor (32)
+[2019.02.07-19.38.22:467][694]LogModuleManager: Shutting down and abandoning module TextureCompressor (30)
+[2019.02.07-19.38.22:467][694]LogModuleManager: Shutting down and abandoning module ShaderCore (28)
+[2019.02.07-19.38.22:467][694]LogModuleManager: Shutting down and abandoning module Landscape (26)
+[2019.02.07-19.38.22:467][694]LogModuleManager: Shutting down and abandoning module SlateRHIRenderer (24)
+[2019.02.07-19.38.22:468][694]LogModuleManager: Shutting down and abandoning module OpenGLDrv (22)
+[2019.02.07-19.38.22:468][694]LogModuleManager: Shutting down and abandoning module D3D11RHI (20)
+[2019.02.07-19.38.22:468][694]LogModuleManager: Shutting down and abandoning module AnimGraphRuntime (18)
+[2019.02.07-19.38.22:468][694]LogModuleManager: Shutting down and abandoning module Renderer (16)
+[2019.02.07-19.38.22:468][694]LogModuleManager: Shutting down and abandoning module Engine (14)
+[2019.02.07-19.38.22:468][694]LogModuleManager: Shutting down and abandoning module CoreUObject (12)
+[2019.02.07-19.38.22:468][694]LogModuleManager: Shutting down and abandoning module NetworkFile (10)
+[2019.02.07-19.38.22:468][694]LogModuleManager: Shutting down and abandoning module CookedIterativeFile (8)
+[2019.02.07-19.38.22:468][694]LogModuleManager: Shutting down and abandoning module StreamingFile (6)
+[2019.02.07-19.38.22:468][694]LogModuleManager: Shutting down and abandoning module SandboxFile (4)
+[2019.02.07-19.38.22:468][694]LogModuleManager: Shutting down and abandoning module PakFile (2)
+[2019.02.07-19.38.22:478][694]LogExit: Exiting.
+[2019.02.07-19.38.22:521][694]Log file closed, 02/07/19 14:38:22
