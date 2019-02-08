@@ -21,52 +21,50 @@ class ABlastRadiusCharacter : public ACharacter
 public:
 	ABlastRadiusCharacter();
 
-	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
-	float BaseTurnRate;
+    void PostInitializeComponents();
 
-	/** Base look up/down rate, in deg/sec. Other scaling may affect final rate. */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
-	float BaseLookUpRate;
+    void BeginPlay();
 
-protected:
+    void Tick(float DeltaTime);
 
-	/** Resets HMD orientation in VR. */
-	void OnResetVR();
+    /** Defines character max walk speed **/
+    UPROPERTY(EditDefaultsOnly)
+        float MaxWalkSpeed;
 
-	/** Called for forwards/backward input */
-	void MoveForward(float Value);
+    /** Defines character max run speed **/
+    UPROPERTY(EditDefaultsOnly)
+        float MaxRunSpeed;
 
-	/** Called for side to side input */
-	void MoveRight(float Value);
+	/** Called for directional movement */
+	void Move(FVector Direction, float Scale);
 
-	/** 
-	 * Called via input to turn at a given rate. 
-	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
-	 */
-	void TurnAtRate(float Rate);
+private:
+    /** Determines states **/
+    bool bIsWalking;
+    bool bIsAiming;
+    bool bIsFiring;
+    bool bIsBlinking;
 
-	/**
-	 * Called via input to turn look up/down at a given rate. 
-	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
-	 */
-	void LookUpAtRate(float Rate);
+    /** Component declarations **/
+    //class UHealthComponent* Health;   // waiting for component implementation
+    //class UEnergyComponent* Energy;   // waitinf for component implementation
+    //class UBlinkComponent* Blink;     // waiting for component implementation
+    class USkeletalMeshComponent* SkeletalMesh;
+    //class UCharacterAnimInstance* AnimationInstance;
 
-	/** Handler for when a touch input begins. */
-	void TouchStarted(ETouchIndex::Type FingerIndex, FVector Location);
-
-	/** Handler for when a touch input stops. */
-	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
-
-protected:
-	// APawn interface
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	// End of APawn interface
+    /** Weapon the character uses **/
+    //UPROPERTY()
+    //    class AWeaponBase* Weapon; // Weapon
 
 public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
+
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+    /** Returns SkeletalMesh subobject **/
+    FORCEINLINE class USkeletalMeshComponent* GetSkeletalMesh() const { return SkeletalMesh; }
+
 };
 
