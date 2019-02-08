@@ -2,6 +2,7 @@
 
 #include "BlastRadiusPlayerController.h"
 #include "Character/BlastRadiusCharacter.h"
+#include "Component/BlinkComponent.h"
 
 ABlastRadiusPlayerController::ABlastRadiusPlayerController()
 {
@@ -86,6 +87,8 @@ void ABlastRadiusPlayerController::BlinkPressed()
 {
     if (!Character)
         return;
+
+    Character->BlinkComponent->Blink(Cast<AActor>(Character));
 }
 
 void ABlastRadiusPlayerController::BlinkReleased()

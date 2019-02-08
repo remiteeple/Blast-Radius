@@ -38,6 +38,7 @@ public:
 	/** Called for directional movement */
 	void Move(FVector Direction, float Scale);
 
+    class UBlinkComponent* BlinkComponent;
 private:
     /** Determines states **/
     bool bIsWalking;
@@ -46,9 +47,8 @@ private:
     bool bIsBlinking;
 
     /** Component declarations **/
-    //class UHealthComponent* Health;   // waiting for component implementation
-    //class UEnergyComponent* Energy;   // waitinf for component implementation
-    //class UBlinkComponent* Blink;     // waiting for component implementation
+    //class UHealthComponent* HealthComponent;   // waiting for component implementation
+    //class UEnergyComponent* EnergyComponent;   // waitinf for component implementation
     class USkeletalMeshComponent* SkeletalMesh;
     //class UCharacterAnimInstance* AnimationInstance;
 

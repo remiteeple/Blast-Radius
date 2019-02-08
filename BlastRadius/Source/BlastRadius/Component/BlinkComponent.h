@@ -16,16 +16,21 @@ public:
 	// Sets default values for this component's properties
 	UBlinkComponent();
 
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
-public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
     
     void Blink(AActor* Character);
+
+    void SetupRay(FVector & StartTrace, FVector & Direction, FVector & EndTrace);
 		
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
-    float BlinkValue = 10.0f;
+        float BlinkValue = 10.0f;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
+        float BlinkDistance = 250.0f;
+
+protected:
+	// Called when the game starts
+	virtual void BeginPlay() override;
 	
 };

@@ -3,6 +3,8 @@
 #include "BlinkComponent.h"
 #include "BlastRadius/Character/BlastRadiusCharacter.h"
 #include "GameFramework/Controller.h"
+#include "DrawDebugHelpers.h"
+#include "Kismet/GameplayStatics.h"
 
 
 // Sets default values for this component's properties
@@ -43,10 +45,20 @@ void UBlinkComponent::Blink(AActor* Character)
         const FRotator Rotation = CharacterController->GetControlRotation();
         const FRotator YawRotation(0, Rotation.Yaw, 0);
 
-        // get forward vector
-        const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+        FVector StartTrace = Character->GetActorLocation();
+        FVector Direction = Character->GetActorRotation().Vector();
+        FVector EndTrace = StartTrace + Direction * BlinkDistance;;
 
-        Cast<ABlastRadiusCharacter>(Character)->AddMovementInput(Direction, BlinkValue);
+        SetupRay(StartTrace, Direction, EndTrace);
+
+        Character->SetActorLocation(FMath::Lerp(StartTrace, EndTrace, 1));
     }
 }
 
+void UBlinkComponent::SetupRay(FVector &StartTrace, FVector &Direction, FVector &EndTrace)
+{
+    //StartTrace = CamLoc; // trace start is the camera location
+    //Direction = CamRot.Vector();
+    EndTrace = StartTrace + Direction * 300; // and trace end is the camera location + an offset in the direction you are looking, the 200 is the distance at wich it checks
+
+}

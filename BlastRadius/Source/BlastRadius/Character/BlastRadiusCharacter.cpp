@@ -9,12 +9,14 @@
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Character/CharacterAnimInstance.h"
+#include "Component/BlinkComponent.h"
 
 //////////////////////////////////////////////////////////////////////////
 // ABlastRadiusCharacter
 
 ABlastRadiusCharacter::ABlastRadiusCharacter() :
-    SkeletalMesh(nullptr)
+    SkeletalMesh(nullptr),
+    BlinkComponent(nullptr)
    //AnimationInstance(nullptr)
 {
 	// Set size for collision capsule
@@ -44,6 +46,9 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
+
+    // Create the blink component
+    BlinkComponent = CreateDefaultSubobject<UBlinkComponent>(TEXT("BlinkComponent"));
 }
 
 void ABlastRadiusCharacter::PostInitializeComponents()
@@ -85,3 +90,8 @@ void ABlastRadiusCharacter::Move(FVector Direction, float Scale)
 {
     AddMovementInput(Direction, Scale);
 }
+
+//void ABlastRadiusCharacter::Aim()
+//{
+//
+//}
