@@ -25,21 +25,29 @@ public:
 
     virtual void BeginPlay() override;
 
+    void Tick(float DeltaTime);
+
 private:
-    /** Movement & interaction methods **/
+    /** interaction methods **/
     void MoveVertical(float Scale);
     void MoveHorizontal(float Scale);
 
+    void WalkPressed();
+    void WalkReleased();
+
     void FirePressed();
     void FireReleased();
+
     void AimPressed();
     void AimReleased();
 
     void BlinkPressed();
     void BlinkReleased();
 
+    void LookAtMouseCursor();
+
 private:
-    /** Character possession reference **/
+    /** ABlastRadiusCharacter possession reference **/
     class ABlastRadiusCharacter* Character;
 
 };

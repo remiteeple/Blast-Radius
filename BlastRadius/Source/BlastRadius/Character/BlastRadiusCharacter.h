@@ -17,54 +17,69 @@ class ABlastRadiusCharacter : public ACharacter
 
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class UCameraComponent* FollowCamera;
+	class UCameraComponent* TopDownCamera;
 public:
 	ABlastRadiusCharacter();
 
-    void PostInitializeComponents();
+	void PostInitializeComponents();
 
-    void BeginPlay();
+	void BeginPlay();
 
-    void Tick(float DeltaTime);
+	void Tick(float DeltaTime);
 
-    /** Defines character max walk speed **/
-    UPROPERTY(EditDefaultsOnly)
-        float MaxWalkSpeed;
+	/** Called when actor hit **/
+	void OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
-    /** Defines character max run speed **/
-    UPROPERTY(EditDefaultsOnly)
-        float MaxRunSpeed;
+	/** Defines character max walk speed **/
+	UPROPERTY(EditDefaultsOnly)
+		float MaxWalkSpeed;
+
+	/** Defines character max run speed **/
+	UPROPERTY(EditDefaultsOnly)
+		float MaxRunSpeed;
 
 	/** Called for directional movement */
 	void Move(FVector Direction, float Scale);
 
-    class UBlinkComponent* BlinkComponent;
-private:
-    /** Determines states **/
-    bool bIsWalking;
-    bool bIsAiming;
-    bool bIsFiring;
-    bool bIsBlinking;
+	/** Called for directional rotation of character  **/
+	void LookAt(FVector Direction);
 
-    /** Component declarations **/
-    //class UHealthComponent* HealthComponent;   // waiting for component implementation
-    //class UEnergyComponent* EnergyComponent;   // waitinf for component implementation
-    class USkeletalMeshComponent* SkeletalMesh;
-    //class UCharacterAnimInstance* AnimationInstance;
+	/** Called for aiming **/
+	//void Aim();
 
-    /** Weapon the character uses **/
-    //UPROPERTY()
-    //    class AWeaponBase* Weapon; // Weapon
+	/** Call for shooting **/
+	//void Shoot();
+
+public:
+	/** Determines states **/
+	// Default false
+	bool bIsMoving = false;
+	bool bIsWalking = false;
+	bool bIsAiming = false;
+	bool bIsFiring = false;
+	bool bIsBlinking = false;
+
+public:
+	/** Component declarations **/
+	//class UHealthComponent* HealthComponent;   // waiting for component implementation
+	//class UEnergyComponent* EnergyComponent;   // waitinf for component implementation
+	class USkeletalMeshComponent* SkeletalMesh;
+	class UBlinkComponent* BlinkComponent;
+	//class UCharacterAnimInstance* AnimationInstance;
+
+	/** Weapon the character uses **/
+	//UPROPERTY()
+	//    class AWeaponBase* Weapon; // Weapon
 
 public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 
 	/** Returns FollowCamera subobject **/
-	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return TopDownCamera; }
 
-    /** Returns SkeletalMesh subobject **/
-    FORCEINLINE class USkeletalMeshComponent* GetSkeletalMesh() const { return SkeletalMesh; }
+	/** Returns SkeletalMesh subobject **/
+	FORCEINLINE class USkeletalMeshComponent* GetSkeletalMesh() const { return SkeletalMesh; }
 
 };
 
