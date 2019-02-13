@@ -10,6 +10,8 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Character/CharacterAnimInstance.h"
 #include "Component/BlinkComponent.h"
+#include "Component/HealthComponent.h"
+#include "Component/EnergyComponent.h"
 #include "Gameplay/BlastRadiusPlayerController.h"
 
 //////////////////////////////////////////////////////////////////////////
@@ -52,10 +54,10 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
 	BlinkComponent = CreateDefaultSubobject<UBlinkComponent>(TEXT("BlinkComponent"));
 
 	// Create the Health component
-	//BlinkComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("BlinkComponent"));
+	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("HealthComponent"));
 
 	// Create the Energy component
-	//BlinkComponent = CreateDefaultSubobject<UEnergyComponent>(TEXT("BlinkComponent"));
+	EnergyComponent = CreateDefaultSubobject<UEnergyComponent>(TEXT("EnergyComponent"));
 }
 
 void ABlastRadiusCharacter::PostInitializeComponents()

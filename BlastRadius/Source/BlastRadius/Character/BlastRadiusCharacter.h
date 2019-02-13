@@ -50,6 +50,10 @@ public:
 	/** Call for shooting **/
 	//void Shoot();
 
+    //WIP Delegate Declaration for Health & Energy Components
+    //FOnTakeAnyDamage OnDamage;
+    //FOnDeathSignature OnDeath;
+
 public:
 	/** Determines states **/
 	// Default false
@@ -61,8 +65,8 @@ public:
 
 public:
 	/** Component declarations **/
-	//class UHealthComponent* HealthComponent;   // waiting for component implementation
-	//class UEnergyComponent* EnergyComponent;   // waitinf for component implementation
+	class UHealthComponent* HealthComponent;   // waiting for component implementation
+	class UEnergyComponent* EnergyComponent;   // waitinf for component implementation
 	class USkeletalMeshComponent* SkeletalMesh;
 	class UBlinkComponent* BlinkComponent;
 	//class UCharacterAnimInstance* AnimationInstance;
