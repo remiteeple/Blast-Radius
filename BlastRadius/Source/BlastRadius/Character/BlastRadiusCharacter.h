@@ -69,7 +69,7 @@ public:
     void Aim(bool Toggle);
 
     /** Call for shooting **/
-    void Shoot();
+    void Fire();
 
 public:
 	/** State Definitions **/

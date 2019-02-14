@@ -184,7 +184,7 @@ void ABlastRadiusCharacter::Aim(bool Toggle)
     bIsAiming = true;
 }
 
-void ABlastRadiusCharacter::Shoot()
+void ABlastRadiusCharacter::Fire()
 {
     // Attempt to fire a projectile.
     if (ProjectileClass)
