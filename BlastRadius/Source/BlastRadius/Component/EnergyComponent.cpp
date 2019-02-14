@@ -41,6 +41,11 @@ void UEnergyComponent::SpendEnergy(float EnergyCost)
     
 }
 
+void UEnergyComponent::ToggleCoolDown()
+{
+    OnCooldown = !OnCooldown;
+}
+
 
 // Called every frame
 void UEnergyComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)

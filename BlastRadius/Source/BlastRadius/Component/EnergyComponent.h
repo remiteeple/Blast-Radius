@@ -29,7 +29,11 @@ public:
     //Delegate function call initialization.
     FOnSpendEnergy OnSpend;
 
+    //Timer handle for the cooldown before recharge begins when a character runs out of energy.
     FTimerHandle RechargeTimer;
+
+    //Bool for checking if the timer is finished.
+    bool OnCooldown = false;
 
 protected:
 	// Called when the game starts
@@ -37,6 +41,9 @@ protected:
 
     UFUNCTION(BluePrintCallable)
         void SpendEnergy(float EnergyCost);
+
+    UFUNCTION(BluePrintCallable)
+        void ToggleCoolDown();
 
 public:	
 	// Called every frame
