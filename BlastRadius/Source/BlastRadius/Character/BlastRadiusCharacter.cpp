@@ -55,8 +55,14 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
 
     MuzzleOffset = FVector(100, 0, 0);
 
-    HealthPercentage = 0.0;
-    Energy = 100;
+    //Setup the health and energy components
+    HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health"));
+    EnergyComponent = CreateDefaultSubobject<UEnergyComponent>(TEXT("Energy"));
+
+    //HealthPercentage = 0.0;
+    //Energy = 100;
+
+
 }
 
 void ABlastRadiusCharacter::PostInitializeComponents()

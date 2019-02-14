@@ -31,9 +31,12 @@ void UHealthComponent::BeginPlay()
 void UHealthComponent::TakeAnyDamage(AActor* DamagedActor, float Damage, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser)
 {
     
-    CurrentHealth -= Damage;
+    //Add the damage to the "health" %
+    CurrentHealth += Damage;
 
-    if (CurrentHealth > 0.f)
+
+    //If the characters health is below 0, make it 0.
+    if (CurrentHealth < 0.f)
     {
         CurrentHealth = 0.f;
     }

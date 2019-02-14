@@ -24,11 +24,14 @@ public:
 
     //Maximum Health of the character.
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
-        float MaxHealth = 100.f;
+        float MaxHealth = 999.f;
 
     //Current health of the character.
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
-        float CurrentHealth = 100.f;
+        float CurrentHealth = 0.f;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
+        float MinHealth = 0.f;
 
     //Delegate function call initialization.
     FOnDeathSignature OnDeath;
