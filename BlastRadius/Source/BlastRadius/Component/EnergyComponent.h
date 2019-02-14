@@ -29,9 +29,6 @@ public:
     //Delegate function call initialization.
     FOnSpendEnergy OnSpend;
 
-    //Timer handle for the cooldown before recharge begins when a character runs out of energy.
-    FTimerHandle RechargeTimer;
-
     //Bool for checking if the timer is finished.
     bool OnCooldown = false;
 

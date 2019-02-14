@@ -29,14 +29,10 @@ void UEnergyComponent::BeginPlay()
 
 void UEnergyComponent::SpendEnergy(float EnergyCost)
 {
-    if (CurrentEnergy >= EnergyCost)
+    CurrentEnergy -= EnergyCost;
+    if (CurrentEnergy <= EnergyCost)
     {
-        CurrentEnergy -= EnergyCost;
-
-        if (CurrentEnergy > 0.f)
-        {
-            CurrentEnergy = 0.f;
-        }
+        OnCooldown = true;
     }
     
 }
@@ -51,6 +47,16 @@ void UEnergyComponent::ToggleCoolDown()
 void UEnergyComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+    if (CurrentEnergy < MaxEnergy)
+    {
+        CurrentEnergy += 0.5f;
+    }
+    
+    if (CurrentEnergy > 0.f)
+    {
+        OnCooldown = false;
+    }
 
 	// ...
 }

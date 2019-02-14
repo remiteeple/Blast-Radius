@@ -58,11 +58,6 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
     //Setup the health and energy components
     HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health"));
     EnergyComponent = CreateDefaultSubobject<UEnergyComponent>(TEXT("Energy"));
-
-    //HealthPercentage = 0.0;
-    //Energy = 100;
-
-
 }
 
 void ABlastRadiusCharacter::PostInitializeComponents()

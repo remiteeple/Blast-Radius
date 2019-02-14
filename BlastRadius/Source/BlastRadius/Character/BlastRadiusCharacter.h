@@ -25,12 +25,6 @@ class ABlastRadiusCharacter : public ACharacter
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
         class UEnergyComponent* EnergyComponent;
 
-   /* UPROPERTY(Category = "Config", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-        float HealthPercentage;*/
-
-    /*UPROPERTY(Category = "Config", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-        float Energy;*/
-
 protected:
 	ABlastRadiusCharacter();
 
