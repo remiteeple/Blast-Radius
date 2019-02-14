@@ -33,7 +33,6 @@ void ABlastRadiusPlayerController::SetupInputComponent()
 
     InputComponent->BindAction("Blink", IE_Pressed, this, &ABlastRadiusPlayerController::BlinkPressed);
     InputComponent->BindAction("Blink", IE_Released, this, &ABlastRadiusPlayerController::BlinkReleased);
-
 }
 
 void ABlastRadiusPlayerController::AcknowledgePossession(APawn* PossesedPawn)
@@ -53,7 +52,7 @@ void ABlastRadiusPlayerController::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
 
-    LookAtMouseCursor();
+    LookAtMouseCursor(DeltaTime);
 }
 
 void ABlastRadiusPlayerController::MoveVertical(float Scale)
@@ -119,9 +118,7 @@ void ABlastRadiusPlayerController::BlinkPressed()
     if (Character == nullptr)
         return;
 
-    //TODO: determine if we want distance/charging blink, if not... set bIsBlinking to true in BlinkComponent
-    //Character->bIsBlinking = true;
-    Character->BlinkComponent->Blink(Cast<AActor>(Character));
+    Character->Blink();
 }
 
 void ABlastRadiusPlayerController::BlinkReleased()
@@ -130,7 +127,7 @@ void ABlastRadiusPlayerController::BlinkReleased()
         return;
 }
 
-void ABlastRadiusPlayerController::LookAtMouseCursor()
+void ABlastRadiusPlayerController::LookAtMouseCursor(float DeltaTime)
 {
     if (Character == nullptr)
         return;
@@ -141,19 +138,19 @@ void ABlastRadiusPlayerController::LookAtMouseCursor()
     FVector IntersectVector;
 
     // Get mouse position on screen
-    FVector2D MouseScreenPosition;
-    GetMousePosition(MouseScreenPosition.X, MouseScreenPosition.Y);
+    FVector2D MousePosition;
+    GetMousePosition(MousePosition.X, MousePosition.Y);
 
     // Translate mouse position on 2D screen to 3D world position
     FVector WorldPosition;
     FVector WorldDirection;
-    if (UGameplayStatics::DeprojectScreenToWorld(this, MouseScreenPosition, WorldPosition, WorldDirection) == true)
+    if (UGameplayStatics::DeprojectScreenToWorld(this, MousePosition, WorldPosition, WorldDirection) == true)
     {
         // Intersect plane with trace hit actor (the ground)
-        IntersectVector = FMath::LinePlaneIntersection(WorldPosition, WorldPosition + WorldDirection * HitResultTraceDistance, GetPawn()->GetActorLocation(), FVector::UpVector);
+        IntersectVector = FMath::LinePlaneIntersection(WorldPosition, WorldPosition + WorldDirection * HitResultTraceDistance, Character->GetActorLocation(), FVector::UpVector);
     }
 
-    // Trace down through the aiming plane to see if we hit an actor that we can aim at
+    // Trace down to the aiming plane to see if we hit an actor that we can aim at
     FCollisionQueryParams CollisionQueryParams(NAME_Actor, true);
     bool bHit = GetWorld()->LineTraceSingleByChannel(TraceOutResult, IntersectVector, IntersectVector - FVector::UpVector * HitResultTraceDistance, ECC_Pawn, CollisionQueryParams);
 
@@ -191,4 +188,41 @@ void ABlastRadiusPlayerController::LookAtMouseCursor()
 
     // Make character look at 
     Character->LookAt(Direction);
+
+    //// Create vectors for Mouse input
+    //FVector MouseLocation;
+    //FVector MouseDircetion;
+
+    //// Translate mouse position on 2D screen to 3D world position
+    //bool Success = DeprojectMousePositionToWorld(MouseLocation, MouseDircetion);
+
+    //// If translation succeeded
+    //if (Success)
+    //{
+    //    // Define trace
+    //    float TraceDistance = 10000.0f;
+    //    FVector TraceBegin = MouseLocation;
+    //    FVector TraceEnd = MouseLocation + MouseDircetion * TraceDistance;
+
+    //    // Define plane
+    //    FVector PlaneOrigin = Character->GetActorForwardVector();
+    //    FVector PlaneNormal = FVector(0.0f, 0.0f, 1.0f);
+
+    //    // Get planar intersect for floor
+    //    FVector LookLocation = FMath::LinePlaneIntersection(TraceBegin, TraceEnd, PlaneOrigin, PlaneNormal);
+
+    //    // Get direction for character aim
+    //    FRotator LookRotation = (LookLocation - Character->GetActorLocation()).Rotation();
+
+    //    // Nullify non-used axes
+    //    LookRotation.Pitch = 0.0f;
+    //    LookRotation.Roll = 0.0f;
+    //    LookLocation.Z = Character->GetActorLocation().Z;
+
+    //    // TODO: remove before alpha build
+    //    DrawDebugLine(GetWorld(), Character->GetActorLocation(), LookLocation, FColor(0, 0, 255), false, -1, 0, 10.0f);
+
+    //    // Rotate character
+    //    Character->SetActorRotation(LookRotation);
+    //}
 }

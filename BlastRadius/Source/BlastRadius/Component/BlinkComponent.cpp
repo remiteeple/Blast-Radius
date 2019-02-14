@@ -47,7 +47,7 @@ void UBlinkComponent::Blink(AActor* Character)
 
         FVector StartTrace = Character->GetActorLocation();
         FVector Direction = Character->GetActorRotation().Vector();
-        FVector EndTrace = StartTrace + Direction * BlinkDistance;;
+        FVector EndTrace = StartTrace + Direction * BlinkDistance;
 
         SetupRay(StartTrace, Direction, EndTrace);
 
@@ -57,8 +57,6 @@ void UBlinkComponent::Blink(AActor* Character)
 
 void UBlinkComponent::SetupRay(FVector &StartTrace, FVector &Direction, FVector &EndTrace)
 {
-    //StartTrace = CamLoc; // trace start is the camera location
-    //Direction = CamRot.Vector();
-    EndTrace = StartTrace + Direction * 300; // and trace end is the camera location + an offset in the direction you are looking, the 200 is the distance at wich it checks
+    EndTrace = StartTrace + Direction * 300.0f;
 
 }

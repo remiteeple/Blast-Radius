@@ -44,7 +44,7 @@ private:
     void BlinkPressed();
     void BlinkReleased();
 
-    void LookAtMouseCursor();
+    void LookAtMouseCursor(float DeltaTime);
 
 private:
     /** ABlastRadiusCharacter possession reference **/

@@ -13,63 +13,64 @@ class ABlastRadiusCharacter : public ACharacter
 
 	/** Camera boom positioning the camera behind the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class USpringArmComponent* CameraBoom;
+	    class USpringArmComponent* CameraBoom;
 
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class UCameraComponent* TopDownCamera;
-public:
+	    class UCameraComponent* TopDownCamera;
+protected:
 	ABlastRadiusCharacter();
 
-	void PostInitializeComponents();
+	virtual void PostInitializeComponents() override;
+	virtual void BeginPlay() override;
+    virtual void Tick(float DeltaTime) override;
 
-	void BeginPlay();
-
-	void Tick(float DeltaTime);
-
-	/** Called when actor hit **/
-	void OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
-
-	/** Defines character max walk speed **/
+public:
+	/** Character movement variable **/
 	UPROPERTY(EditDefaultsOnly)
 		float MaxWalkSpeed;
-
-	/** Defines character max run speed **/
 	UPROPERTY(EditDefaultsOnly)
 		float MaxRunSpeed;
 
-	/** Called for directional movement */
-	void Move(FVector Direction, float Scale);
+    /** Animations **/
+    UPROPERTY(EditDefaultsOnly)
+        UAnimMontage* HipFireAnimation;
+    UPROPERTY(EditDefaultsOnly)
+        UAnimMontage* AimFireAnimaion;
 
-	/** Called for directional rotation of character  **/
-	void LookAt(FVector Direction);
+    /** Called when actor hit **/
+    void OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
-	/** Called for aiming **/
-	//void Aim();
+    /** Called for directional movement */
+    void Move(FVector Direction, float Scale);
 
-	/** Call for shooting **/
-	//void Shoot();
+    /** Called for directional rotation of character  **/
+    void LookAt(FVector Direction);
 
-    //WIP Delegate Declaration for Health & Energy Components
-    //FOnTakeAnyDamage OnDamage;
-    //FOnDeathSignature OnDeath;
+    /** Called when blink is activated **/
+    void Blink();
+
+    /** Called for aiming **/
+    void Aim(bool Toggle);
+
+    /** Call for shooting **/
+    void Shoot();
 
 public:
-	/** Determines states **/
+	/** State Definitions **/
 	// Default false
-	bool bIsMoving = false;
 	bool bIsWalking = false;
 	bool bIsAiming = false;
 	bool bIsFiring = false;
 	bool bIsBlinking = false;
 
-public:
-	/** Component declarations **/
-	class UHealthComponent* HealthComponent;   // waiting for component implementation
-	class UEnergyComponent* EnergyComponent;   // waitinf for component implementation
+private:
+	/** Component Declarations **/
+	class UHealthComponent* HealthComponent;
+	class UEnergyComponent* EnergyComponent;
 	class USkeletalMeshComponent* SkeletalMesh;
 	class UBlinkComponent* BlinkComponent;
-	//class UCharacterAnimInstance* AnimationInstance;
+	class UCharacterAnimInstance* AnimationInstance;
 
 	/** Weapon the character uses **/
 	//UPROPERTY()
@@ -82,8 +83,22 @@ public:
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return TopDownCamera; }
 
-	/** Returns SkeletalMesh subobject **/
+	/** Returns SkeletalMesh component **/
 	FORCEINLINE class USkeletalMeshComponent* GetSkeletalMesh() const { return SkeletalMesh; }
+
+    /** Returns Health component **/
+    FORCEINLINE class UHealthComponent* GetHealthComponent() const { return HealthComponent; }
+
+    /** Returns Health component **/
+    FORCEINLINE class UEnergyComponent* GetEnergyComponent() const { return EnergyComponent; }
+
+    /** Returns Health component **/
+    FORCEINLINE class UBlinkComponent* GetBlinkComponent() const { return BlinkComponent; }
+
+protected:
+    /* Called when player health passes lower limit */
+    UFUNCTION()
+        void OnDeath();
 
 };
 

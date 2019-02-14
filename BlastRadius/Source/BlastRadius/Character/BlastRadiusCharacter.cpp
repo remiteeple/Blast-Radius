@@ -19,8 +19,10 @@
 
 ABlastRadiusCharacter::ABlastRadiusCharacter() :
 	SkeletalMesh(nullptr),
-	BlinkComponent(nullptr)
-   //AnimationInstance(nullptr)
+	BlinkComponent(nullptr),
+    HealthComponent(nullptr),
+    EnergyComponent(nullptr),
+    AnimationInstance(nullptr)
 {
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
@@ -49,15 +51,6 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
     TopDownCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
     TopDownCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
     TopDownCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
-
-	// Create the Blink component
-	BlinkComponent = CreateDefaultSubobject<UBlinkComponent>(TEXT("BlinkComponent"));
-
-	// Create the Health component
-	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("HealthComponent"));
-
-	// Create the Energy component
-	EnergyComponent = CreateDefaultSubobject<UEnergyComponent>(TEXT("EnergyComponent"));
 }
 
 void ABlastRadiusCharacter::PostInitializeComponents()
@@ -67,16 +60,32 @@ void ABlastRadiusCharacter::PostInitializeComponents()
 	/* Retrieve the skeletal mesh */
 	SkeletalMesh = GetMesh();
 
-	//Check for skeletal mesh
-	if (SkeletalMesh)
-	{
-		check(SkeletalMesh != nullptr && "Character doesn't have a skeletal mesh!");
+    //Check for skeletal mesh
+    if (SkeletalMesh != nullptr)
+    {
+        check(SkeletalMesh != nullptr && "Character doesn't have a skeletal mesh!");
 
-		///* Retrieve the animation instance */
-		//AnimationInstance = Cast<UCharacterAnimInstance>(SkeletalMesh->GetAnimInstance());
+        /* Retrieve the animation instance */
+        AnimationInstance = Cast<UCharacterAnimInstance>(SkeletalMesh->GetAnimInstance());
 
-		//check(AnimationInstance != nullptr && "Character doesn't have animation!")
-	}
+        //check(AnimationInstance != nullptr && "Character doesn't have animation!")
+    }
+
+    /* Retrieve the health component */
+    HealthComponent = FindComponentByClass<UHealthComponent>();
+
+    //Check for health component
+    if (HealthComponent != nullptr)
+    {
+        // Subscribe to death event
+        HealthComponent->OnDeath.AddDynamic(this, &ABlastRadiusCharacter::OnDeath);
+    }
+
+    /* Retrieve the energy component */
+    EnergyComponent = FindComponentByClass<UEnergyComponent>();
+
+    /* Retrieve the blink component */
+    BlinkComponent = FindComponentByClass<UBlinkComponent>();
 }
 
 void ABlastRadiusCharacter::BeginPlay()
@@ -88,47 +97,93 @@ void ABlastRadiusCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-    /* Check for player movement */
-    if (GetVelocity().X > 0.0f || GetVelocity().Y > 0.0f)
-    {
-        bIsMoving = true;
-    }
-    else if (GetVelocity().X <= 0.0f || GetVelocity().Y <= 0.0f)
-    {
-        bIsMoving = false;
-    }
+    /* Handle movement and orientation */
+    GetCharacterMovement()->bOrientRotationToMovement = true; // Character moves in the direction of input...	
 
-	/* Handle bIsMoving */
-    if (bIsMoving)
-    {
-        GetCharacterMovement()->bOrientRotationToMovement = true; // Character moves in the direction of input...	
-        // If character is walking use walking speed else use running speed
-        bIsWalking ? GetCharacterMovement()->MaxWalkSpeed = MaxWalkSpeed : GetCharacterMovement()->MaxWalkSpeed = MaxRunSpeed;
-    }
-    else if (!bIsMoving)
-    {
-        // TODO: implement condition
-        // Charge energy or whatever...
-    }
+    float CurrentSpeed = GetVelocity().Size(); // Get character's current speed
+    bool bIsMoving = CurrentSpeed > 0.0f && GetCharacterMovement()->IsMovingOnGround(); // Check for character movement
+
+    //AnimationInstance->bIsMoving = bIsMoving;
+    //AnimationInstance->MovementSpeed = bIsMoving ? CurrentSpeed : 0.0f;
+
+    ///* Set animation strafing rotation paremeter.*/
+    //FVector MovementDirection = GetLastMovementInputVector(); // Get character movement direction
+    //FVector CharacterDirection = GetActorForwardVector(); // Get character direction
+
+    ///*We need to set the Strafeing Rotation on the AnimationInstance to blend the movement animation when moving*/
+    //if (!MovementDirection.IsNearlyZero())
+    //{
+    //    /*Calculate the Strafing Rotation which is the Arc Tan difference between the Character's Last Movement Direction and Current Movement Direction*/
+    //    //DECLARE a float called StrafingRotation and SET it to FMath::Atan2(MovementDirection.Y, MovementDirection.X) - FMath::Atan2(CharacterDirection.Y, CharacterDirection.X)
+    //    float StrafingRotation = FMath::Atan2(MovementDirection.Y, MovementDirection.X) - FMath::Atan2(CharacterDirection.Y, CharacterDirection.X);
+
+    //    //IF the Absolute value of the StrafingRotation is greater than PI FMath::Abs(StrafingRotation) > PI
+    //    if (FMath::Abs(StrafingRotation) > PI)
+    //    {
+    //        //SET StrafingRotation, If StrafingRotation is greater than 0, then set it to (StrafingRotation - PI * 2.0f), otherwise (StrafingRotation + PI * 2.0f) --> Ternary
+    //        StrafingRotation = StrafingRotation > 0 ? StrafingRotation - PI * 2.0f : StrafingRotation + PI * 2.0f;
+    //    }
+
+    //    /*Convert StrafingRotation to Degrees*/
+    //    StrafingRotation = FMath::RadiansToDegrees(StrafingRotation);
+
+    //    //SET the AnimationInstance's StrafingRotation to the local StrafingRotation
+    //    AnimationInstance->StrafingRotation = StrafingRotation;
+    //}
+
+    // Check for walking state
+    bIsWalking ? GetCharacterMovement()->MaxWalkSpeed = MaxWalkSpeed : GetCharacterMovement()->MaxWalkSpeed = MaxRunSpeed;
+
+    /* Assign animation instances based on local states */
+    //AnimationInstance->bIsAiming = bIsAiming;
+    //AnimationInstance->bIsBlinking = bIsBlinking;
+
 }
 
 //////////////////////////////////////////////////////////////////////////
-// Input
-void ABlastRadiusCharacter::Move(FVector Direction, float Scale)
+// States / Conditions
+void ABlastRadiusCharacter::OnDeath()
 {
-    // 
-	AddMovementInput(Direction, Scale);
+    check(HealthComponent->CurrentHealth > 0.0f && "Called OnDeath() while alive!");
+
+    /* Stop ticking while dead */
+    PrimaryActorTick.bCanEverTick = false;
+
+    /* Disable character's capsule collision */
+    GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+    /* Enable the character's ragdoll */
+    SkeletalMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+    SkeletalMesh->SetSimulatePhysics(true);
 }
 
-//void ABlastRadiusCharacter::Aim()
-//{
-//
-//}
+//////////////////////////////////////////////////////////////////////////
+// Input / Actions
+void ABlastRadiusCharacter::Move(FVector Direction, float Scale)
+{
+    if (Scale != 0.0f)
+    {
+        AddMovementInput(Direction, Scale);
+    }
+}
 
-//void ABlastRadiusCharacter::Shoot()
-//{
-//
-//}
+void ABlastRadiusCharacter::Blink()
+{
+    BlinkComponent->Blink(this);
+}
+
+void ABlastRadiusCharacter::Aim(bool Toggle)
+{
+    /* Set appropriate state */
+    bIsAiming = true;
+}
+
+void ABlastRadiusCharacter::Shoot()
+{
+
+    // ...
+
+}
 
 void ABlastRadiusCharacter::LookAt(FVector Direction)
 {
