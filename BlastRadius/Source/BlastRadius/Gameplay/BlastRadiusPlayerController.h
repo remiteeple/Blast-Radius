@@ -44,6 +44,9 @@ private:
     void BlinkPressed();
     void BlinkReleased();
 
+    void MeleePressed();
+    void MeleeReleased();
+
     void LookAtMouseCursor(float DeltaTime);
 
 private:

@@ -38,25 +38,30 @@ void UBlinkComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 
 void UBlinkComponent::Blink(AActor* Character)
 {
+        ABlastRadiusCharacter* Player = Cast<ABlastRadiusCharacter>(Character);
+        FVector StartTrace = Player->GetActorLocation();
+        FVector Direction = Player->GetActorRotation().Vector();
+        FVector EndTrace = StartTrace + Direction * 300.f;
 
-    AController* CharacterController = Cast<ABlastRadiusCharacter>(Character)->Controller;
-    if ((CharacterController != NULL))
-    {
-        const FRotator Rotation = CharacterController->GetControlRotation();
-        const FRotator YawRotation(0, Rotation.Yaw, 0);
+        FVector BlinkPosition = EndTrace;//GetPickableActor_LineTraceSingleByProfile("Visible", StartTrace, Direction, EndTrace);
 
-        FVector StartTrace = Character->GetActorLocation();
-        FVector Direction = Character->GetActorRotation().Vector();
-        FVector EndTrace = StartTrace + Direction * BlinkDistance;
+        //Player = Cast<ABlastRadiusCharacter>(GetOwner());
+        FVector InitialPosition = Player->GetActorLocation();
 
-        SetupRay(StartTrace, Direction, EndTrace);
-
-        Character->SetActorLocation(FMath::Lerp(StartTrace, EndTrace, 1));
-    }
+        Character->SetActorLocation(FMath::Lerp(InitialPosition, BlinkPosition, 1));
 }
 
-void UBlinkComponent::SetupRay(FVector &StartTrace, FVector &Direction, FVector &EndTrace)
+FVector UBlinkComponent::GetPickableActor_LineTraceSingleByProfile(FName ProfileName, FVector & StartTrace, FVector & Direction, FVector & EndTrace)
 {
-    EndTrace = StartTrace + Direction * 300.0f;
-
+   FCollisionQueryParams TraceParams;
+   TraceParams.AddIgnoredActor(GetOwner());
+   TraceParams.bTraceComplex = true;
+   TraceParams.bReturnPhysicalMaterial = true;
+   
+   FHitResult Hit(ForceInit);
+   UWorld* World = GetWorld();
+   World->LineTraceSingleByProfile(Hit, StartTrace, EndTrace, ProfileName, TraceParams); // simple trace function "Pawn"
+   DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor::Green, true, 1, 0, 1.f);
+   
+   return Hit.GetActor()->GetActorLocation();   
 }

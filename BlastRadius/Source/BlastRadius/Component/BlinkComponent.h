@@ -21,13 +21,7 @@ public:
     
     void Blink(AActor* Character);
 
-    void SetupRay(FVector & StartTrace, FVector & Direction, FVector & EndTrace);
-		
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
-        float BlinkValue = 10.0f;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
-        float BlinkDistance = 250.0f;
+    FVector GetPickableActor_LineTraceSingleByProfile(FName ProfileName, FVector & StartTrace, FVector & Direction, FVector & EndTrace);
 
 protected:
 	// Called when the game starts

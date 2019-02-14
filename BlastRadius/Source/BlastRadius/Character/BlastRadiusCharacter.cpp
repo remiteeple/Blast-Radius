@@ -12,6 +12,7 @@
 #include "Component/BlinkComponent.h"
 #include "Component/HealthComponent.h"
 #include "Component/EnergyComponent.h"
+#include "Component/MeleeComponent.h"
 #include "Weapon/BlastRadiusProjectile.h"
 #include "Gameplay/BlastRadiusPlayerController.h"
 
@@ -57,6 +58,9 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
 
     HealthPercentage = 0.0;
     Energy = 100;
+
+    //BlinkComponent = CreateDefaultSubobject<UBlinkComponent>(TEXT("Blink"));
+    MeleeComponent = CreateDefaultSubobject<UMeleeComponent>(TEXT("ligma"));
 }
 
 void ABlastRadiusCharacter::PostInitializeComponents()
@@ -92,6 +96,9 @@ void ABlastRadiusCharacter::PostInitializeComponents()
 
     /* Retrieve the blink component */
     BlinkComponent = FindComponentByClass<UBlinkComponent>();
+
+    ///* Retrieve the melee component */
+    //MeleeComponent = FindComponentByClass<UMeleeComponent>();
 }
 
 void ABlastRadiusCharacter::BeginPlay()
@@ -209,6 +216,11 @@ void ABlastRadiusCharacter::Shoot()
             }
         }
     }
+}
+
+void ABlastRadiusCharacter::Melee()
+{
+     MeleeComponent->Melee();
 }
 
 void ABlastRadiusCharacter::LookAt(FVector Direction)

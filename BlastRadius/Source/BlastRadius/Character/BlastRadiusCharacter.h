@@ -68,8 +68,11 @@ public:
     /** Called for aiming **/
     void Aim(bool Toggle);
 
-    /** Call for shooting **/
+    /** Called for shooting **/
     void Shoot();
+
+    /** Called for melee attack **/
+    void Melee();
 
 public:
 	/** State Definitions **/
@@ -86,7 +89,9 @@ private:
 	class USkeletalMeshComponent* SkeletalMesh;
 	class UBlinkComponent* BlinkComponent;
 	class UCharacterAnimInstance* AnimationInstance;
-    class UInputComponent* PlayerInputComponent;
+    
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+        class UMeleeComponent* MeleeComponent;
 
 	/** Weapon the character uses **/
 	//UPROPERTY()

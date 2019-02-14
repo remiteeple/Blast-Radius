@@ -33,6 +33,9 @@ void ABlastRadiusPlayerController::SetupInputComponent()
 
     InputComponent->BindAction("Blink", IE_Pressed, this, &ABlastRadiusPlayerController::BlinkPressed);
     InputComponent->BindAction("Blink", IE_Released, this, &ABlastRadiusPlayerController::BlinkReleased);
+
+    InputComponent->BindAction("Melee", IE_Pressed, this, &ABlastRadiusPlayerController::MeleePressed);
+    InputComponent->BindAction("Melee", IE_Released, this, &ABlastRadiusPlayerController::MeleeReleased);
 }
 
 void ABlastRadiusPlayerController::AcknowledgePossession(APawn* PossesedPawn)
@@ -123,6 +126,20 @@ void ABlastRadiusPlayerController::BlinkPressed()
 }
 
 void ABlastRadiusPlayerController::BlinkReleased()
+{
+    if (Character == nullptr)
+        return;
+}
+
+void ABlastRadiusPlayerController::MeleePressed()
+{
+    if (Character == nullptr)
+        return;
+
+    Character->Melee();
+}
+
+void ABlastRadiusPlayerController::MeleeReleased()
 {
     if (Character == nullptr)
         return;
