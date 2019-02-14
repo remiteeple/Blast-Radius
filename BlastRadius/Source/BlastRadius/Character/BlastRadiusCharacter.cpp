@@ -12,6 +12,7 @@
 #include "Component/BlinkComponent.h"
 #include "Component/HealthComponent.h"
 #include "Component/EnergyComponent.h"
+#include "Weapon/BlastRadiusProjectile.h"
 #include "Gameplay/BlastRadiusPlayerController.h"
 
 //////////////////////////////////////////////////////////////////////////
@@ -51,6 +52,8 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
     TopDownCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
     TopDownCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
     TopDownCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
+
+    MuzzleOffset = FVector(100, 0, 0);
 }
 
 void ABlastRadiusCharacter::PostInitializeComponents()
@@ -180,9 +183,29 @@ void ABlastRadiusCharacter::Aim(bool Toggle)
 
 void ABlastRadiusCharacter::Shoot()
 {
+    // Attempt to fire a projectile.
+    if (ProjectileClass)
+    {
 
-    // ...
-
+        // Transform MuzzleOffset from camera space to world space.
+        FVector MuzzleLocation = this->GetActorLocation(); 
+        FRotator MuzzleRotation = this->GetActorRotation();
+        UWorld* World = GetWorld();
+        if (World)
+        {
+            FActorSpawnParameters SpawnParams;
+            SpawnParams.Owner = this;
+            SpawnParams.Instigator = Instigator;
+            // Spawn the projectile at the muzzle.
+            ABlastRadiusProjectile* Projectile = World->SpawnActor<ABlastRadiusProjectile>(ProjectileClass, MuzzleLocation, MuzzleRotation, SpawnParams);
+            if (Projectile)
+            {
+                // Set the projectile's initial trajectory.
+                FVector LaunchDirection = MuzzleRotation.Vector();
+                Projectile->FireInDirection(LaunchDirection);
+            }
+        }
+    }
 }
 
 void ABlastRadiusCharacter::LookAt(FVector Direction)

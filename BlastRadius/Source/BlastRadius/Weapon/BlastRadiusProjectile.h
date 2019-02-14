@@ -2,10 +2,14 @@
 
 #pragma once
 
+//class UInputComponent;
+
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 
 #include "BlastRadiusProjectile.generated.h"
+
+
 
 UCLASS()
 class BLASTRADIUS_API ABlastRadiusProjectile : public AActor
@@ -50,6 +54,5 @@ public:
     // Called every frame
     virtual void Tick(float DeltaTime) override;
 
-
-
+    void FireInDirection(const FVector& ShootDirection);
 };

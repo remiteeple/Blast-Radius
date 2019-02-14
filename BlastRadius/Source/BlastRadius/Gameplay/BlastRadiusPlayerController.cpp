@@ -93,6 +93,7 @@ void ABlastRadiusPlayerController::FirePressed()
 {
     if (Character == nullptr)
         return;
+    Character->Shoot();
 }
 
 void ABlastRadiusPlayerController::FireReleased()

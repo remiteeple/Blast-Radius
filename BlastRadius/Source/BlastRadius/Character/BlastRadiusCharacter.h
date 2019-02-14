@@ -38,6 +38,14 @@ public:
     UPROPERTY(EditDefaultsOnly)
         UAnimMontage* AimFireAnimaion;
 
+    /** Porjectile **/
+    //Goes in weapon, in Character for testing. Used to define projectile spawn point.
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+        FVector MuzzleOffset;
+    //Projectile template to fire.
+    UPROPERTY(EditDefaultsOnly, Category = Projectile)
+        TSubclassOf<class ABlastRadiusProjectile> ProjectileClass;
+
     /** Called when actor hit **/
     void OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
@@ -71,6 +79,7 @@ private:
 	class USkeletalMeshComponent* SkeletalMesh;
 	class UBlinkComponent* BlinkComponent;
 	class UCharacterAnimInstance* AnimationInstance;
+    class UInputComponent* PlayerInputComponent;
 
 	/** Weapon the character uses **/
 	//UPROPERTY()

@@ -36,8 +36,18 @@ ABlastRadiusProjectile::ABlastRadiusProjectile()
 
     //Laser's lifespan.
     m_LifeSpan = 5.0f;
+    m_LaserDamage = 1.0f;
+    
 
-    //test.
+    /*
+    In Blueprint editor:
+    For a multiplayer game, We'll need to uncheck "Initial Velocity in Local Space" 
+    in the "MovementComp" Component in order for this projectile to replicate correctly over a server.
+
+    Will need to constrain it's movement to Z axis in blueprint editor under physics or in c++.
+
+    
+    */
 }
 
 // Called when the game starts or when spawned
@@ -59,22 +69,23 @@ void ABlastRadiusProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
 {
     if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) && OtherComp->IsSimulatingPhysics())
     {
-        //if (OtherActor == AWallActor)
-        //{
-        //reflect(calculate angle)
-        //return;
-        //}
+        if (OtherActor->ActorHasTag("Player"))
+        {
+            //OtherActor->TakeDamage(m_LaserDamage, DestructibleImpulse, this->GetOwner()->GetInstigatorController(), this->GetOwner());
+
+            //Instead of 100.0f use, percentage amount of player knock-back.
+            OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
+        }
+        this->Destroy();
     }
-
-    //Instead of 100.0f use, percentage amount of player knock-back.
-    OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
-
-    //if(OtherActor == ACharacter) 
-    //{
-    //    OtherActor->TakeDamage(m_pLaserDamage)
-    //}
-
-    //DestroySelf();
-
 }
+
+
+void ABlastRadiusProjectile::FireInDirection(const FVector& ShootDirection)
+{
+    ProjectileMovementComp->Velocity = ShootDirection * ProjectileMovementComp->InitialSpeed;
+}
+
+
+
 
