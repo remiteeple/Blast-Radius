@@ -19,6 +19,7 @@ class ABlastRadiusCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	    class UCameraComponent* TopDownCamera;
 
+
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
         class UHealthComponent* HealthComponent;
 
