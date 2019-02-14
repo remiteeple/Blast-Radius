@@ -32,7 +32,13 @@ void UHealthComponent::TakeAnyDamage(AActor* DamagedActor, float Damage, const c
 {
     CurrentHealth -= Damage;
 
-    if (CurrentHealth > 0.f)
+    //Add the damage to the "health" %
+    CurrentHealth += Damage;
+
+
+
+    //If the characters health is below 0, make it 0.
+    if (CurrentHealth < 0.f)
     {
         CurrentHealth = 0.f;
     }

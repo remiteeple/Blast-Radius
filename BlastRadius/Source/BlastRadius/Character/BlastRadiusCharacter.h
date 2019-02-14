@@ -19,11 +19,12 @@ class ABlastRadiusCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	    class UCameraComponent* TopDownCamera;
 
-    UPROPERTY(Category = "Config", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-        float HealthPercentage;
 
-    UPROPERTY(Category = "Config", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-        float Energy;
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+        class UHealthComponent* HealthComponent;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+        class UEnergyComponent* EnergyComponent;
 
 protected:
 	ABlastRadiusCharacter();
@@ -68,8 +69,13 @@ public:
     /** Called for aiming **/
     void Aim(bool Toggle);
 
+
     /** Called for shooting **/
     void Shoot();
+
+    /** Call for shooting **/
+    void Fire();
+
 
     /** Called for melee attack **/
     void Melee();
@@ -84,8 +90,8 @@ public:
 
 private:
 	/** Component Declarations **/
-	class UHealthComponent* HealthComponent;
-	class UEnergyComponent* EnergyComponent;
+	//class UHealthComponent* HealthComponent; Commented out as it has an attached component, now.
+	//class UEnergyComponent* EnergyComponent; Commented out as it has an attached component, now.
 	class USkeletalMeshComponent* SkeletalMesh;
 	class UBlinkComponent* BlinkComponent;
 	class UCharacterAnimInstance* AnimationInstance;

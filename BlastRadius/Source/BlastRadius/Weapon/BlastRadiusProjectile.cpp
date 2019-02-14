@@ -17,6 +17,7 @@ ABlastRadiusProjectile::ABlastRadiusProjectile()
     CollisionComp->OnComponentHit.AddDynamic(this, &ABlastRadiusProjectile::OnHit);
     CollisionComp->SetWalkableSlopeOverride(FWalkableSlopeOverride(WalkableSlope_Unwalkable, 0.f));
     CollisionComp->CanCharacterStepUpOn = ECB_No;
+    CollisionComp->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 
     //root
     RootComponent = CollisionComp;
@@ -32,10 +33,12 @@ ABlastRadiusProjectile::ABlastRadiusProjectile()
     ProjectileMovementComp->MaxSpeed = 3000.f;
     ProjectileMovementComp->bRotationFollowsVelocity = true;
     ProjectileMovementComp->bShouldBounce = true;
-    //ProjectileMovementComp->SetupAttachment(RootComponent);
+   
 
     //Laser's lifespan.
     m_LifeSpan = 5.0f;
+
+    //Damage
     m_LaserDamage = 1.0f;
     
 
@@ -43,10 +46,6 @@ ABlastRadiusProjectile::ABlastRadiusProjectile()
     In Blueprint editor:
     For a multiplayer game, We'll need to uncheck "Initial Velocity in Local Space" 
     in the "MovementComp" Component in order for this projectile to replicate correctly over a server.
-
-    Will need to constrain it's movement to Z axis in blueprint editor under physics or in c++.
-
-    
     */
 }
 
@@ -75,6 +74,10 @@ void ABlastRadiusProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
 
             //Instead of 100.0f use, percentage amount of player knock-back.
             OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
+        }
+        else if (OtherActor->ActorHasTag("Wall"))
+        {
+
         }
         this->Destroy();
     }

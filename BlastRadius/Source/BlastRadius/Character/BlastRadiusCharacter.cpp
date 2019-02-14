@@ -56,11 +56,27 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
 
     MuzzleOffset = FVector(100, 0, 0);
 
-    HealthPercentage = 0.0;
+    /*HealthPercentage = 0.0;
     Energy = 100;
-
+*/
     //BlinkComponent = CreateDefaultSubobject<UBlinkComponent>(TEXT("Blink"));
-    MeleeComponent = CreateDefaultSubobject<UMeleeComponent>(TEXT("ligma"));
+    MeleeComponent = CreateDefaultSubobject<UMeleeComponent>(TEXT("Melee"));
+
+    //Setup the health and energy components
+    HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health"));
+    EnergyComponent = CreateDefaultSubobject<UEnergyComponent>(TEXT("Energy"));
+
+
+
+
+
+
+
+    //HealthPercentage = 0.0;
+    //Energy = 100;
+
+
+
 }
 
 void ABlastRadiusCharacter::PostInitializeComponents()
@@ -191,7 +207,7 @@ void ABlastRadiusCharacter::Aim(bool Toggle)
     bIsAiming = true;
 }
 
-void ABlastRadiusCharacter::Shoot()
+void ABlastRadiusCharacter::Fire()
 {
     // Attempt to fire a projectile.
     if (ProjectileClass)

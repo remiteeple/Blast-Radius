@@ -29,7 +29,8 @@ public:
     //Delegate function call initialization.
     FOnSpendEnergy OnSpend;
 
-    FTimerHandle RechargeTimer;
+    //Bool for checking if the timer is finished.
+    bool OnCooldown = false;
 
 protected:
 	// Called when the game starts
@@ -37,6 +38,9 @@ protected:
 
     UFUNCTION(BluePrintCallable)
         void SpendEnergy(float EnergyCost);
+
+    UFUNCTION(BluePrintCallable)
+        void ToggleCoolDown();
 
 public:	
 	// Called every frame
