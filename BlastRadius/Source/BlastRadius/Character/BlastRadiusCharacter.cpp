@@ -54,6 +54,9 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
     TopDownCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
     MuzzleOffset = FVector(100, 0, 0);
+
+    HealthPercentage = 0.0;
+    Energy = 100;
 }
 
 void ABlastRadiusCharacter::PostInitializeComponents()
