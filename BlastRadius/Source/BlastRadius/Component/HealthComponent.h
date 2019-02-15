@@ -31,6 +31,9 @@ public:
         float CurrentHealth = 0.f;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
+        FString CurrentHealthDisplayValue;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
         float MinHealth = 0.f;
 
     //Delegate function call initialization.
