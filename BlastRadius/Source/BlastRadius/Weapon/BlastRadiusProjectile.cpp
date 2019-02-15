@@ -4,6 +4,9 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Components/SphereComponent.h"
 #include "PhysicalMaterials/PhysicalMaterial.h"
+#include "Character/BlastRadiusCharacter.h"
+#include "Runtime/Engine/Classes/GameFramework/DamageType.h"
+#include "Component/HealthComponent.h"
 
 // Sets default values
 ABlastRadiusProjectile::ABlastRadiusProjectile()
@@ -35,12 +38,21 @@ ABlastRadiusProjectile::ABlastRadiusProjectile()
     ProjectileMovementComp->bShouldBounce = true;
    
 
+    //Template for HealthComponent->TakeDamage() parameter.
+    m_DamageType = UDamageType::StaticClass();
+
     //Laser's lifespan.
-    m_LifeSpan = 5.0f;
+    m_LifeSpan = 3.0f;
 
     //Damage
-    m_LaserDamage = 1.0f;
+    m_LaserDamage = 50.0f;
     
+    //max amount of bounces until object is destroyed.
+    m_MaxBounceAmount = 5.0f;
+
+    //Knock back Amount for collision with projectile. This might be Health percentage * 10 later.
+    m_KnockbackFactor = 100.0f;
+
 
     /*
     In Blueprint editor:
@@ -54,6 +66,10 @@ void ABlastRadiusProjectile::BeginPlay()
 {
     Super::BeginPlay();
 
+    GetWorld()->GetTimerManager().SetTimer(SpawnTimer,
+        this,
+        &ABlastRadiusProjectile::DestroySelf,
+        m_LifeSpan, true);
 }
 
 // Called every frame
@@ -66,20 +82,33 @@ void ABlastRadiusProjectile::Tick(float DeltaTime)
 
 void ABlastRadiusProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-    if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) && OtherComp->IsSimulatingPhysics())
+    if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) && OtherComp->IsSimulatingPhysics() && OtherActor != GetOwner())
     {
+        //handles collision handle for characters
         if (OtherActor->ActorHasTag("Player"))
         {
-            //OtherActor->TakeDamage(m_LaserDamage, DestructibleImpulse, this->GetOwner()->GetInstigatorController(), this->GetOwner());
+            //Calling TakeDamage on the otherActor's HealthComponent. 
+            FDamageEvent DamageEvent;
+            Cast<ABlastRadiusCharacter>(OtherActor)->TakeDamage(m_LaserDamage, DamageEvent, OtherActor->GetInstigatorController(), this->GetOwner());
 
-            //Instead of 100.0f use, percentage amount of player knock-back.
-            OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
+
+            //Knock back impulse when projectile collides.
+            OtherComp->AddImpulseAtLocation(GetVelocity() * m_KnockbackFactor, GetActorLocation());
+            DestroySelf();
         }
-        else if (OtherActor->ActorHasTag("Wall"))
+
+        //Decrement bounce when hitting walls until bounce limit is hit.
+        if (m_MaxBounceAmount != 0)
         {
-
+            if (OtherActor->ActorHasTag("Wall"))
+            {
+                m_MaxBounceAmount--;
+            }
         }
-        this->Destroy();
+        else
+        {
+            DestroySelf();
+        }
     }
 }
 
@@ -90,5 +119,7 @@ void ABlastRadiusProjectile::FireInDirection(const FVector& ShootDirection)
 }
 
 
-
-
+void ABlastRadiusProjectile::DestroySelf()
+{
+    this->Destroy();
+}
