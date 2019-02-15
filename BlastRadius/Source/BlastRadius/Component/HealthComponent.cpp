@@ -11,7 +11,7 @@ UHealthComponent::UHealthComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
-
+    CurrentHealth = 0.0f;
     //
     OnDamage.AddDynamic(this, &UHealthComponent::TakeAnyDamage);
     //OnDeath.AddDynamic(this, &UHealthComponent::Die); //Still working on this, waiting for the Week 5 notes to be readable as an example.
@@ -50,6 +50,7 @@ void UHealthComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+    CurrentHealthDisplayValue = FString::SanitizeFloat(CurrentHealth);
 	// ...
 }
 
