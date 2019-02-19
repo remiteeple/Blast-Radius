@@ -14,7 +14,7 @@ class BLASTRADIUS_API ABlastRadiusWeapon : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ABlastRadiusWeapon();
-
+    
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

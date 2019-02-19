@@ -53,7 +53,10 @@ public:
     //Projectile template to fire.
     UPROPERTY(EditDefaultsOnly, Category = Projectile)
         TSubclassOf<class ABlastRadiusProjectile> ProjectileClass;
-
+    ////Sword Template to use
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+    TSubclassOf<class ABlastRadiusSword> SwordClass;
+        ABlastRadiusSword* Sword;
     /** Called when actor hit **/
     void OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
@@ -92,12 +95,15 @@ private:
 	/** Component Declarations **/
 	//class UHealthComponent* HealthComponent; Commented out as it has an attached component, now.
 	//class UEnergyComponent* EnergyComponent; Commented out as it has an attached component, now.
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USkeletalMeshComponent* SkeletalMesh;
+
 	class UBlinkComponent* BlinkComponent;
 	class UCharacterAnimInstance* AnimationInstance;
     
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-        class UMeleeComponent* MeleeComponent;
+    class UMeleeComponent* MeleeComponent;
 
 	/** Weapon the character uses **/
 	//UPROPERTY()
@@ -126,6 +132,7 @@ protected:
     /* Called when player health passes lower limit */
     UFUNCTION()
         void OnDeath();
+    void AttachCurrentWeapon();
 
 };
 

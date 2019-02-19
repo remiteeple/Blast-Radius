@@ -13,6 +13,7 @@
 #include "Component/HealthComponent.h"
 #include "Component/EnergyComponent.h"
 #include "Component/MeleeComponent.h"
+#include "Weapon/BlastRadiusSword.h"
 #include "Weapon/BlastRadiusProjectile.h"
 #include "Gameplay/BlastRadiusPlayerController.h"
 
@@ -33,6 +34,7 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
+    
 
 	// Configure character movement
 	GetCharacterMovement()->MaxWalkSpeed = MaxRunSpeed;
@@ -48,7 +50,7 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
 	CameraBoom->bEnableCameraLag = true;
 	CameraBoom->CameraLagSpeed = 5.0f;
 	CameraBoom->CameraLagMaxDistance = 250.0f;
-
+    
 	// Create a follow camera
     TopDownCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
     TopDownCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
@@ -66,7 +68,8 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
     HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health"));
     EnergyComponent = CreateDefaultSubobject<UEnergyComponent>(TEXT("Energy"));
 
-
+    Sword = nullptr;
+   
 
 
 
@@ -85,7 +88,6 @@ void ABlastRadiusCharacter::PostInitializeComponents()
 
 	/* Retrieve the skeletal mesh */
 	SkeletalMesh = GetMesh();
-
     //Check for skeletal mesh
     if (SkeletalMesh != nullptr)
     {
@@ -115,16 +117,34 @@ void ABlastRadiusCharacter::PostInitializeComponents()
 
     ///* Retrieve the melee component */
     //MeleeComponent = FindComponentByClass<UMeleeComponent>();
+
+    
 }
 
 void ABlastRadiusCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+  
+    // Spawn a projectile.
+    FActorSpawnParameters SpawnParams;
+    SpawnParams.Instigator = this;
+    SpawnParams.Owner = this;
+    SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn; //TILAN HERE AdjustIfPossibleButAlwaysSpawn
+
+    if (SwordClass) 
+    {
+        Sword = GetWorld()->SpawnActor<ABlastRadiusSword>(SwordClass, SpawnParams);
+        Sword->Attach(this);
+       
+    }
+    
+   
 }
 
 void ABlastRadiusCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+   
 
     /* Handle movement and orientation */
     GetCharacterMovement()->bOrientRotationToMovement = true; // Character moves in the direction of input...	
@@ -236,7 +256,12 @@ void ABlastRadiusCharacter::Fire()
 
 void ABlastRadiusCharacter::Melee()
 {
-     MeleeComponent->Melee();
+    if (Sword != nullptr)
+    {
+        Sword->Activate();
+        MeleeComponent->Melee();
+        //Sword->PutAway();
+    }
 }
 
 void ABlastRadiusCharacter::LookAt(FVector Direction)
