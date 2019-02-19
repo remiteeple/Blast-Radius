@@ -3,7 +3,10 @@
 #include "BlastRadiusGameMode.h"
 #include "BlastRadius/Character/BlastRadiusCharacter.h"
 #include "UObject/ConstructorHelpers.h"
-
+#include "BlastRadiusPlayerState.h"
+#include "BlastRadiusGameStateBase.h"
+#include "EngineGlobals.h"
+#include "Runtime/Engine/Classes/Engine/Engine.h"
 ABlastRadiusGameMode::ABlastRadiusGameMode()
 {
 	// set default pawn class to our Blueprinted character
@@ -12,4 +15,19 @@ ABlastRadiusGameMode::ABlastRadiusGameMode()
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
+}
+
+void ABlastRadiusGameMode::End()
+{
+    ABlastRadiusPlayerState* PlayerState = Cast<ABlastRadiusPlayerState>(PlayerStateClass);
+    if (PlayerState != nullptr)
+    {
+        
+        
+        if (PlayerState->GetLives() <= 0)
+        {
+            GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, TEXT("WIN"));
+        }
+
+    }
 }

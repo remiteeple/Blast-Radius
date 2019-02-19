@@ -2,6 +2,8 @@
 
 #include "BlastRadiusPlayerState.h"
 
+void ABlastRadiusPlayerState::DecrementLives()
+{
+    CurrentLives--;
 
-
-
+}

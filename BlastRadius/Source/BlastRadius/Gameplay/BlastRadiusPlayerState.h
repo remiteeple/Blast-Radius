@@ -15,6 +15,11 @@ class BLASTRADIUS_API ABlastRadiusPlayerState : public APlayerState
 	GENERATED_BODY()
 	
 	
-	
+public:
+    int CurrentLives;
+    int CurrentDamage;
+
+    void DecrementLives();
+    int GetLives() { return CurrentLives; };
 	
 };

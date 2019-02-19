@@ -9,10 +9,11 @@
 UCLASS(minimalapi)
 class ABlastRadiusGameMode : public AGameModeBase
 {
-	GENERATED_BODY()
-
+    GENERATED_BODY()
+        
 public:
 	ABlastRadiusGameMode();
+    void End();
 };
 
 

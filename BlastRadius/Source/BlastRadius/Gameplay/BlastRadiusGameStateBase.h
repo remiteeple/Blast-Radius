@@ -15,6 +15,7 @@ class BLASTRADIUS_API ABlastRadiusGameStateBase : public AGameStateBase
 	GENERATED_BODY()
 	
 	
-	
-	
+public:
+    int GetLives() { return 1; };
+   
 };
