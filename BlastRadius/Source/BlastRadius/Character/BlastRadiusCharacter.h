@@ -45,6 +45,10 @@ public:
         UAnimMontage* HipFireAnimation;
     UPROPERTY(EditDefaultsOnly)
         UAnimMontage* AimFireAnimaion;
+    UPROPERTY(EditDefaultsOnly)
+        UAnimMontage* MeleeAttackAnimation;
+    UPROPERTY(EditDefaultsOnly)
+        FTimerHandle MeleeTimer;
 
     /** Porjectile **/
     //Goes in weapon, in Character for testing. Used to define projectile spawn point.
@@ -72,16 +76,17 @@ public:
     /** Called for aiming **/
     void Aim(bool Toggle);
 
-
     /** Called for shooting **/
     void Shoot();
 
     /** Call for shooting **/
     void Fire();
 
-
     /** Called for melee attack **/
     void Melee();
+
+    /** Called to hide sword after melee **/
+    void PutAwaySword();
 
 public:
 	/** State Definitions **/
@@ -97,13 +102,16 @@ private:
 	//class UEnergyComponent* EnergyComponent; Commented out as it has an attached component, now.
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class USkeletalMeshComponent* SkeletalMesh;
+	    class USkeletalMeshComponent* SkeletalMesh;
 
-	class UBlinkComponent* BlinkComponent;
-	class UCharacterAnimInstance* AnimationInstance;
-    
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-    class UMeleeComponent* MeleeComponent;
+	    class UBlinkComponent* BlinkComponent;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+        class UMeleeComponent* MeleeComponent;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	    class UCharacterAnimInstance* AnimationInstance;
 
 	/** Weapon the character uses **/
 	//UPROPERTY()
@@ -132,7 +140,6 @@ protected:
     /* Called when player health passes lower limit */
     UFUNCTION()
         void OnDeath();
-    void AttachCurrentWeapon();
 
 };
 

@@ -68,19 +68,10 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
     HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health"));
     EnergyComponent = CreateDefaultSubobject<UEnergyComponent>(TEXT("Energy"));
 
-<<<<<<< HEAD
     Sword = nullptr;
-   
-
-
-
-
-=======
->>>>>>> ee82e0cd1a7d0b770ac958e5d159f0075ba8c668
 
     //HealthPercentage = 0.0;
     //Energy = 100;
-
 
     Tags.Add("Player");
 }
@@ -118,7 +109,7 @@ void ABlastRadiusCharacter::PostInitializeComponents()
     /* Retrieve the blink component */
     BlinkComponent = FindComponentByClass<UBlinkComponent>();
 
-    ///* Retrieve the melee component */
+    /* Retrieve the melee component */
     //MeleeComponent = FindComponentByClass<UMeleeComponent>();
 
     
@@ -234,6 +225,11 @@ void ABlastRadiusCharacter::Aim(bool Toggle)
     bIsAiming = true;
 }
 
+void ABlastRadiusCharacter::Shoot()
+{
+
+}
+
 void ABlastRadiusCharacter::Fire()
 {
     
@@ -255,7 +251,7 @@ void ABlastRadiusCharacter::Fire()
             ABlastRadiusProjectile* Projectile = World->SpawnActor<ABlastRadiusProjectile>(ProjectileClass, MuzzleLocation, MuzzleRotation, SpawnParams);
             if (Projectile)
             {
-                //Setting the projectile's Owner to this so we don't collide with itduring OnHit.
+                //Setting the projectile's Owner to this so we don't collide with it during OnHit.
                 Cast<ABlastRadiusProjectile>(Projectile)->SetOwner(this);
 
                 // Set the projectile's initial trajectory.
@@ -271,9 +267,15 @@ void ABlastRadiusCharacter::Melee()
     if (Sword != nullptr)
     {
         Sword->Activate();
+        GetWorld()->GetTimerManager().SetTimer(MeleeTimer, this, &ABlastRadiusCharacter::PutAwaySword, 0.5f, true);        
         MeleeComponent->Melee();
-        //Sword->PutAway();
     }
+}
+
+void ABlastRadiusCharacter::PutAwaySword()
+{
+    if (Sword != nullptr)
+        Sword->PutAway();
 }
 
 void ABlastRadiusCharacter::LookAt(FVector Direction)

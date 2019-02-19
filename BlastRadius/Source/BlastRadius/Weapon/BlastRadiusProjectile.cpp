@@ -37,7 +37,6 @@ ABlastRadiusProjectile::ABlastRadiusProjectile()
     ProjectileMovementComp->bRotationFollowsVelocity = true;
     ProjectileMovementComp->bShouldBounce = true;
    
-
     //Template for HealthComponent->TakeDamage() parameter.
     m_DamageType = UDamageType::StaticClass();
 

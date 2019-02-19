@@ -12,5 +12,7 @@ Mouse Movement - Direct Player Orientation
 Gamepad Right ThumbStick - TODO
 
 #ACTIONS#
+Left Click - Shoot in Player's current orientation
 Right Click - Blink / Teleport in Player's current orientation
+Middle Mouse - Melee Attack
 ###############################################################################
