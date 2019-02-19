@@ -19,11 +19,10 @@ class ABlastRadiusCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	    class UCameraComponent* TopDownCamera;
 
-
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Gameplay, meta = (AllowPrivateAccess = "true"))
         class UHealthComponent* HealthComponent;
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Gameplay, meta = (AllowPrivateAccess = "true"))
         class UEnergyComponent* EnergyComponent;
 
 protected:
@@ -35,16 +34,20 @@ protected:
 
 public:
 	/** Character movement variable **/
-	UPROPERTY(EditDefaultsOnly)
-		float MaxWalkSpeed;
-	UPROPERTY(EditDefaultsOnly)
-		float MaxRunSpeed;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
+        float MaxWalkSpeed;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
+        float MaxRunSpeed;
 
     /** Animations **/
     UPROPERTY(EditDefaultsOnly)
         UAnimMontage* HipFireAnimation;
     UPROPERTY(EditDefaultsOnly)
         UAnimMontage* AimFireAnimaion;
+    UPROPERTY(EditDefaultsOnly)
+        UAnimMontage* MeleeAttackAnimation;
+    UPROPERTY(EditDefaultsOnly)
+        FTimerHandle MeleeTimer;
 
     /** Porjectile **/
     //Goes in weapon, in Character for testing. Used to define projectile spawn point.
@@ -55,7 +58,7 @@ public:
         TSubclassOf<class ABlastRadiusProjectile> ProjectileClass;
     ////Sword Template to use
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-    TSubclassOf<class ABlastRadiusSword> SwordClass;
+        TSubclassOf<class ABlastRadiusSword> SwordClass;
         ABlastRadiusSword* Sword;
     /** Called when actor hit **/
     void OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
@@ -72,22 +75,24 @@ public:
     /** Called for aiming **/
     void Aim(bool Toggle);
 
-
     /** Called for shooting **/
     void Shoot();
 
     /** Call for shooting **/
     void Fire();
 
-
     /** Called for melee attack **/
     void Melee();
+
+    /** Called to hide sword after melee **/
+    void PutAwaySword();
 
 public:
 	/** State Definitions **/
 	// Default false
 	bool bIsWalking = false;
 	bool bIsAiming = false;
+    bool bIsMeleeAttacking = false;
 	bool bIsFiring = false;
 	bool bIsBlinking = false;
 
@@ -96,14 +101,13 @@ private:
 	//class UHealthComponent* HealthComponent; Commented out as it has an attached component, now.
 	//class UEnergyComponent* EnergyComponent; Commented out as it has an attached component, now.
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class USkeletalMeshComponent* SkeletalMesh;
+	    class USkeletalMeshComponent* SkeletalMesh;
 
-	class UBlinkComponent* BlinkComponent;
-	class UCharacterAnimInstance* AnimationInstance;
-    
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-    class UMeleeComponent* MeleeComponent;
+	    class UBlinkComponent* BlinkComponent;
+
+        class UMeleeComponent* MeleeComponent;
+
+	    class UCharacterAnimInstance* AnimationInstance;
 
 	/** Weapon the character uses **/
 	//UPROPERTY()
@@ -132,7 +136,6 @@ protected:
     /* Called when player health passes lower limit */
     UFUNCTION()
         void OnDeath();
-    void AttachCurrentWeapon();
 
 };
 

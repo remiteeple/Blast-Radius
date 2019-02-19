@@ -4,7 +4,7 @@
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
-#include "Components/InputComponent.h"
+#include "Components/ArrowComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -34,7 +34,6 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
-    
 
 	// Configure character movement
 	GetCharacterMovement()->MaxWalkSpeed = MaxRunSpeed;
@@ -59,8 +58,8 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
     MuzzleOffset = FVector(100, 0, 0);
 
     /*HealthPercentage = 0.0;
-    Energy = 100;
-*/
+    Energy = 100;*/
+
     //BlinkComponent = CreateDefaultSubobject<UBlinkComponent>(TEXT("Blink"));
     MeleeComponent = CreateDefaultSubobject<UMeleeComponent>(TEXT("Melee"));
 
@@ -68,19 +67,10 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
     HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health"));
     EnergyComponent = CreateDefaultSubobject<UEnergyComponent>(TEXT("Energy"));
 
-<<<<<<< HEAD
     Sword = nullptr;
-   
-
-
-
-
-=======
->>>>>>> ee82e0cd1a7d0b770ac958e5d159f0075ba8c668
 
     //HealthPercentage = 0.0;
     //Energy = 100;
-
 
     Tags.Add("Player");
 }
@@ -118,10 +108,8 @@ void ABlastRadiusCharacter::PostInitializeComponents()
     /* Retrieve the blink component */
     BlinkComponent = FindComponentByClass<UBlinkComponent>();
 
-    ///* Retrieve the melee component */
+    /* Retrieve the melee component */
     //MeleeComponent = FindComponentByClass<UMeleeComponent>();
-
-    
 }
 
 void ABlastRadiusCharacter::BeginPlay()
@@ -138,64 +126,62 @@ void ABlastRadiusCharacter::BeginPlay()
     {
         Sword = GetWorld()->SpawnActor<ABlastRadiusSword>(SwordClass, SpawnParams);
         Sword->Attach(this);
-       
     }
-    
-   
 }
 
 void ABlastRadiusCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
    
-
     /* Handle movement and orientation */
     GetCharacterMovement()->bOrientRotationToMovement = true; // Character moves in the direction of input...	
 
     float CurrentSpeed = GetVelocity().Size(); // Get character's current speed
     bool bIsMoving = CurrentSpeed > 0.0f && GetCharacterMovement()->IsMovingOnGround(); // Check for character movement
 
-    //AnimationInstance->bIsMoving = bIsMoving;
-    //AnimationInstance->MovementSpeed = bIsMoving ? CurrentSpeed : 0.0f;
+    AnimationInstance->bIsMoving = bIsMoving;
+    AnimationInstance->MovementSpeed = bIsMoving ? CurrentSpeed : 0.0f;
 
-    ///* Set animation strafing rotation paremeter.*/
-    //FVector MovementDirection = GetLastMovementInputVector(); // Get character movement direction
-    //FVector CharacterDirection = GetActorForwardVector(); // Get character direction
+    /* Set animation strafing rotation parameter.*/
+    FVector MovementDirection = GetLastMovementInputVector(); // Get character movement direction
+    FVector CharacterDirection = GetActorForwardVector(); // Get character direction
 
-    ///*We need to set the Strafeing Rotation on the AnimationInstance to blend the movement animation when moving*/
-    //if (!MovementDirection.IsNearlyZero())
-    //{
-    //    /*Calculate the Strafing Rotation which is the Arc Tan difference between the Character's Last Movement Direction and Current Movement Direction*/
-    //    //DECLARE a float called StrafingRotation and SET it to FMath::Atan2(MovementDirection.Y, MovementDirection.X) - FMath::Atan2(CharacterDirection.Y, CharacterDirection.X)
-    //    float StrafingRotation = FMath::Atan2(MovementDirection.Y, MovementDirection.X) - FMath::Atan2(CharacterDirection.Y, CharacterDirection.X);
+    /*We need to set the Strafing Rotation on the AnimationInstance to blend the movement animation when moving*/
+    if (!MovementDirection.IsNearlyZero())
+    {
+        /*Calculate the Strafing Rotation which is the Arc Tan difference between the Character's Last Movement Direction and Current Movement Direction*/
+        //DECLARE a float called StrafingRotation and SET it to FMath::Atan2(MovementDirection.Y, MovementDirection.X) - FMath::Atan2(CharacterDirection.Y, CharacterDirection.X)
+        float StrafingRotation = FMath::Atan2(MovementDirection.Y, MovementDirection.X) - FMath::Atan2(CharacterDirection.Y, CharacterDirection.X);
 
-    //    //IF the Absolute value of the StrafingRotation is greater than PI FMath::Abs(StrafingRotation) > PI
-    //    if (FMath::Abs(StrafingRotation) > PI)
-    //    {
-    //        //SET StrafingRotation, If StrafingRotation is greater than 0, then set it to (StrafingRotation - PI * 2.0f), otherwise (StrafingRotation + PI * 2.0f) --> Ternary
-    //        StrafingRotation = StrafingRotation > 0 ? StrafingRotation - PI * 2.0f : StrafingRotation + PI * 2.0f;
-    //    }
+        //IF the Absolute value of the StrafingRotation is greater than PI FMath::Abs(StrafingRotation) > PI
+        if (FMath::Abs(StrafingRotation) > PI)
+        {
+            //SET StrafingRotation, If StrafingRotation is greater than 0, then set it to (StrafingRotation - PI * 2.0f), otherwise (StrafingRotation + PI * 2.0f) --> Ternary
+            StrafingRotation = StrafingRotation > 0 ? StrafingRotation - PI * 2.0f : StrafingRotation + PI * 2.0f;
+        }
 
-    //    /*Convert StrafingRotation to Degrees*/
-    //    StrafingRotation = FMath::RadiansToDegrees(StrafingRotation);
+        /*Convert StrafingRotation to Degrees*/
+        StrafingRotation = FMath::RadiansToDegrees(StrafingRotation);
 
-    //    //SET the AnimationInstance's StrafingRotation to the local StrafingRotation
-    //    AnimationInstance->StrafingRotation = StrafingRotation;
-    //}
+        //SET the AnimationInstance's StrafingRotation to the local StrafingRotation
+        AnimationInstance->StrafingRotation = StrafingRotation;
+    }
 
     // Check for walking state
     bIsWalking ? GetCharacterMovement()->MaxWalkSpeed = MaxWalkSpeed : GetCharacterMovement()->MaxWalkSpeed = MaxRunSpeed;
 
     /* Assign animation instances based on local states */
-    //AnimationInstance->bIsAiming = bIsAiming;
-    //AnimationInstance->bIsBlinking = bIsBlinking;
-
-
-
+    AnimationInstance->bIsAiming = bIsAiming;
+    AnimationInstance->bIsBlinking = bIsBlinking;
 }
 
 //////////////////////////////////////////////////////////////////////////
 // States / Conditions
+void ABlastRadiusCharacter::OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+
+}
+
 void ABlastRadiusCharacter::OnDeath()
 {
     check(HealthComponent->CurrentHealth > 0.0f && "Called OnDeath() while alive!");
@@ -209,8 +195,6 @@ void ABlastRadiusCharacter::OnDeath()
     /* Enable the character's ragdoll */
     SkeletalMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
     SkeletalMesh->SetSimulatePhysics(true);
-
-
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -234,17 +218,19 @@ void ABlastRadiusCharacter::Aim(bool Toggle)
     bIsAiming = true;
 }
 
+void ABlastRadiusCharacter::Shoot()
+{
+
+}
+
 void ABlastRadiusCharacter::Fire()
 {
-    
-    
     // Attempt to fire a projectile.
     if (ProjectileClass)
     {
-
         // Transform MuzzleOffset from camera space to world space.
-        FVector MuzzleLocation = this->GetActorLocation(); 
-        FRotator MuzzleRotation = this->GetActorRotation();
+        FVector MuzzleLocation = GetArrowComponent()->GetComponentLocation();
+        FRotator MuzzleRotation = GetArrowComponent()->GetComponentRotation();
         UWorld* World = GetWorld();
         if (World)
         {
@@ -255,7 +241,7 @@ void ABlastRadiusCharacter::Fire()
             ABlastRadiusProjectile* Projectile = World->SpawnActor<ABlastRadiusProjectile>(ProjectileClass, MuzzleLocation, MuzzleRotation, SpawnParams);
             if (Projectile)
             {
-                //Setting the projectile's Owner to this so we don't collide with itduring OnHit.
+                //Setting the projectile's Owner to this so we don't collide with it during OnHit.
                 Cast<ABlastRadiusProjectile>(Projectile)->SetOwner(this);
 
                 // Set the projectile's initial trajectory.
@@ -271,9 +257,15 @@ void ABlastRadiusCharacter::Melee()
     if (Sword != nullptr)
     {
         Sword->Activate();
+        GetWorld()->GetTimerManager().SetTimer(MeleeTimer, this, &ABlastRadiusCharacter::PutAwaySword, 0.5f, true);        
         MeleeComponent->Melee();
-        //Sword->PutAway();
     }
+}
+
+void ABlastRadiusCharacter::PutAwaySword()
+{
+    if (Sword != nullptr)
+        Sword->PutAway();
 }
 
 void ABlastRadiusCharacter::LookAt(FVector Direction)
