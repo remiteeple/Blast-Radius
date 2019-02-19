@@ -68,18 +68,21 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
     HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health"));
     EnergyComponent = CreateDefaultSubobject<UEnergyComponent>(TEXT("Energy"));
 
+<<<<<<< HEAD
     Sword = nullptr;
    
 
 
 
 
+=======
+>>>>>>> ee82e0cd1a7d0b770ac958e5d159f0075ba8c668
 
     //HealthPercentage = 0.0;
     //Energy = 100;
 
 
-
+    Tags.Add("Player");
 }
 
 void ABlastRadiusCharacter::PostInitializeComponents()
@@ -187,6 +190,8 @@ void ABlastRadiusCharacter::Tick(float DeltaTime)
     //AnimationInstance->bIsAiming = bIsAiming;
     //AnimationInstance->bIsBlinking = bIsBlinking;
 
+
+
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -204,6 +209,8 @@ void ABlastRadiusCharacter::OnDeath()
     /* Enable the character's ragdoll */
     SkeletalMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
     SkeletalMesh->SetSimulatePhysics(true);
+
+
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -229,6 +236,8 @@ void ABlastRadiusCharacter::Aim(bool Toggle)
 
 void ABlastRadiusCharacter::Fire()
 {
+    
+    
     // Attempt to fire a projectile.
     if (ProjectileClass)
     {
@@ -246,6 +255,9 @@ void ABlastRadiusCharacter::Fire()
             ABlastRadiusProjectile* Projectile = World->SpawnActor<ABlastRadiusProjectile>(ProjectileClass, MuzzleLocation, MuzzleRotation, SpawnParams);
             if (Projectile)
             {
+                //Setting the projectile's Owner to this so we don't collide with itduring OnHit.
+                Cast<ABlastRadiusProjectile>(Projectile)->SetOwner(this);
+
                 // Set the projectile's initial trajectory.
                 FVector LaunchDirection = MuzzleRotation.Vector();
                 Projectile->FireInDirection(LaunchDirection);

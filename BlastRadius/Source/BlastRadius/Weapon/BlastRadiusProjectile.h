@@ -32,6 +32,20 @@ class BLASTRADIUS_API ABlastRadiusProjectile : public AActor
     UPROPERTY()
         float m_LaserDamage;
 
+    UPROPERTY()
+        int m_MaxBounceAmount;
+
+    UPROPERTY()
+        float m_KnockbackFactor;
+
+    UPROPERTY(EditDefaultsOnly, Category = ProjectileDamage)
+        TSubclassOf<UDamageType> m_DamageType;
+
+    /** spawn timer  */
+    UPROPERTY(BlueprintReadOnly,
+        Category = "Config",
+        meta = (AllowPrivateAccess = "true"))
+        FTimerHandle SpawnTimer;
 public:
     // Sets default values for this actor's properties
     ABlastRadiusProjectile();
@@ -55,4 +69,6 @@ public:
     virtual void Tick(float DeltaTime) override;
 
     void FireInDirection(const FVector& ShootDirection);
+
+    void DestroySelf();
 };
