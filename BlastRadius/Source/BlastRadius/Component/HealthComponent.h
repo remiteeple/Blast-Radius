@@ -22,17 +22,13 @@ public:
 	// Sets default values for this component's properties
 	UHealthComponent();
 
-    //Maximum Health of the character.
+    /** Health variables **/
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
-        float MaxHealth = 999.f;
-
-    //Current health of the character.
+        float MaxHealth = 999.f; //Maximum Health of the character.
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
-        float CurrentHealth = 0.f;
-
+        float CurrentHealth = 0.f; //Current health of the character.
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
         FString CurrentHealthDisplayValue;
-
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
         float MinHealth = 0.f;
 
@@ -48,12 +44,12 @@ protected:
     UFUNCTION(BluePrintCallable)
         void TakeAnyDamage(AActor* DamagedActor, float Damage, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser);
 
-
-
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+    UFUNCTION(BluePrintCallable)
+        FORCEINLINE float GetCurrentHealth() { return CurrentHealth; }
 		
 	
 };

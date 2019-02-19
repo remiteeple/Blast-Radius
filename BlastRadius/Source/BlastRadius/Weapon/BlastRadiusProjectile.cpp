@@ -20,13 +20,14 @@ ABlastRadiusProjectile::ABlastRadiusProjectile()
     CollisionComp->OnComponentHit.AddDynamic(this, &ABlastRadiusProjectile::OnHit);
     CollisionComp->SetWalkableSlopeOverride(FWalkableSlopeOverride(WalkableSlope_Unwalkable, 0.f));
     CollisionComp->CanCharacterStepUpOn = ECB_No;
-    CollisionComp->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+    CollisionComp->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 
     //root
     RootComponent = CollisionComp;
 
     //Mesh "Laser"
     ProjectileMeshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComp"));
+    ProjectileMeshComp->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
     ProjectileMeshComp->SetupAttachment(RootComponent);
 
     // Use a ProjectileMovementComponent to govern this projectile's movement
@@ -84,15 +85,20 @@ void ABlastRadiusProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
     if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) && OtherComp->IsSimulatingPhysics() && OtherActor != GetOwner())
     {
         //handles collision handle for characters
-        if (OtherActor->ActorHasTag("Player"))
+        ABlastRadiusCharacter* temp = dynamic_cast<ABlastRadiusCharacter*>(OtherActor);
+        if (temp != nullptr)
         {
             //Calling TakeDamage on the otherActor's HealthComponent. 
             FDamageEvent DamageEvent;
             Cast<ABlastRadiusCharacter>(OtherActor)->TakeDamage(m_LaserDamage, DamageEvent, OtherActor->GetInstigatorController(), this->GetOwner());
 
+            float CurrentHealth = temp->GetHealthComponent()->GetCurrentHealth();
+
+            float KnockBack;
+            KnockBack = ((CurrentHealth / 10) + ((CurrentHealth * m_LaserDamage) / 20)) * 5000.0f;
 
             //Knock back impulse when projectile collides.
-            OtherComp->AddImpulseAtLocation(GetVelocity() * m_KnockbackFactor, GetActorLocation());
+            OtherComp->AddImpulseAtLocation(GetVelocity() * KnockBack, GetActorLocation());
             DestroySelf();
         }
 

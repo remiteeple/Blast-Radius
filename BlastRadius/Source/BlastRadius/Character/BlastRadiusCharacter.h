@@ -19,11 +19,10 @@ class ABlastRadiusCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	    class UCameraComponent* TopDownCamera;
 
-
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Gameplay, meta = (AllowPrivateAccess = "true"))
         class UHealthComponent* HealthComponent;
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Gameplay, meta = (AllowPrivateAccess = "true"))
         class UEnergyComponent* EnergyComponent;
 
 protected:
@@ -35,10 +34,10 @@ protected:
 
 public:
 	/** Character movement variable **/
-	UPROPERTY(EditDefaultsOnly)
-		float MaxWalkSpeed;
-	UPROPERTY(EditDefaultsOnly)
-		float MaxRunSpeed;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
+        float MaxWalkSpeed;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
+        float MaxRunSpeed;
 
     /** Animations **/
     UPROPERTY(EditDefaultsOnly)
@@ -59,7 +58,7 @@ public:
         TSubclassOf<class ABlastRadiusProjectile> ProjectileClass;
     ////Sword Template to use
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-    TSubclassOf<class ABlastRadiusSword> SwordClass;
+        TSubclassOf<class ABlastRadiusSword> SwordClass;
         ABlastRadiusSword* Sword;
     /** Called when actor hit **/
     void OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
@@ -93,6 +92,7 @@ public:
 	// Default false
 	bool bIsWalking = false;
 	bool bIsAiming = false;
+    bool bIsMeleeAttacking = false;
 	bool bIsFiring = false;
 	bool bIsBlinking = false;
 
@@ -101,16 +101,12 @@ private:
 	//class UHealthComponent* HealthComponent; Commented out as it has an attached component, now.
 	//class UEnergyComponent* EnergyComponent; Commented out as it has an attached component, now.
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	    class USkeletalMeshComponent* SkeletalMesh;
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	    class UBlinkComponent* BlinkComponent;
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
         class UMeleeComponent* MeleeComponent;
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	    class UCharacterAnimInstance* AnimationInstance;
 
 	/** Weapon the character uses **/

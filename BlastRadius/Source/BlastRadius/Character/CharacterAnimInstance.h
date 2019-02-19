@@ -15,6 +15,7 @@ class BLASTRADIUS_API UCharacterAnimInstance : public UAnimInstance
 	GENERATED_BODY()
 	
 public:
+    /** Animation states **/
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
         bool bIsBlinking;
 
@@ -22,8 +23,12 @@ public:
         bool bIsAiming;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+        bool bIsMeleeAttacking;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
         bool bIsMoving;
 
+    /** Animation variables **/
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
         float MovementSpeed;
 
@@ -32,9 +37,6 @@ public:
 
 protected:
     UCharacterAnimInstance();
-
-    virtual void NativeInitializeAnimation() override;
-    virtual void NativeUpdateAnimation(float DeltaTime) override;
 
 protected:
     APawn* OwningPawn;
