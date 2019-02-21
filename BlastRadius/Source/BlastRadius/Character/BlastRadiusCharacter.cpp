@@ -55,6 +55,7 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
     TopDownCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
     TopDownCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
+    
     MuzzleOffset = FVector(100, 0, 0);
 
     /*HealthPercentage = 0.0;
@@ -68,7 +69,7 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
     EnergyComponent = CreateDefaultSubobject<UEnergyComponent>(TEXT("Energy"));
 
     Sword = nullptr;
-
+    SpawnDelay = 1.0f;
     //HealthPercentage = 0.0;
     //Energy = 100;
 
@@ -85,11 +86,11 @@ void ABlastRadiusCharacter::PostInitializeComponents()
     if (SkeletalMesh != nullptr)
     {
         check(SkeletalMesh != nullptr && "Character doesn't have a skeletal mesh!");
-
         /* Retrieve the animation instance */
         AnimationInstance = Cast<UCharacterAnimInstance>(SkeletalMesh->GetAnimInstance());
 
         //check(AnimationInstance != nullptr && "Character doesn't have animation!")
+      
     }
 
     /* Retrieve the health component */
@@ -183,8 +184,8 @@ void ABlastRadiusCharacter::OnHit(AActor* OtherActor, UPrimitiveComponent* Other
 }
 
 void ABlastRadiusCharacter::OnDeath()
-{
-    check(HealthComponent->CurrentHealth > 0.0f && "Called OnDeath() while alive!");
+{  /* This check isnt useful currently */
+   // check(HealthComponent->CurrentHealth > 0.0f && "Called OnDeath() while alive!");
 
     /* Stop ticking while dead */
     PrimaryActorTick.bCanEverTick = false;
@@ -195,6 +196,23 @@ void ABlastRadiusCharacter::OnDeath()
     /* Enable the character's ragdoll */
     SkeletalMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
     SkeletalMesh->SetSimulatePhysics(true);
+
+    GetWorld()->GetTimerManager().SetTimer(SpawnTimer, this, &ABlastRadiusCharacter::Respawn, SpawnDelay, false);
+
+}
+
+void ABlastRadiusCharacter::Respawn()
+{
+    PrimaryActorTick.bCanEverTick = true;
+
+    /* Disable character's capsule collision */
+    GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+
+    /* Enable the character's ragdoll */
+    SkeletalMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    SkeletalMesh->SetSimulatePhysics(false);
+    SetActorLocation(SpawnPoint);
+
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -264,7 +282,7 @@ void ABlastRadiusCharacter::Melee()
 
 void ABlastRadiusCharacter::PutAwaySword()
 {
-    if (Sword != nullptr)
+    if (SwordClass != nullptr)
         Sword->PutAway();
 }
 

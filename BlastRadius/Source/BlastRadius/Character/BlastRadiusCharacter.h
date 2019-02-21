@@ -38,7 +38,14 @@ public:
         float MaxWalkSpeed;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
         float MaxRunSpeed;
-
+    /** Spawn location variable **/
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
+        FVector SpawnPoint;
+    /** Spawn timer **/
+    FTimerHandle SpawnTimer;
+    /** Spawn Delay**/
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
+        float SpawnDelay;
     /** Animations **/
     UPROPERTY(EditDefaultsOnly)
         UAnimMontage* HipFireAnimation;
@@ -56,7 +63,7 @@ public:
     //Projectile template to fire.
     UPROPERTY(EditDefaultsOnly, Category = Projectile)
         TSubclassOf<class ABlastRadiusProjectile> ProjectileClass;
-    ////Sword Template to use
+    //Sword Template to use
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
         TSubclassOf<class ABlastRadiusSword> SwordClass;
         ABlastRadiusSword* Sword;
@@ -87,6 +94,12 @@ public:
     /** Called to hide sword after melee **/
     void PutAwaySword();
 
+    /* Called when player health passes lower limit */
+    UFUNCTION()
+        void OnDeath();
+
+    /** Teleports player upon stock loss to spawm point **/
+    void Respawn();
 public:
 	/** State Definitions **/
 	// Default false
@@ -133,9 +146,6 @@ public:
     FORCEINLINE class UBlinkComponent* GetBlinkComponent() const { return BlinkComponent; }
 
 protected:
-    /* Called when player health passes lower limit */
-    UFUNCTION()
-        void OnDeath();
 
 };
 
