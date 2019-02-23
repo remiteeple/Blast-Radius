@@ -14,8 +14,9 @@
 #include "Component/EnergyComponent.h"
 #include "Component/MeleeComponent.h"
 #include "Weapon/BlastRadiusSword.h"
-#include "Weapon/BlastRadiusProjectile.h"
+#include "Weapon/BlastRadiusWeapon.h"
 #include "Gameplay/BlastRadiusPlayerController.h"
+#include "Runtime/Engine/Classes/Engine/CollisionProfile.h"
 
 //////////////////////////////////////////////////////////////////////////
 // ABlastRadiusCharacter
@@ -29,6 +30,7 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
 {
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
+    GetCapsuleComponent()->SetCollisionProfileName(UCollisionProfile::BlockAll_ProfileName);
 
 	// Don't rotate when the controller rotates. Let that just affect the camera.
 	bUseControllerRotationPitch = false;
@@ -55,11 +57,6 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
     TopDownCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
     TopDownCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
-    
-    MuzzleOffset = FVector(100, 0, 0);
-
-    /*HealthPercentage = 0.0;
-    Energy = 100;*/
 
     //BlinkComponent = CreateDefaultSubobject<UBlinkComponent>(TEXT("Blink"));
     MeleeComponent = CreateDefaultSubobject<UMeleeComponent>(TEXT("Melee"));
@@ -69,6 +66,8 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
     EnergyComponent = CreateDefaultSubobject<UEnergyComponent>(TEXT("Energy"));
 
     Sword = nullptr;
+    Weapon = nullptr;
+
     SpawnDelay = 1.0f;
     //HealthPercentage = 0.0;
     //Energy = 100;
@@ -90,7 +89,6 @@ void ABlastRadiusCharacter::PostInitializeComponents()
         AnimationInstance = Cast<UCharacterAnimInstance>(SkeletalMesh->GetAnimInstance());
 
         //check(AnimationInstance != nullptr && "Character doesn't have animation!")
-      
     }
 
     /* Retrieve the health component */
@@ -127,6 +125,13 @@ void ABlastRadiusCharacter::BeginPlay()
     {
         Sword = GetWorld()->SpawnActor<ABlastRadiusSword>(SwordClass, SpawnParams);
         Sword->Attach(this);
+    }
+
+    if (WeaponClass)
+    {
+        Weapon = GetWorld()->SpawnActor<ABlastRadiusWeapon>(WeaponClass, SpawnParams);
+        Weapon->SetOwner(this);
+        Weapon->Attach(this);
     }
 }
 
@@ -243,31 +248,8 @@ void ABlastRadiusCharacter::Shoot()
 
 void ABlastRadiusCharacter::Fire()
 {
-    // Attempt to fire a projectile.
-    if (ProjectileClass)
-    {
-        // Transform MuzzleOffset from camera space to world space.
-        FVector MuzzleLocation = GetArrowComponent()->GetComponentLocation();
-        FRotator MuzzleRotation = GetArrowComponent()->GetComponentRotation();
-        UWorld* World = GetWorld();
-        if (World)
-        {
-            FActorSpawnParameters SpawnParams;
-            SpawnParams.Owner = this;
-            SpawnParams.Instigator = Instigator;
-            // Spawn the projectile at the muzzle.
-            ABlastRadiusProjectile* Projectile = World->SpawnActor<ABlastRadiusProjectile>(ProjectileClass, MuzzleLocation, MuzzleRotation, SpawnParams);
-            if (Projectile)
-            {
-                //Setting the projectile's Owner to this so we don't collide with it during OnHit.
-                Cast<ABlastRadiusProjectile>(Projectile)->SetOwner(this);
-
-                // Set the projectile's initial trajectory.
-                FVector LaunchDirection = MuzzleRotation.Vector();
-                Projectile->FireInDirection(LaunchDirection);
-            }
-        }
-    }
+    Weapon->Fire();
+    //this->UseEnergy(Weapon->GetEnergyConsumptionAmount());
 }
 
 void ABlastRadiusCharacter::Melee()

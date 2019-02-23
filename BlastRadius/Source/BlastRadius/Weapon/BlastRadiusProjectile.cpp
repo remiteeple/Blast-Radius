@@ -15,12 +15,20 @@ ABlastRadiusProjectile::ABlastRadiusProjectile()
     PrimaryActorTick.bCanEverTick = true;
 
     CollisionComp = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComp"));
-    CollisionComp->InitSphereRadius(5.0f);
+    CollisionComp->InitSphereRadius(50.0f);
     CollisionComp->BodyInstance.SetCollisionProfileName("Projectile");
     CollisionComp->OnComponentHit.AddDynamic(this, &ABlastRadiusProjectile::OnHit);
     CollisionComp->SetWalkableSlopeOverride(FWalkableSlopeOverride(WalkableSlope_Unwalkable, 0.f));
     CollisionComp->CanCharacterStepUpOn = ECB_No;
-    CollisionComp->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+    CollisionComp->SetCollisionResponseToChannel(ECC_PhysicsBody, ECR_Overlap);
+
+    //CollisionComp->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+    ////SET the OverlapComponent's Collision to ignore all channels
+    //CollisionComp->SetCollisionResponseToAllChannels(ECR_Ignore);
+    ////SET the OverlapComponents to respond to the Pawn channel and only Overlap events
+    //CollisionComp->SetCollisionResponseToChannel(ECC_PhysicsBody, ECR_Overlap);
+    ////SET the OverlapComponent to be visible in Game
+    //CollisionComp->SetHiddenInGame(false);
 
     //root
     RootComponent = CollisionComp;
@@ -37,7 +45,12 @@ ABlastRadiusProjectile::ABlastRadiusProjectile()
     ProjectileMovementComp->MaxSpeed = 3000.f;
     ProjectileMovementComp->bRotationFollowsVelocity = true;
     ProjectileMovementComp->bShouldBounce = true;
-   
+    ProjectileMovementComp->ProjectileGravityScale = 0.0f;
+    ProjectileMovementComp->Bounciness = 1.0f;
+    ProjectileMovementComp->Friction = 0.0f;
+    ProjectileMovementComp->SetPlaneConstraintAxisSetting(EPlaneConstraintAxisSetting::Z);
+
+
     //Template for HealthComponent->TakeDamage() parameter.
     m_DamageType = UDamageType::StaticClass();
 
@@ -46,7 +59,7 @@ ABlastRadiusProjectile::ABlastRadiusProjectile()
 
     //Damage
     m_LaserDamage = 50.0f;
-    
+
     //max amount of bounces until object is destroyed.
     m_MaxBounceAmount = 5.0f;
 
@@ -56,7 +69,7 @@ ABlastRadiusProjectile::ABlastRadiusProjectile()
 
     /*
     In Blueprint editor:
-    For a multiplayer game, We'll need to uncheck "Initial Velocity in Local Space" 
+    For a multiplayer game, We'll need to uncheck "Initial Velocity in Local Space"
     in the "MovementComp" Component in order for this projectile to replicate correctly over a server.
     */
 }
@@ -82,6 +95,18 @@ void ABlastRadiusProjectile::Tick(float DeltaTime)
 
 void ABlastRadiusProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
+    //AActor* temp = GetOwner();
+    //AActor* tempChar = GetOwner()->GetOwner();
+    //bool woo = false;
+    //if (temp)
+    //{
+    //    OtherActor->SetOwner(OtherActor);
+    //}
+    //if (tempChar)
+    //{
+    //    OtherActor->SetOwner(OtherActor);
+    //}
+
     if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) && OtherComp->IsSimulatingPhysics() && OtherActor != GetOwner())
     {
         //handles collision handle for characters
@@ -90,7 +115,7 @@ void ABlastRadiusProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
         {
             //Calling TakeDamage on the otherActor's HealthComponent. 
             FDamageEvent DamageEvent;
-            Cast<ABlastRadiusCharacter>(OtherActor)->TakeDamage(m_LaserDamage, DamageEvent, OtherActor->GetInstigatorController(), this->GetOwner());
+            Cast<ABlastRadiusCharacter>(OtherActor)->TakeDamage(m_LaserDamage, DamageEvent, OtherActor->GetInstigatorController(), GetOwner());
 
             float CurrentHealth = temp->GetHealthComponent()->GetCurrentHealth();
 
@@ -116,6 +141,8 @@ void ABlastRadiusProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
         }
     }
 }
+
+
 
 
 void ABlastRadiusProjectile::FireInDirection(const FVector& ShootDirection)
