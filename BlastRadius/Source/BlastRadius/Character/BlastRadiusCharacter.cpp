@@ -55,7 +55,9 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
     TopDownCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
     TopDownCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
-    
+	SkeletalMesh = GetMesh();
+    SkeletalMesh->AttachToComponent(GetCapsuleComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+
     MuzzleOffset = FVector(100, 0, 0);
 
     /*HealthPercentage = 0.0;
@@ -81,7 +83,6 @@ void ABlastRadiusCharacter::PostInitializeComponents()
 	Super::PostInitializeComponents();
 
 	/* Retrieve the skeletal mesh */
-	SkeletalMesh = GetMesh();
     //Check for skeletal mesh
     if (SkeletalMesh != nullptr)
     {
@@ -136,7 +137,7 @@ void ABlastRadiusCharacter::Tick(float DeltaTime)
    
     /* Handle movement and orientation */
     GetCharacterMovement()->bOrientRotationToMovement = true; // Character moves in the direction of input...	
-
+    
     float CurrentSpeed = GetVelocity().Size(); // Get character's current speed
     bool bIsMoving = CurrentSpeed > 0.0f && GetCharacterMovement()->IsMovingOnGround(); // Check for character movement
 
@@ -204,14 +205,21 @@ void ABlastRadiusCharacter::OnDeath()
 void ABlastRadiusCharacter::Respawn()
 {
     PrimaryActorTick.bCanEverTick = true;
+    if (TeleportTo(SpawnPoint, GetActorRotation()))
+    {
+        SkeletalMesh->ResetRelativeTransform();
+        SkeletalMesh->SetRelativeRotation(GetActorRotation());
+        GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+        SkeletalMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+        SkeletalMesh->SetSimulatePhysics(false);
+        SkeletalMesh->AttachToComponent(GetCapsuleComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+        SkeletalMesh->GetRelativeTransform().AddToTranslation(FVector(GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z - 10000));
+        
+    }
 
     /* Disable character's capsule collision */
-    GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 
     /* Enable the character's ragdoll */
-    SkeletalMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-    SkeletalMesh->SetSimulatePhysics(false);
-    SetActorLocation(SpawnPoint);
 
 }
 
