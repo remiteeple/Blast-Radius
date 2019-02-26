@@ -16,7 +16,6 @@ UENUM(BlueprintType)
 enum class EAIState : uint8
 {
     Idle,
-    //Suspicious,
     Alerted,
     Attacking
 };
@@ -38,9 +37,6 @@ protected:
     /** Sensing **/
     UFUNCTION()
         void OnPawnSeen(APawn* SeenPawn); // Sight
-
-    //UFUNCTION()
-        //void OnNoiseHeard(APawn* NoiseInstigator, const FVector& Location, float Volume); // Sound
 
     /** AI / States **/
     FTimerHandle TimerHandle_ResetState;

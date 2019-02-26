@@ -19,6 +19,9 @@ void ABlastRadiusPlayerController::SetupInputComponent()
     Super::SetupInputComponent();
 
     // Set up gameplay key bindings
+    InputComponent->BindAxis("LookForward", this, &ABlastRadiusPlayerController::LookForward);
+    InputComponent->BindAxis("LookRight", this, &ABlastRadiusPlayerController::LookRight);
+
     InputComponent->BindAxis("MoveVertical", this, &ABlastRadiusPlayerController::MoveVertical);
     InputComponent->BindAxis("MoveHorizontal", this, &ABlastRadiusPlayerController::MoveHorizontal);
 
@@ -56,6 +59,23 @@ void ABlastRadiusPlayerController::Tick(float DeltaTime)
     Super::Tick(DeltaTime);
 
     LookAtMouseCursor(DeltaTime);
+}
+
+void ABlastRadiusPlayerController::LookForward(float Scale)
+{
+    if (Character == nullptr)
+        return;
+
+    /* Rotate the character */
+    //Character->FaceRotation();
+}
+
+void ABlastRadiusPlayerController::LookRight(float Scale)
+{
+    if (Character == nullptr)
+        return;
+
+    /* Rotate the character */
 }
 
 void ABlastRadiusPlayerController::MoveVertical(float Scale)
@@ -96,6 +116,7 @@ void ABlastRadiusPlayerController::FirePressed()
 {
     if (Character == nullptr)
         return;
+
     Character->Fire();
 }
 

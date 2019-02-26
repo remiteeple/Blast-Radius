@@ -6,7 +6,8 @@
 #include "Perception/PawnSensingComponent.h"
 #include "DrawDebugHelpers.h"
 #include "Kismet/KismetMathLibrary.h"
-
+#include "GameFramework/SpringArmComponent.h"
+#include "Camera/CameraComponent.h"
 
 
 AAIBlastRadiusCharacter::AAIBlastRadiusCharacter()
@@ -14,8 +15,13 @@ AAIBlastRadiusCharacter::AAIBlastRadiusCharacter()
     SetActorTickEnabled(true);
 
     PawnSensingComponent = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("Pawn Sensing Component"));
+    PawnSensingComponent->bEnableSensingUpdates = true;
+    PawnSensingComponent->bSeePawns = true;
+    PawnSensingComponent->bHearNoises = false;
     PawnSensingComponent->OnSeePawn.AddDynamic(this, &AAIBlastRadiusCharacter::OnPawnSeen);
-    //PawnSensingComponent->OnHearNoise.AddDynamic(this, &AAIBlastRadiusCharacter::OnNoiseHeard());
+
+    CameraBoom->ToggleActive();
+    TopDownCamera->ToggleActive();
 
     SetState(EAIState::Idle);
 }

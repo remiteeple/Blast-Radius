@@ -29,6 +29,9 @@ public:
 
 private:
     /** interaction methods **/
+    void LookForward(float Scale);
+    void LookRight(float Scale);
+
     void MoveVertical(float Scale);
     void MoveHorizontal(float Scale);
 

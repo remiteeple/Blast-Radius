@@ -148,28 +148,26 @@ void ABlastRadiusCharacter::Tick(float DeltaTime)
     FVector MovementDirection = GetLastMovementInputVector(); // Get character movement direction
     FVector CharacterDirection = GetActorForwardVector(); // Get character direction
 
-    /*We need to set the Strafing Rotation on the AnimationInstance to blend the movement animation when moving*/
+    /* Blend strafe animation when moving */
     if (!MovementDirection.IsNearlyZero())
     {
-        /*Calculate the Strafing Rotation which is the Arc Tan difference between the Character's Last Movement Direction and Current Movement Direction*/
-        //DECLARE a float called StrafingRotation and SET it to FMath::Atan2(MovementDirection.Y, MovementDirection.X) - FMath::Atan2(CharacterDirection.Y, CharacterDirection.X)
+        /* Calculate the Strafing Rotation which is the Arc Tan difference between the Character's Last Movement Direction and Current Movement Direction */
         float StrafingRotation = FMath::Atan2(MovementDirection.Y, MovementDirection.X) - FMath::Atan2(CharacterDirection.Y, CharacterDirection.X);
 
-        //IF the Absolute value of the StrafingRotation is greater than PI FMath::Abs(StrafingRotation) > PI
         if (FMath::Abs(StrafingRotation) > PI)
         {
-            //SET StrafingRotation, If StrafingRotation is greater than 0, then set it to (StrafingRotation - PI * 2.0f), otherwise (StrafingRotation + PI * 2.0f) --> Ternary
+            /* Calculate strafe rotation */
             StrafingRotation = StrafingRotation > 0 ? StrafingRotation - PI * 2.0f : StrafingRotation + PI * 2.0f;
         }
 
         /*Convert StrafingRotation to Degrees*/
         StrafingRotation = FMath::RadiansToDegrees(StrafingRotation);
 
-        //SET the AnimationInstance's StrafingRotation to the local StrafingRotation
+        /* Apply strafing rotation */
         AnimationInstance->StrafingRotation = StrafingRotation;
     }
 
-    // Check for walking state
+    /* Check for walking state */
     bIsWalking ? GetCharacterMovement()->MaxWalkSpeed = MaxWalkSpeed : GetCharacterMovement()->MaxWalkSpeed = MaxRunSpeed;
 
     /* Assign animation instances based on local states */
