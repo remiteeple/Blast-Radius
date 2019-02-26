@@ -33,7 +33,7 @@ public:
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
         class UStaticMeshComponent* MeshComponent;
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Muzzle, meta = (AllowPrivateAccess = "true"))
+    UPROPERTY(EditAnywhere, Category = Muzzle, meta = (AllowPrivateAccess = "true"))
         class UArrowComponent* MuzzleArrow;
 protected:
     // Called when the game starts or when spawned

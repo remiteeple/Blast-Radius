@@ -18,6 +18,8 @@ AAIBlastRadiusCharacter::AAIBlastRadiusCharacter()
     //PawnSensingComponent->OnHearNoise.AddDynamic(this, &AAIBlastRadiusCharacter::OnNoiseHeard());
 
     SetState(EAIState::Idle);
+
+    Tags.Add("AI");
 }
 
 void AAIBlastRadiusCharacter::BeginPlay()

@@ -19,6 +19,10 @@ ABlastRadiusWeapon::ABlastRadiusWeapon()
     MeshComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
     RootComponent = MeshComponent;
 
+    MuzzleArrow = CreateDefaultSubobject<UArrowComponent>("WeaponArrow");
+    //MuzzleArrow->AddLocalOffset(MuzzleDirectionOffSet);
+    MuzzleArrow->SetupAttachment(RootComponent);
+
 
     //MagnitudeOffSet = 50.0f;
     //if (GetOwner() != nullptr)
@@ -27,15 +31,7 @@ ABlastRadiusWeapon::ABlastRadiusWeapon()
     //    MuzzleDirectionOffSet = GetActorRotation().Vector().GetSafeNormal();
     //    MuzzleDirectionOffSet *= MagnitudeOffSet;
     //    MuzzleLocation = GetActorLocation() + MuzzleDirectionOffSet;
-
-
-    //    MuzzleArrow = CreateDefaultSubobject<UArrowComponent>("WeaponArrow");
-    //    //MuzzleArrow->;
-    //    //MuzzleArrow->AddLocalOffset(MuzzleDirectionOffSet);
-    //    MuzzleArrow->SetupAttachment(RootComponent);
     //}
-
-    //setup projectile class
 }
 
 // Called when the game starts or when spawned
@@ -64,13 +60,13 @@ void ABlastRadiusWeapon::Fire()
             SpawnParams.Owner = this->GetOwner();
             SpawnParams.Instigator = Instigator;
             // Spawn the projectile at the muzzle.
-            ABlastRadiusProjectile* Projectile = World->SpawnActor<ABlastRadiusProjectile>(ProjectileClass, GetActorLocation(), GetOwner()->GetActorRotation(), SpawnParams);
+            ABlastRadiusProjectile* Projectile = World->SpawnActor<ABlastRadiusProjectile>(ProjectileClass, MuzzleArrow->GetComponentLocation(), GetOwner()->GetActorRotation(), SpawnParams);
             if (Projectile)
             {
                 //Setting the projectile's Owner to this so we don't collide with it during OnHit.
                 ACharacter* myCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 
-                Cast<ABlastRadiusProjectile>(Projectile)->SetOwner(myCharacter);
+                Projectile->SetOwner(myCharacter);
 
                 // Set the projectile's initial trajectory.
                 FVector LaunchDirection = GetOwner()->GetActorRotation().Vector();

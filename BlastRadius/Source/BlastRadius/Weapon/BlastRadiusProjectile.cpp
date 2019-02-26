@@ -7,6 +7,7 @@
 #include "Character/BlastRadiusCharacter.h"
 #include "Runtime/Engine/Classes/GameFramework/DamageType.h"
 #include "Component/HealthComponent.h"
+#include "Runtime/Engine/Classes/GameFramework/DamageType.h"
 
 // Sets default values
 ABlastRadiusProjectile::ABlastRadiusProjectile()
@@ -107,23 +108,25 @@ void ABlastRadiusProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
     //    OtherActor->SetOwner(OtherActor);
     //}
 
-    if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) && OtherComp->IsSimulatingPhysics() && OtherActor != GetOwner())
+    if ((OtherActor != NULL) && 
+        (OtherActor != this) && 
+        (OtherComp != NULL) && 
+        OtherActor != GetOwner())
     {
         //handles collision handle for characters
-        ABlastRadiusCharacter* temp = dynamic_cast<ABlastRadiusCharacter*>(OtherActor);
-        if (temp != nullptr)
+        if (Cast<ABlastRadiusCharacter>(OtherActor) != nullptr)
         {
             //Calling TakeDamage on the otherActor's HealthComponent. 
-            FDamageEvent DamageEvent;
-            Cast<ABlastRadiusCharacter>(OtherActor)->TakeDamage(m_LaserDamage, DamageEvent, OtherActor->GetInstigatorController(), GetOwner());
+            const UDamageType* Laser_DamageType = Cast<UDamageType>(UDamageType::StaticClass());
+            Cast<ABlastRadiusCharacter>(OtherActor)->GetHealthComponent()->TakeAnyDamage(OtherActor ,m_LaserDamage, Laser_DamageType, OtherActor->GetInstigatorController(), GetOwner());
 
-            float CurrentHealth = temp->GetHealthComponent()->GetCurrentHealth();
+            float CurrentHealth = Cast<ABlastRadiusCharacter>(OtherActor)->GetHealthComponent()->GetCurrentHealth();
 
             float KnockBack;
-            KnockBack = ((CurrentHealth / 10) + ((CurrentHealth * m_LaserDamage) / 20)) * 5000.0f;
+            KnockBack = ((CurrentHealth / 10) + ((CurrentHealth * m_LaserDamage) / 20)) * 500.0f;
 
             //Knock back impulse when projectile collides.
-            OtherComp->AddImpulseAtLocation(GetVelocity() * KnockBack, GetActorLocation());
+            Cast<ABlastRadiusCharacter>(OtherActor)->LaunchCharacter(GetVelocity() * KnockBack, false, true);
             DestroySelf();
         }
 
