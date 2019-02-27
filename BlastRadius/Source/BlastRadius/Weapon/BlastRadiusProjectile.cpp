@@ -118,15 +118,25 @@ void ABlastRadiusProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
         {
             //Calling TakeDamage on the otherActor's HealthComponent. 
             const UDamageType* Laser_DamageType = Cast<UDamageType>(UDamageType::StaticClass());
-            Cast<ABlastRadiusCharacter>(OtherActor)->GetHealthComponent()->TakeAnyDamage(OtherActor ,m_LaserDamage, Laser_DamageType, OtherActor->GetInstigatorController(), GetOwner());
+            Cast<ABlastRadiusCharacter>(OtherActor)->GetHealthComponent()->TakeDamage(m_LaserDamage, Laser_DamageType, OtherActor->GetInstigatorController(), GetOwner(), GetVelocity());
 
-            float CurrentHealth = Cast<ABlastRadiusCharacter>(OtherActor)->GetHealthComponent()->GetCurrentHealth();
+            //OLD KNOCKBACK CODE: Moved to health component!
+            /*
+            GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Red, "OtherActor CurrentHealth - " + FString::SanitizeFloat(OtherCharacter->GetHealthComponent()->GetCurrentHealth())); // DEBUG
+
+            float CurrentHealth = Cast<ABlastRadiusCharacter>(OtherCharacter)->GetHealthComponent()->GetCurrentHealth();
 
             float KnockBack;
             KnockBack = ((CurrentHealth / 10) + ((CurrentHealth * m_LaserDamage) / 20)) / 500.0f;
 
+            GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Orange, FString::SanitizeFloat(KnockBack)); // DEBUG
+
             //Knock back impulse when projectile collides.
-            Cast<ABlastRadiusCharacter>(OtherActor)->LaunchCharacter(GetVelocity() * KnockBack, false, true);
+            FVector LaunchVelocity = GetVelocity();
+            LaunchVelocity.Z = 0.0f;
+            Cast<ABlastRadiusCharacter>(OtherCharacter)->LaunchCharacter(LaunchVelocity * KnockBack, false, true);
+            */
+
             DestroySelf();
         }
 
