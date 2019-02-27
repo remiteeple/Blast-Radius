@@ -26,6 +26,10 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
         float CurrentEnergy = 100.f;
 
+    //Display value of current energy.
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
+        FString CurrentEnergyDisplayValue;
+
     //Delegate function call initialization.
     FOnSpendEnergy OnSpend;
 

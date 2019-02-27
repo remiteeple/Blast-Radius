@@ -58,9 +58,13 @@ void UEnergyComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
         OnCooldown = false;
     }
 
-    //For Debugging, remove on HUD implementation.
-    GEngine->AddOnScreenDebugMessage(6, 5.f, FColor::Green, FString::Printf(TEXT("Current Energy: %x / %y"), CurrentEnergy, MaxEnergy));
+    CurrentEnergyDisplayValue = FString::SanitizeFloat(CurrentEnergy);
 
+    if (GetOwner())
+    {
+        //Displays current character energy. For Debugging, remove on HUD implementation.
+        GEngine->AddOnScreenDebugMessage(5, 5.f, FColor::Cyan, *CurrentEnergyDisplayValue);
+    }
 	// ...
 }
 

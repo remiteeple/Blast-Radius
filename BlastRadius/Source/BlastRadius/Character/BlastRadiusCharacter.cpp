@@ -81,6 +81,8 @@ void ABlastRadiusCharacter::PostInitializeComponents()
 
 	/* Retrieve the skeletal mesh */
     //Check for skeletal mesh
+
+    SkeletalMesh = GetMesh();
     if (SkeletalMesh != nullptr)
     {
         check(SkeletalMesh != nullptr && "Character doesn't have a skeletal mesh!");
