@@ -59,6 +59,11 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
         TSubclassOf<class ABlastRadiusSword> SwordClass;
         ABlastRadiusSword* Sword;
+        /* Weapon */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+        TSubclassOf<class ABlastRadiusWeapon> WeaponClass;
+        ABlastRadiusWeapon* Weapon;
+
     /** Called when actor hit **/
     void OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
