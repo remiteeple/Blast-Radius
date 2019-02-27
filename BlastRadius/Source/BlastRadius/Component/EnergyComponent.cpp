@@ -48,16 +48,35 @@ void UEnergyComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-    if (CurrentEnergy < MaxEnergy)
+    if (CurrentEnergy < MaxEnergy && FastCharge == false)
     {
-        CurrentEnergy += 0.5f;
+        CurrentEnergy += RechargeRateSlow;
+    }
+    else if (CurrentEnergy < MaxEnergy && FastCharge == true)
+    {
+        CurrentEnergy += RechargeRateFast;
     }
     
     if (CurrentEnergy > 0.f)
     {
         OnCooldown = false;
     }
+    
+    if(CurrentEnergy > MaxEnergy)
+    {
+        CurrentEnergy = MaxEnergy;
+    }
 
+    CurrentEnergyDisplayValue = FString::SanitizeFloat(CurrentEnergy);
+
+    if (GetOwner())
+    {
+        //Displays current character energy. For Debugging, remove on HUD implementation.
+        GEngine->AddOnScreenDebugMessage(5, 5.f, FColor::Cyan, *CurrentEnergyDisplayValue);
+
+        //Displays current character energy. For Debugging, remove on HUD implementation.
+        GEngine->AddOnScreenDebugMessage(40, 5.f, FColor::Green, FString::Printf(TEXT("Fast Charge: %x"), FastCharge));
+    }
 	// ...
 }
 
