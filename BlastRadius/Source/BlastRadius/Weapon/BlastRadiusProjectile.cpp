@@ -8,6 +8,9 @@
 #include "Runtime/Engine/Classes/GameFramework/DamageType.h"
 #include "Component/HealthComponent.h"
 #include "Runtime/Engine/Classes/GameFramework/DamageType.h"
+#include "Runtime/Engine/Classes/Particles/ParticleSystem.h"
+#include "Runtime/CoreUObject/Public/UObject/ConstructorHelpers.h"
+#include "Runtime/Engine/Classes/Particles/ParticleSystemComponent.h"
 
 // Sets default values
 ABlastRadiusProjectile::ABlastRadiusProjectile()
@@ -73,6 +76,15 @@ ABlastRadiusProjectile::ABlastRadiusProjectile()
     For a multiplayer game, We'll need to uncheck "Initial Velocity in Local Space"
     in the "MovementComp" Component in order for this projectile to replicate correctly over a server.
     */
+
+    static ConstructorHelpers::FObjectFinder<UParticleSystem> PS(TEXT("ParticleSystem'/Game/StarterContent/Particles/P_Explosion'"));
+    if (PS.Succeeded())
+    {
+        ProjectileFX = PS.Object;
+    }
+    PSC = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("MyPSC"));
+    //PSC->SetTemplate(PS.Object); //If you want it to Spawn on Creation, could go to BeginPlay too
+    PSC->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned
@@ -84,6 +96,8 @@ void ABlastRadiusProjectile::BeginPlay()
         this,
         &ABlastRadiusProjectile::DestroySelf,
         m_LifeSpan, true);
+
+
 }
 
 // Called every frame
@@ -142,6 +156,16 @@ void ABlastRadiusProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
         {
             DestroySelf();
         }
+        ////Add this somewhere here to Spawn Particles.
+        //if (ProjectileFX)
+        //{
+        //    //Spawn ParticleSystem using GamePlayStatics
+        //    // UGameplayStatics::SpawnEmitterAtLocation(this, ProjectileFX, GetActorLocation());
+        //    //OR Spawn Particle using UParticleSystemComponent
+        //    PSC->SetTemplate(ProjectileFX);
+        //    //ProjectileSprite->bHiddenInGame = true;
+        //    //ProjectileSprite->SetVisibility(false);
+        //}
     }
 }
 

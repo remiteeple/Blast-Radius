@@ -35,6 +35,13 @@ public:
 
     UPROPERTY(EditAnywhere, Category = Muzzle, meta = (AllowPrivateAccess = "true"))
         class UArrowComponent* MuzzleArrow;
+
+    UPROPERTY(EditDefaultsOnly, Category = "Effects")
+        UParticleSystem* ProjectileFX;
+
+    UPROPERTY(VisibleAnywhere)
+        class UParticleSystemComponent* PSC;
+
 protected:
     // Called when the game starts or when spawned
     virtual void BeginPlay() override;

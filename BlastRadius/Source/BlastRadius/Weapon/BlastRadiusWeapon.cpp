@@ -7,6 +7,9 @@
 #include "Components/ArrowComponent.h"
 #include "Runtime/Engine/Classes/Engine/World.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "Runtime/Engine/Classes/Particles/ParticleSystem.h"
+#include "Runtime/CoreUObject/Public/UObject/ConstructorHelpers.h"
+#include "Runtime/Engine/Classes/Particles/ParticleSystemComponent.h"
 
 // Sets default values
 ABlastRadiusWeapon::ABlastRadiusWeapon()
@@ -32,6 +35,15 @@ ABlastRadiusWeapon::ABlastRadiusWeapon()
     //    MuzzleDirectionOffSet *= MagnitudeOffSet;
     //    MuzzleLocation = GetActorLocation() + MuzzleDirectionOffSet;
     //}
+
+    static ConstructorHelpers::FObjectFinder<UParticleSystem> PS(TEXT("ParticleSystem'/Game/StarterContent/Particles/P_Explosion'"));
+    if (PS.Succeeded())
+    {
+        ProjectileFX = PS.Object;
+    }
+    PSC = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("MyPSC"));
+    //PSC->SetTemplate(PS.Object); //If you want it to Spawn on Creation, could go to BeginPlay too
+    PSC->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned
@@ -74,6 +86,18 @@ void ABlastRadiusWeapon::Fire()
             }
         }
     }
+
+    ////Add this somewhere here to spawn particles.
+    //if (ProjectileFX)
+    //{
+    //    //Spawn ParticleSystem using GamePlayStatics
+    //    //UGameplayStatics::SpawnEmitterAtLocation(this, ProjectileFX, GetActorLocation());
+    //    //OR Spawn Particle using UParticleSystemComponent
+    //    PSC->SetTemplate(ProjectileFX);
+    //    //ProjectileSprite->bHiddenInGame = true;
+    //    //ProjectileSprite->SetVisibility(false);
+    //}
+
 }
 
 void ABlastRadiusWeapon::Attach(class ABlastRadiusCharacter* Character)
