@@ -50,6 +50,9 @@ void UHealthComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
     CurrentHealthDisplayValue = FString::SanitizeFloat(CurrentHealth);
+
+    //For Debugging, remove on HUD implementation.
+    GEngine->AddOnScreenDebugMessage(5, 5.f, FColor::Cyan, FString::Printf(TEXT("Current Health: %x / %y"), CurrentHealth, MaxHealth));
 	// ...
 }
 
