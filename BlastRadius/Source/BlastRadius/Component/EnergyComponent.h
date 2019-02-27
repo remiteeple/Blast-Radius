@@ -30,21 +30,36 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
         FString CurrentEnergyDisplayValue;
 
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
+        float RechargeRateSlow = 0.05f;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
+        float RechargeRateFast = 0.2f;
+
     //Delegate function call initialization.
+    UPROPERTY(BluePrintAssignable)
     FOnSpendEnergy OnSpend;
 
     //Bool for checking if the timer is finished.
     bool OnCooldown = false;
 
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
+        bool FastCharge = false;
 
     UFUNCTION(BluePrintCallable)
         void SpendEnergy(float EnergyCost);
 
+protected:
+	// Called when the game starts
+	virtual void BeginPlay() override;
+
+    /*UFUNCTION(BluePrintCallable)
+        void SpendEnergy(float EnergyCost);*/
+
     UFUNCTION(BluePrintCallable)
         void ToggleCoolDown();
+
+    
 
 public:	
 	// Called every frame

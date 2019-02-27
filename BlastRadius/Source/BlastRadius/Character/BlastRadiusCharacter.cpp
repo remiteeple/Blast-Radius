@@ -178,6 +178,16 @@ void ABlastRadiusCharacter::Tick(float DeltaTime)
     /* Assign animation instances based on local states */
     AnimationInstance->bIsAiming = bIsAiming;
     AnimationInstance->bIsBlinking = bIsBlinking;
+
+    //Toggle energy charge rate based on player movement. If not moving, charge faster.
+    if (bIsMoving == false)
+    {
+        EnergyComponent->FastCharge = true;
+    }
+    else
+    {
+        EnergyComponent->FastCharge = false;
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -204,6 +214,7 @@ void ABlastRadiusCharacter::OnDeath()
     GetWorld()->GetTimerManager().SetTimer(SpawnTimer, this, &ABlastRadiusCharacter::Respawn, SpawnDelay, false);
 
 }
+
 
 void ABlastRadiusCharacter::Respawn()
 {
@@ -238,7 +249,12 @@ void ABlastRadiusCharacter::Move(FVector Direction, float Scale)
 
 void ABlastRadiusCharacter::Blink()
 {
-    BlinkComponent->Blink(this);
+    if (EnergyComponent->OnCooldown == false)
+    {
+        BlinkComponent->Blink(this);
+        EnergyComponent->SpendEnergy(BlinkCost);
+    }
+    
 }
 
 void ABlastRadiusCharacter::Aim(bool Toggle)
@@ -254,8 +270,12 @@ void ABlastRadiusCharacter::Shoot()
 
 void ABlastRadiusCharacter::Fire()
 {
-    Weapon->Fire();
-    //this->UseEnergy(Weapon->GetEnergyConsumptionAmount());
+    if (EnergyComponent->OnCooldown == false)
+    {
+        Weapon->Fire();
+        //this->UseEnergy(Weapon->GetEnergyConsumptionAmount());
+        EnergyComponent->SpendEnergy(ShootCost);
+    }
 }
 
 void ABlastRadiusCharacter::Melee()

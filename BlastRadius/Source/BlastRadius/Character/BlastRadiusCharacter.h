@@ -148,7 +148,16 @@ protected:
         class USpringArmComponent* CameraBoom;
 
     /** Follow camera */
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Camera, meta = (AllowPrivateAccess = "true"))
         class UCameraComponent* TopDownCamera;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
+        float BlinkCost = 35.0f;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
+        float ShootCost = 15.0f;
+
+
+
 };
 

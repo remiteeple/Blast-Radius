@@ -123,7 +123,7 @@ void ABlastRadiusProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
             float CurrentHealth = Cast<ABlastRadiusCharacter>(OtherActor)->GetHealthComponent()->GetCurrentHealth();
 
             float KnockBack;
-            KnockBack = ((CurrentHealth / 10) + ((CurrentHealth * m_LaserDamage) / 20)) * 500.0f;
+            KnockBack = ((CurrentHealth / 10) + ((CurrentHealth * m_LaserDamage) / 20)) / 500.0f;
 
             //Knock back impulse when projectile collides.
             Cast<ABlastRadiusCharacter>(OtherActor)->LaunchCharacter(GetVelocity() * KnockBack, false, true);
