@@ -75,6 +75,15 @@ protected:
     UFUNCTION()
         void MoveToNextPatrolPoint();
 
+    /** Shooting **/
+    UPROPERTY(EditInstanceOnly, Category = "AI")
+        bool bCanShoot;
+
+    UPROPERTY(EditInstanceOnly, Category = "AI", meta = (EditCondition = "bCanShoot"))
+        float ShootingDelay;
+
+    FTimerHandle TimerHandle_Fire;
+
 public:
     // Called every frame
     virtual void Tick(float DeltaTime) override;

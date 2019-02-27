@@ -49,6 +49,9 @@ public:
         void TakeAnyDamage(AActor* DamagedActor, float Damage, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser);
 
     UFUNCTION(BluePrintCallable)
+        void TakeDamage(float Damage, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser, FVector HitFrom);
+
+    UFUNCTION(BluePrintCallable)
         FORCEINLINE float GetCurrentHealth() { return CurrentHealth; }
 		
 	

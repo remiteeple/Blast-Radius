@@ -210,7 +210,7 @@ void ABlastRadiusCharacter::OnDeath()
     SkeletalMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
     SkeletalMesh->SetSimulatePhysics(true);
 
-    GetWorld()->GetTimerManager().SetTimer(SpawnTimer, this, &ABlastRadiusCharacter::Respawn, SpawnDelay, false);
+    GetWorld()->GetTimerManager().SetTimer(TimerHandle_SpawnTimer, this, &ABlastRadiusCharacter::Respawn, SpawnDelay, false);
 
 }
 
@@ -282,7 +282,7 @@ void ABlastRadiusCharacter::Melee()
     if (Sword != nullptr)
     {
         Sword->Activate();
-        GetWorld()->GetTimerManager().SetTimer(MeleeTimer, this, &ABlastRadiusCharacter::PutAwaySword, 0.5f, true);        
+        GetWorld()->GetTimerManager().SetTimer(TimerHandle_MeleeTimer, this, &ABlastRadiusCharacter::PutAwaySword, 0.5f, true);        
         MeleeComponent->Melee();
     }
 }
