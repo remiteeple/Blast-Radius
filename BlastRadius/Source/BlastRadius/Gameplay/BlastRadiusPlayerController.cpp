@@ -7,6 +7,7 @@
 #include "Engine/LocalPlayer.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "DrawDebugHelpers.h"
+#include "Runtime/Engine/Classes/Kismet/KismetMathLibrary.h"
 
 ABlastRadiusPlayerController::ABlastRadiusPlayerController()
 {
@@ -59,6 +60,7 @@ void ABlastRadiusPlayerController::Tick(float DeltaTime)
     Super::Tick(DeltaTime);
 
     LookAtMouseCursor(DeltaTime);
+    LookDirection = UKismetMathLibrary::MakeRotationFromAxes(LookRightDir, LookForwardDir, FVector(0, 0, 0));
 }
 
 void ABlastRadiusPlayerController::LookForward(float Scale)
@@ -66,8 +68,10 @@ void ABlastRadiusPlayerController::LookForward(float Scale)
     if (Character == nullptr)
         return;
 
+    LookForwardDir = FVector(0, Scale, 0);
+
     /* Rotate the character */
-    //Character->FaceRotation();
+    Character->SetActorRotation(LookDirection);
 }
 
 void ABlastRadiusPlayerController::LookRight(float Scale)
@@ -75,7 +79,10 @@ void ABlastRadiusPlayerController::LookRight(float Scale)
     if (Character == nullptr)
         return;
 
+    LookRightDir = FVector(Scale, 0, 0);
+
     /* Rotate the character */
+    Character->SetActorRotation(LookDirection);
 }
 
 void ABlastRadiusPlayerController::MoveVertical(float Scale)
@@ -108,6 +115,7 @@ void ABlastRadiusPlayerController::WalkReleased()
 {
     if (Character == nullptr)
         return;
+
 
     Character->bIsWalking = false;
 }

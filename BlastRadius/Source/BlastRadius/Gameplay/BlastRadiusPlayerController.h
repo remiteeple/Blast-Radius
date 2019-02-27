@@ -52,6 +52,11 @@ private:
 
     void LookAtMouseCursor(float DeltaTime);
 
+    FVector LookRightDir;
+    FVector LookForwardDir;
+
+    FRotator LookDirection;
+
 private:
     /** ABlastRadiusCharacter possession reference **/
     class ABlastRadiusCharacter* Character;
