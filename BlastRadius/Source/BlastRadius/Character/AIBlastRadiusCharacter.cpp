@@ -20,8 +20,10 @@ AAIBlastRadiusCharacter::AAIBlastRadiusCharacter()
     PawnSensingComponent->bHearNoises = false;
     PawnSensingComponent->OnSeePawn.AddDynamic(this, &AAIBlastRadiusCharacter::OnPawnSeen);
 
-    CameraBoom->ToggleActive();
-    TopDownCamera->ToggleActive();
+    CameraBoom->SetActive(false);
+    CameraBoom->DestroyComponent();
+    TopDownCamera->SetActive(false);
+    TopDownCamera->DestroyComponent();
 
     SetState(EAIState::Idle);
 
@@ -127,7 +129,7 @@ void AAIBlastRadiusCharacter::Tick(float DeltaTime)
             MoveToNextPatrolPoint();
     }
 
-    // Rotate towards target
+    // Rotate towards target & check for looking at target
     if (TargetActor != nullptr)
     {
         FVector Location = GetActorLocation();
@@ -138,13 +140,19 @@ void AAIBlastRadiusCharacter::Tick(float DeltaTime)
         SetActorRotation(FMath::Lerp(GetActorRotation(), Direction.Rotation(), 0.25f));
 
         // Begin shooting if looking at target
-        if (GetActorRotation() == Direction.Rotation() && AIState == EAIState::Alerted)
+        // FRotator::Equals(GetActorRotation(), Direction.Rotation(), 0.05f);
+        if (GetActorRotation().Equals(Direction.Rotation(), 0.5f) && AIState == EAIState::Alerted)
             SetState(EAIState::Attacking);
+
     }
 
     // Fire at target
-    if (TargetActor != nullptr && AIState == EAIState::Attacking)
+    if (bCanShoot)
     {
-        Fire();
+        if (TargetActor != nullptr && AIState == EAIState::Attacking)
+        {
+            GetWorldTimerManager().ClearTimer(TimerHandle_Fire);
+            GetWorldTimerManager().SetTimer(TimerHandle_Fire, this, &AAIBlastRadiusCharacter::Fire, ShootingDelay);
+        }
     }
 }

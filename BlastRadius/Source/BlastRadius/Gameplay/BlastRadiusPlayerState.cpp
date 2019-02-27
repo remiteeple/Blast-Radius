@@ -4,6 +4,6 @@
 
 void ABlastRadiusPlayerState::DecrementLives()
 {
-    CurrentLives--;
+    //CurrentLives--;
 
 }

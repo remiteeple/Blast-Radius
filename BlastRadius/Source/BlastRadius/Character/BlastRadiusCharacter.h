@@ -34,7 +34,7 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
         FVector SpawnPoint;
     /** Spawn timer **/
-    FTimerHandle SpawnTimer;
+    FTimerHandle TimerHandle_SpawnTimer;
     /** Spawn Delay**/
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
         float SpawnDelay;
@@ -46,7 +46,7 @@ public:
     UPROPERTY(EditDefaultsOnly)
         UAnimMontage* MeleeAttackAnimation;
     UPROPERTY(EditDefaultsOnly)
-        FTimerHandle MeleeTimer;
+        FTimerHandle TimerHandle_MeleeTimer;
 
     /** Porjectile **/
     //Goes in weapon, in Character for testing. Used to define projectile spawn point.
