@@ -24,6 +24,8 @@ AAIBlastRadiusCharacter::AAIBlastRadiusCharacter()
     TopDownCamera->ToggleActive();
 
     SetState(EAIState::Idle);
+
+    Tags.Add("AI");
 }
 
 void AAIBlastRadiusCharacter::BeginPlay()

@@ -11,7 +11,7 @@ UHealthComponent::UHealthComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
-    CurrentHealth = 0.0f;
+    CurrentHealth = 100.0f;
     //
     OnDamage.AddDynamic(this, &UHealthComponent::TakeAnyDamage);
     //OnDeath.AddDynamic(this, &UHealthComponent::Die); //Still working on this, waiting for the Week 5 notes to be readable as an example.
@@ -30,7 +30,6 @@ void UHealthComponent::BeginPlay()
 
 void UHealthComponent::TakeAnyDamage(AActor* DamagedActor, float Damage, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser)
 {
-    CurrentHealth -= Damage;
 
     //Add the damage to the "health" %
     CurrentHealth += Damage;
