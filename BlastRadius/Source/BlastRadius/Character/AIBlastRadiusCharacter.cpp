@@ -10,7 +10,7 @@
 #include "Camera/CameraComponent.h"
 
 
-AAIBlastRadiusCharacter::AAIBlastRadiusCharacter()
+AAIBlastRadiusCharacter::AAIBlastRadiusCharacter() : Super()
 {
     SetActorTickEnabled(true);
 
@@ -51,10 +51,6 @@ void AAIBlastRadiusCharacter::OnPawnSeen(APawn* SeenPawn)
     TargetActor = SeenPawn;
 
     SetState(EAIState::Alerted);
-    //DrawDebugSphere() --> Input params GetWorld(), SeenPawn->GetActorLocation(), 32.0f, 12, FColor::Red, false, 10.0f
-
-    //Optional
-    //UE_LOG(LogTemp, Warning, TEXT("Seen"));
 
     AController* Controller = GetController();
 
@@ -62,7 +58,7 @@ void AAIBlastRadiusCharacter::OnPawnSeen(APawn* SeenPawn)
     {
         Controller->StopMovement();
         GetWorldTimerManager().ClearTimer(TimerHandle_ResetState);
-        GetWorldTimerManager().SetTimer(TimerHandle_ResetState, this, &AAIBlastRadiusCharacter::ResetState, 2.5f);
+        GetWorldTimerManager().SetTimer(TimerHandle_ResetState, this, &AAIBlastRadiusCharacter::ResetPatrol, 2.5f);
     }
 }
 
@@ -113,6 +109,7 @@ void AAIBlastRadiusCharacter::MoveToNextPatrolPoint()
     
     AController* Controller = GetController();
     UAIBlueprintHelperLibrary::SimpleMoveToActor(Controller, CurrentPatrolPoint);
+    GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Purple, "Moving");
 }
 
 void AAIBlastRadiusCharacter::Tick(float DeltaTime)
@@ -140,9 +137,8 @@ void AAIBlastRadiusCharacter::Tick(float DeltaTime)
         SetActorRotation(FMath::Lerp(GetActorRotation(), Direction.Rotation(), 0.25f));
 
         // Begin shooting if looking at target
-        // FRotator::Equals(GetActorRotation(), Direction.Rotation(), 0.05f);
-        if (GetActorRotation().Equals(Direction.Rotation(), 0.5f) && AIState == EAIState::Alerted)
-            SetState(EAIState::Attacking);
+        //if (GetActorRotation().Equals(Direction.Rotation(), 0.5f) && AIState == EAIState::Alerted)
+        //    SetState(EAIState::Attacking);
 
     }
 
