@@ -66,8 +66,13 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
     Energy = 100;*/
 
 
+<<<<<<< HEAD
     //BlinkComponent = CreateDefaultSubobject<UBlinkComponent>(TEXT("Blink"));
     //MeleeComponent = CreateDefaultSubobject<UMeleeComponent>(TEXT("Melee"));
+=======
+    BlinkComponent = CreateDefaultSubobject<UBlinkComponent>(TEXT("Blink"));
+    MeleeComponent = CreateDefaultSubobject<UMeleeComponent>(TEXT("Melee"));
+>>>>>>> c410fb8482973f5e4e57c612a319f6d91d393e4c
 
     //Setup the health and energy components
     HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health"));
