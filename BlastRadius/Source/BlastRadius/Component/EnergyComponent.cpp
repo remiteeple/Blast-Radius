@@ -72,7 +72,7 @@ void UEnergyComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
     if (GetOwner())
     {
         //Displays current character energy. For Debugging, remove on HUD implementation.
-        GEngine->AddOnScreenDebugMessage(5, 5.f, FColor::Cyan, *CurrentEnergyDisplayValue);
+        GEngine->AddOnScreenDebugMessage(5, 5.f, FColor::Cyan, "Energy %: " + CurrentEnergyDisplayValue);
 
         //Displays current character energy. For Debugging, remove on HUD implementation.
         GEngine->AddOnScreenDebugMessage(40, 5.f, FColor::Green, FString::Printf(TEXT("Fast Charge: %x"), FastCharge));

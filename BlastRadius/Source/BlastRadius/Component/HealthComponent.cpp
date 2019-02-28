@@ -58,7 +58,7 @@ void UHealthComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
     if (GetOwner())
     {
         //Shows current character health. For Debugging, remove on HUD implementation.
-        GEngine->AddOnScreenDebugMessage(20, 5.f, FColor::Red, *CurrentHealthDisplayValue);
+        GEngine->AddOnScreenDebugMessage(20, 5.f, FColor::Red, "Damage %: " + CurrentHealthDisplayValue);
     }
     
 	// ...
@@ -72,7 +72,7 @@ void UHealthComponent::TakeDamage(float Damage, const class UDamageType* DamageT
     float KnockBack;
     KnockBack = ((CurrentHealth / 10) + ((CurrentHealth * Damage) / 20)) / 500.0f;
 
-    //GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Orange, FString::SanitizeFloat(KnockBack)); // DEBUG
+    GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Orange, "Knockback Power: " + FString::SanitizeFloat(KnockBack)); // DEBUG
 
                                                                                                    //Knock back impulse when projectile collides.
     FVector LaunchVelocity = HitFrom;
