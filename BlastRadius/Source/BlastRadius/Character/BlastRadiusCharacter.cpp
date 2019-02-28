@@ -229,7 +229,7 @@ void ABlastRadiusCharacter::OnDeath()
     SkeletalMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
     SkeletalMesh->SetSimulatePhysics(true);
     /* Start the delay until respawn */
-    GetWorld()->GetTimerManager().SetTimer(SpawnTimer, this, &ABlastRadiusCharacter::Respawn, SpawnDelay, false);
+    GetWorld()->GetTimerManager().SetTimer(TimerHandle_SpawnTimer, this, &ABlastRadiusCharacter::Respawn, SpawnDelay, false);
 
 
 }
