@@ -23,24 +23,11 @@ ABlastRadiusWeapon::ABlastRadiusWeapon()
     RootComponent = MeshComponent;
 
     MuzzleArrow = CreateDefaultSubobject<UArrowComponent>("WeaponArrow");
-    //MuzzleArrow->AddLocalOffset(MuzzleDirectionOffSet);
     MuzzleArrow->SetupAttachment(RootComponent);
 
 
-    //MagnitudeOffSet = 50.0f;
-    //if (GetOwner() != nullptr)
-    //{
-    //    SetActorRotation(GetOwner()->GetActorRotation());
-    //    MuzzleDirectionOffSet = GetActorRotation().Vector().GetSafeNormal();
-    //    MuzzleDirectionOffSet *= MagnitudeOffSet;
-    //    MuzzleLocation = GetActorLocation() + MuzzleDirectionOffSet;
-    //}
+    ProjectileFX = CreateDefaultSubobject<UParticleSystem>(TEXT("Firing Particles"));
 
-    static ConstructorHelpers::FObjectFinder<UParticleSystem> PS(TEXT("ParticleSystem'/Game/StarterContent/Particles/P_Explosion'"));
-    if (PS.Succeeded())
-    {
-        ProjectileFX = PS.Object;
-    }
     PSC = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("MyPSC"));
     //PSC->SetTemplate(PS.Object); //If you want it to Spawn on Creation, could go to BeginPlay too
     PSC->SetupAttachment(RootComponent);
@@ -83,20 +70,18 @@ void ABlastRadiusWeapon::Fire()
                 // Set the projectile's initial trajectory.
                 FVector LaunchDirection = GetOwner()->GetActorRotation().Vector();
                 Projectile->FireInDirection(LaunchDirection);
+                
             }
         }
     }
 
-    ////Add this somewhere here to spawn particles.
-    //if (ProjectileFX)
-    //{
-    //    //Spawn ParticleSystem using GamePlayStatics
-    //    //UGameplayStatics::SpawnEmitterAtLocation(this, ProjectileFX, GetActorLocation());
-    //    //OR Spawn Particle using UParticleSystemComponent
-    //    PSC->SetTemplate(ProjectileFX);
-    //    //ProjectileSprite->bHiddenInGame = true;
-    //    //ProjectileSprite->SetVisibility(false);
-    //}
+    //Add this somewhere here to spawn particles.
+    if (ProjectileFX)
+    {
+        UGameplayStatics::SpawnEmitterAtLocation(this, ProjectileFX, MuzzleArrow->GetComponentLocation());
+        PSC->SetTemplate(ProjectileFX);
+        PSC->SecondsBeforeInactive = 0.5;
+    }
 
 }
 

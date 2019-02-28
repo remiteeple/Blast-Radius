@@ -11,6 +11,7 @@
 #include "Runtime/Engine/Classes/Particles/ParticleSystem.h"
 #include "Runtime/CoreUObject/Public/UObject/ConstructorHelpers.h"
 #include "Runtime/Engine/Classes/Particles/ParticleSystemComponent.h"
+#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 
 // Sets default values
 ABlastRadiusProjectile::ABlastRadiusProjectile()
@@ -77,14 +78,12 @@ ABlastRadiusProjectile::ABlastRadiusProjectile()
     in the "MovementComp" Component in order for this projectile to replicate correctly over a server.
     */
 
-    static ConstructorHelpers::FObjectFinder<UParticleSystem> PS(TEXT("ParticleSystem'/Game/StarterContent/Particles/P_Explosion'"));
-    if (PS.Succeeded())
-    {
-        ProjectileFX = PS.Object;
-    }
-    PSC = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("MyPSC"));
-    //PSC->SetTemplate(PS.Object); //If you want it to Spawn on Creation, could go to BeginPlay too
-    PSC->SetupAttachment(RootComponent);
+    
+    ProjectileFX = CreateDefaultSubobject<UParticleSystem>(TEXT("Projectile Particles"));
+    ProjectileDestroyFX = CreateDefaultSubobject<UParticleSystem>(TEXT("Projectile Destroyed Particles"));
+
+    PSC1 = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("MyPSC1"));
+    PSC1->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned
@@ -97,30 +96,21 @@ void ABlastRadiusProjectile::BeginPlay()
         &ABlastRadiusProjectile::DestroySelf,
         m_LifeSpan, true);
 
-
+    if (ProjectileFX)
+    {
+        PSC1->SetTemplate(ProjectileFX);
+    }
 }
 
 // Called every frame
 void ABlastRadiusProjectile::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
-
 }
 
 
 void ABlastRadiusProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-    //AActor* temp = GetOwner();
-    //AActor* tempChar = GetOwner()->GetOwner();
-    //bool woo = false;
-    //if (temp)
-    //{
-    //    OtherActor->SetOwner(OtherActor);
-    //}
-    //if (tempChar)
-    //{
-    //    OtherActor->SetOwner(OtherActor);
-    //}
 
     if (OtherActor != nullptr && OtherComp != nullptr)
     {
@@ -132,6 +122,12 @@ void ABlastRadiusProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
             const UDamageType* Laser_DamageType = Cast<UDamageType>(UDamageType::StaticClass());
             OtherCharacter->GetHealthComponent()->TakeDamage(m_LaserDamage, Laser_DamageType, OtherCharacter->GetInstigatorController(), GetOwner(), GetVelocity());
             GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Red, "OtherCharacter Damage % - " + FString::SanitizeFloat(OtherCharacter->GetHealthComponent()->GetCurrentHealth())); // DEBUG
+
+            if (ProjectileDestroyFX)
+            {
+                UGameplayStatics::SpawnEmitterAtLocation(this, ProjectileDestroyFX, GetActorLocation());
+                PSC1->SetTemplate(ProjectileDestroyFX);
+            }
             DestroySelf();
         }
 
@@ -145,18 +141,18 @@ void ABlastRadiusProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
         }
         else
         {
+            if (ProjectileDestroyFX)
+            {
+                //Spawn ParticleSystem using GamePlayStatics
+                UGameplayStatics::SpawnEmitterAtLocation(this, ProjectileDestroyFX, GetActorLocation());
+                //OR Spawn Particle using UParticleSystemComponent
+                PSC1->SetTemplate(ProjectileDestroyFX);
+                //ProjectileSprite->bHiddenInGame = true;
+                //ProjectileSprite->SetVisibility(false);
+            }
             DestroySelf();
         }
-        ////Add this somewhere here to Spawn Particles.
-        //if (ProjectileFX)
-        //{
-        //    //Spawn ParticleSystem using GamePlayStatics
-        //    // UGameplayStatics::SpawnEmitterAtLocation(this, ProjectileFX, GetActorLocation());
-        //    //OR Spawn Particle using UParticleSystemComponent
-        //    PSC->SetTemplate(ProjectileFX);
-        //    //ProjectileSprite->bHiddenInGame = true;
-        //    //ProjectileSprite->SetVisibility(false);
-        //}
+
     }
 }
 

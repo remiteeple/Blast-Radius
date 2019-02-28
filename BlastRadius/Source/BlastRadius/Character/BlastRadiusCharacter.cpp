@@ -20,6 +20,9 @@
 #include "Weapon/BlastRadiusWeapon.h"
 #include "Gameplay/BlastRadiusPlayerController.h"
 #include "Runtime/Engine/Classes/Engine/CollisionProfile.h"
+#include "Runtime/CoreUObject/Public/UObject/ConstructorHelpers.h"
+#include "Runtime/Engine/Classes/Particles/ParticleSystemComponent.h"
+#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 
 //////////////////////////////////////////////////////////////////////////
 // ABlastRadiusCharacter
@@ -80,6 +83,11 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
     //HealthPercentage = 0.0;
     //Energy = 100;
 
+    ProjectileFX = CreateDefaultSubobject<UParticleSystem> (TEXT("Blink Particles"));
+    
+    PSC = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("MyPSC"));
+    PSC->SetupAttachment(RootComponent);
+
     Tags.Add("Player");
 }
 
@@ -114,6 +122,25 @@ void ABlastRadiusCharacter::PostInitializeComponents()
 
     /* Retrieve the blink component */
     BlinkComponent = FindComponentByClass<UBlinkComponent>();
+
+
+    /* Retrieve the melee component */
+    //MeleeComponent = FindComponentByClass<UMeleeComponent>();
+
+ 
+
+}
+
+class ABlastRadiusPlayerState* ABlastRadiusCharacter::GetPlayerState()
+{
+    return Cast<class ABlastRadiusPlayerState>(this->PlayerState);
+}
+
+//TODO Week 7: Return the ABaseGameState
+class ABlastRadiusGameStateBase* ABlastRadiusCharacter::GetGameState()
+{
+    return Cast<ABlastRadiusGameStateBase>(GetWorld()->GetGameState());
+
 }
 
 void ABlastRadiusCharacter::BeginPlay()
@@ -138,6 +165,8 @@ void ABlastRadiusCharacter::BeginPlay()
         Weapon->SetOwner(this);
         Weapon->Attach(this);
     }
+
+
 }
 
 void ABlastRadiusCharacter::Tick(float DeltaTime)
@@ -262,10 +291,22 @@ void ABlastRadiusCharacter::Blink()
 {
     if (EnergyComponent->OnCooldown == false)
     {
+        if (ProjectileFX)
+        {
+            PSC->SecondsBeforeInactive = 0.5;
+            UGameplayStatics::SpawnEmitterAtLocation(this, ProjectileFX, GetActorLocation());
+            PSC->SetTemplate(ProjectileFX);
+
+        }
+
         BlinkComponent->Blink(this);
         EnergyComponent->SpendEnergy(BlinkCost);
+
+        if (ProjectileFX)
+        {
+            UGameplayStatics::SpawnEmitterAtLocation(this, ProjectileFX, GetActorLocation());
+        }
     }
-    
 }
 
 void ABlastRadiusCharacter::Fire()
@@ -303,12 +344,3 @@ void ABlastRadiusCharacter::LookAt(FVector Direction)
 //////////////////////////////////////////////////////////////////////////
 // Getters
 
-class ABlastRadiusPlayerState* ABlastRadiusCharacter::GetPlayerState() 
-{ 
-    return Cast<ABlastRadiusPlayerState>(PlayerState); 
-}
-
-class ABlastRadiusGameStateBase* ABlastRadiusCharacter::GetGameState()
-{
-    return Cast<class ABlastRadiusGameStateBase>(GetWorld()->GetGameState()); 
-}

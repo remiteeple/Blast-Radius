@@ -29,3 +29,12 @@ Right Shoulder - Blink / Teleport in Player's current orientation
 Gamepad Face Button Left - Melee (NOT IMPLEMENETED IN ALPHA 1.0)
 Right Trigger - Shoot in Player's current orientation
 ###############################################################################
+#CREDITS#
+Audio From:
+https://freesound.org/
+
+Laser03.wav by Sharesynth - https://freesound.org/people/sharesynth/sounds/344511/
+
+Laser Shot Silenced by Bubaproducer - https://freesound.org/people/bubaproducer/sounds/151022/
+
+###############################################################################
