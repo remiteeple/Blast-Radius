@@ -13,7 +13,12 @@ class ABlastRadiusGameMode : public AGameModeBase
         
 public:
 	ABlastRadiusGameMode();
-    void End();
+    /* Failed attempts at setting up gamemode */
+    /*void Tick(float DeltaTime) override;
+    void StartPlay() override;
+    void RoundEnd();
+
+    class ABlastRadiusPlayerState* BlastRadiusState;*/
 };
 
 

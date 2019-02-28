@@ -16,10 +16,14 @@ class BLASTRADIUS_API ABlastRadiusPlayerState : public APlayerState
 	
 	
 public:
-    int CurrentLives;
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Lives)
+    int CurrentLives = 3;
     int CurrentDamage;
 
+    
     void DecrementLives();
+    UFUNCTION()
     int GetLives() { return CurrentLives; };
+    void RoundEnd();
 	
 };

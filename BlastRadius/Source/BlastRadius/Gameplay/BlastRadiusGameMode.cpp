@@ -7,6 +7,8 @@
 #include "BlastRadiusGameStateBase.h"
 #include "EngineGlobals.h"
 #include "Runtime/Engine/Classes/Engine/Engine.h"
+
+
 ABlastRadiusGameMode::ABlastRadiusGameMode()
 {
 	// set default pawn class to our Blueprinted character
@@ -15,19 +17,32 @@ ABlastRadiusGameMode::ABlastRadiusGameMode()
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
+    PrimaryActorTick.bStartWithTickEnabled = true;
+    PrimaryActorTick.bCanEverTick = true;
+ 
 }
 
-void ABlastRadiusGameMode::End()
-{
-    ABlastRadiusPlayerState* PlayerState = Cast<ABlastRadiusPlayerState>(PlayerStateClass);
-    if (PlayerState != nullptr)
-    {
-        
-        
-        if (PlayerState->GetLives() <= 0)
-        {
-            GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, TEXT("WIN"));
-        }
-
-    }
-}
+//**** Failed attempts at getting the playerstate to get the player's lives ****//
+//void ABlastRadiusGameMode::StartPlay()
+//{
+//    Super::StartPlay();
+//    ABlastRadiusCharacter* Player = Cast<ABlastRadiusCharacter>(Cast<ABlastRadiusGameStateBase>(GameStateClass)->PlayerArray[0]);
+//    BlastRadiusState = Player->GetPlayerState();
+//    if (PlayerStateClass != nullptr)
+//        BlastRadiusState = Cast<ABlastRadiusPlayerState>(PlayerStateClass);
+//
+//}
+//void ABlastRadiusGameMode::Tick(float DeltaTime)
+//{
+//    Super::Tick(DeltaTime);
+//    
+//    if (BlastRadiusState->GetLives() <= 0)
+//    {
+//        RoundEnd();
+//    }
+//}
+//
+//void ABlastRadiusGameMode::RoundEnd()
+//{
+//    GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, TEXT("WIN"));
+//}

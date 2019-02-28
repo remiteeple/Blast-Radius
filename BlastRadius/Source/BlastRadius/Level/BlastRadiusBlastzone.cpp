@@ -5,6 +5,7 @@
 #include "Character/BlastRadiusCharacter.h"
 #include "BlastRadius/Gameplay/BlastRadiusPlayerState.h"
 #include "BlastRadius/Gameplay/BlastRadiusGameStateBase.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ABlastRadiusBlastzone::ABlastRadiusBlastzone()
@@ -22,7 +23,7 @@ ABlastRadiusBlastzone::ABlastRadiusBlastzone()
 void ABlastRadiusBlastzone::BeginPlay()
 {
 	Super::BeginPlay();
-	
+    
 }
 
 // Called every frame

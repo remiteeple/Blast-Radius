@@ -15,6 +15,8 @@
 #include "Component/MeleeComponent.h"
 #include "Weapon/BlastRadiusSword.h"
 #include "Weapon/BlastRadiusProjectile.h"
+#include "Gameplay/BlastRadiusGameStateBase.h"
+#include "Gameplay/BlastRadiusPlayerState.h"
 #include "Gameplay/BlastRadiusPlayerController.h"
 
 //////////////////////////////////////////////////////////////////////////
@@ -55,9 +57,6 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
     TopDownCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
     TopDownCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
-	SkeletalMesh = GetMesh();
-    SkeletalMesh->AttachToComponent(GetCapsuleComponent(), FAttachmentTransformRules::KeepRelativeTransform);
-
     MuzzleOffset = FVector(100, 0, 0);
 
     /*HealthPercentage = 0.0;
@@ -83,6 +82,7 @@ void ABlastRadiusCharacter::PostInitializeComponents()
 	Super::PostInitializeComponents();
 
 	/* Retrieve the skeletal mesh */
+    SkeletalMesh = GetMesh();
     //Check for skeletal mesh
     if (SkeletalMesh != nullptr)
     {
@@ -112,6 +112,17 @@ void ABlastRadiusCharacter::PostInitializeComponents()
 
     /* Retrieve the melee component */
     //MeleeComponent = FindComponentByClass<UMeleeComponent>();
+}
+
+class ABlastRadiusPlayerState* ABlastRadiusCharacter::GetPlayerState()
+{
+    return Cast<class ABlastRadiusPlayerState>(this->PlayerState);
+}
+
+//TODO Week 7: Return the ABaseGameState
+class ABlastRadiusGameStateBase* ABlastRadiusCharacter::GetGameState()
+{
+    return Cast<ABlastRadiusGameStateBase>(GetWorld()->GetGameState());
 }
 
 void ABlastRadiusCharacter::BeginPlay()
@@ -197,25 +208,34 @@ void ABlastRadiusCharacter::OnDeath()
     /* Enable the character's ragdoll */
     SkeletalMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
     SkeletalMesh->SetSimulatePhysics(true);
-
+    /* Start the delay until respawn */
     GetWorld()->GetTimerManager().SetTimer(SpawnTimer, this, &ABlastRadiusCharacter::Respawn, SpawnDelay, false);
 
 }
 
 void ABlastRadiusCharacter::Respawn()
 {
-    PrimaryActorTick.bCanEverTick = true;
+    /* Re-enable characters capsule collision */
+    GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+    /* Turn off collision on the characters mesh */
+    SkeletalMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    /* Turn off the ragdoll on the mesh */
+    SkeletalMesh->SetSimulatePhysics(false);
+    /* check if the teleport was completed successfully */
     if (TeleportTo(SpawnPoint, GetActorRotation()))
     {
+        /* Reset the transform on the mesh */
         SkeletalMesh->ResetRelativeTransform();
-        SkeletalMesh->SetRelativeRotation(GetActorRotation());
-        GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-        SkeletalMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-        SkeletalMesh->SetSimulatePhysics(false);
+        /* Lower the mesh to fit in the capsule */
+        SkeletalMesh->AddLocalOffset(FVector(0.0f, 0.0f, -90.0f));
+        /* Rotate the mesh to the correct orientation */
+        SkeletalMesh->AddLocalRotation(FRotator(0.0f, -90.0f, 0.0f));
+        /* Re-attach the mesh to the capsule component */
         SkeletalMesh->AttachToComponent(GetCapsuleComponent(), FAttachmentTransformRules::KeepRelativeTransform);
-        SkeletalMesh->GetRelativeTransform().AddToTranslation(FVector(GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z - 10000));
         
     }
+    /* Re-enable the actor's tick */
+    PrimaryActorTick.bCanEverTick = true;
 
     /* Disable character's capsule collision */
 

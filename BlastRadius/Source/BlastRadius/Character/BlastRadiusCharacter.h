@@ -94,6 +94,12 @@ public:
     /** Called to hide sword after melee **/
     void PutAwaySword();
 
+    /** Getter for Player State **/
+    class ABlastRadiusPlayerState* GetPlayerState();
+    /** Getter for Game State **/
+    class ABlastRadiusGameStateBase* GetGameState();
+
+
     /* Called when player health passes lower limit */
     UFUNCTION()
         void OnDeath();
