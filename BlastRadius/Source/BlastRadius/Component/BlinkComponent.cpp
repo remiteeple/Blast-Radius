@@ -5,6 +5,8 @@
 #include "GameFramework/Controller.h"
 #include "DrawDebugHelpers.h"
 #include "Kismet/GameplayStatics.h"
+#include "Sound/SoundBase.h"
+#include "Components/AudioComponent.h"
 
 
 // Sets default values for this component's properties
@@ -13,8 +15,13 @@ UBlinkComponent::UBlinkComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
+	
+    //Setup the Audio Component
+    AudioComponent = CreateDefaultSubobject<UAudioComponent>("BlinkSound");
+    AudioComponent->bAutoActivate = false;
+    AudioComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
 
-	// ...
+    // ...
 }
 
 
@@ -49,6 +56,11 @@ void UBlinkComponent::Blink(AActor* Character)
         FVector InitialPosition = Player->GetActorLocation();
 
         Character->SetActorLocation(FMath::Lerp(InitialPosition, BlinkPosition, 1));
+
+        //Play the audio for blinking
+        //Play the sound for shooting
+        AudioComponent->SetSound(BlinkSound);
+        AudioComponent->Play();
 }
 
 FVector UBlinkComponent::GetPickableActor_LineTraceSingleByProfile(FName ProfileName, FVector & StartTrace, FVector & Direction, FVector & EndTrace)

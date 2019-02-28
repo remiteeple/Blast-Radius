@@ -119,6 +119,7 @@ private:
 
 	    class USkeletalMeshComponent* SkeletalMesh;
 
+        UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Blink", meta = (AllowPrivateAccess = "true"))
 	    class UBlinkComponent* BlinkComponent;
 
         class UMeleeComponent* MeleeComponent;
