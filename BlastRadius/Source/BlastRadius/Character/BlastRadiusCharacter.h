@@ -105,30 +105,11 @@ public:
     bool bIsBlinking = false;
 
 private:
-<<<<<<< HEAD
     /** Component Declarations **/
     class USkeletalMeshComponent* SkeletalMesh;
     class UBlinkComponent* BlinkComponent;
     //class UMeleeComponent* MeleeComponent;
     class UCharacterAnimInstance* AnimationInstance;
-=======
-	/** Component Declarations **/
-	//class UHealthComponent* HealthComponent; Commented out as it has an attached component, now.
-	//class UEnergyComponent* EnergyComponent; Commented out as it has an attached component, now.
-
-	    class USkeletalMeshComponent* SkeletalMesh;
-
-        UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Blink", meta = (AllowPrivateAccess = "true"))
-	    class UBlinkComponent* BlinkComponent;
-
-        class UMeleeComponent* MeleeComponent;
-
-	    class UCharacterAnimInstance* AnimationInstance;
-
-	/** Weapon the character uses **/
-	//UPROPERTY()
-	//    class AWeaponBase* Weapon; // Weapon
->>>>>>> c410fb8482973f5e4e57c612a319f6d91d393e4c
 
 public:
     /** Returns CameraBoom subobject **/

@@ -39,12 +39,6 @@ public:
     UPROPERTY(EditDefaultsOnly, Category = "Effects")
         UParticleSystem* ProjectileFX;
 
-    UPROPERTY(EditAnywhere, Category = "Audio", meta = (AllowPrivateAccess = "true"))
-        class UAudioComponent* AudioComponent;
-
-    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
-        class USoundBase* ShotSound;
-
     UPROPERTY(VisibleAnywhere)
         class UParticleSystemComponent* PSC;
 

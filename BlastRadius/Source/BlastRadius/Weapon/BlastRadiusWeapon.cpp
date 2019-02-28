@@ -10,10 +10,6 @@
 #include "Runtime/Engine/Classes/Particles/ParticleSystem.h"
 #include "Runtime/CoreUObject/Public/UObject/ConstructorHelpers.h"
 #include "Runtime/Engine/Classes/Particles/ParticleSystemComponent.h"
-#include "Sound/SoundBase.h"
-#include "Components/AudioComponent.h"
-
-
 
 // Sets default values
 ABlastRadiusWeapon::ABlastRadiusWeapon()
@@ -29,13 +25,6 @@ ABlastRadiusWeapon::ABlastRadiusWeapon()
     MuzzleArrow = CreateDefaultSubobject<UArrowComponent>("WeaponArrow");
     //MuzzleArrow->AddLocalOffset(MuzzleDirectionOffSet);
     MuzzleArrow->SetupAttachment(RootComponent);
-
-    //Setup the Audio Component
-    AudioComponent = CreateDefaultSubobject<UAudioComponent>("WeaponSound");
-    AudioComponent->SetupAttachment(RootComponent);
-    AudioComponent->bAutoActivate = false;
-    AudioComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
-
 
 
     //MagnitudeOffSet = 50.0f;
@@ -94,10 +83,6 @@ void ABlastRadiusWeapon::Fire()
                 // Set the projectile's initial trajectory.
                 FVector LaunchDirection = GetOwner()->GetActorRotation().Vector();
                 Projectile->FireInDirection(LaunchDirection);
-
-                //Play the sound for shooting
-                    AudioComponent->SetSound(ShotSound);
-                    AudioComponent->Play();
             }
         }
     }
