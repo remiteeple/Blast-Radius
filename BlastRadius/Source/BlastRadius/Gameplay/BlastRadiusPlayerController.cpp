@@ -32,9 +32,6 @@ void ABlastRadiusPlayerController::SetupInputComponent()
     InputComponent->BindAction("Fire", IE_Pressed, this, &ABlastRadiusPlayerController::FirePressed);
     InputComponent->BindAction("Fire", IE_Released, this, &ABlastRadiusPlayerController::FireReleased);
 
-    InputComponent->BindAction("Aim", IE_Pressed, this, &ABlastRadiusPlayerController::AimPressed);
-    InputComponent->BindAction("Aim", IE_Released, this, &ABlastRadiusPlayerController::AimReleased);
-
     InputComponent->BindAction("Blink", IE_Pressed, this, &ABlastRadiusPlayerController::BlinkPressed);
     InputComponent->BindAction("Blink", IE_Released, this, &ABlastRadiusPlayerController::BlinkReleased);
 
@@ -134,18 +131,6 @@ void ABlastRadiusPlayerController::FireReleased()
         return;
 }
 
-void ABlastRadiusPlayerController::AimPressed()
-{
-    if (Character == nullptr)
-        return;
-}
-
-void ABlastRadiusPlayerController::AimReleased()
-{
-    if (Character == nullptr)
-        return;
-}
-
 void ABlastRadiusPlayerController::BlinkPressed()
 {
     if (Character == nullptr)
@@ -158,6 +143,8 @@ void ABlastRadiusPlayerController::BlinkReleased()
 {
     if (Character == nullptr)
         return;
+
+    //Character->bIsBlinking = false;
 }
 
 void ABlastRadiusPlayerController::MeleePressed()
@@ -172,6 +159,8 @@ void ABlastRadiusPlayerController::MeleeReleased()
 {
     if (Character == nullptr)
         return;
+
+    //Character->bIsMeleeAttacking = false;
 }
 
 void ABlastRadiusPlayerController::LookAtMouseCursor(float DeltaTime)

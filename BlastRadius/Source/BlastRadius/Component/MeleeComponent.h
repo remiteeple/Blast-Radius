@@ -17,7 +17,7 @@ public:
 	UMeleeComponent();
 
     UPROPERTY(Category = "Config", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-        float Damage = 15.0f;
+        float MeleeDamage = 15.0f;
 
 protected:
 	// Called when the game starts
