@@ -15,10 +15,13 @@ public:
 	// Sets default values for this actor's properties
 	ABlastRadiusSword();
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = HitBox, meta = (AllowPrivateAccess = "true"))
         class UBoxComponent* HitBoxComponent;
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
         class UStaticMeshComponent* StaticMesh;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Damage, meta = (AllowPrivateAccess = "true"))
+        float MeleeDamage = 25.0f;
 
 protected:
 	// Called when the game starts or when spawned

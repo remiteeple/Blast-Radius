@@ -20,10 +20,10 @@ public:
         bool bIsBlinking;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-        bool bIsAiming;
+        bool bIsMeleeAttacking;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-        bool bIsMeleeAttacking;
+        bool bIsFiring;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
         bool bIsMoving;
