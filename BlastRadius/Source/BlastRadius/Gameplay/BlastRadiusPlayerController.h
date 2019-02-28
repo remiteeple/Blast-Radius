@@ -41,9 +41,6 @@ private:
     void FirePressed();
     void FireReleased();
 
-    void AimPressed();
-    void AimReleased();
-
     void BlinkPressed();
     void BlinkReleased();
 

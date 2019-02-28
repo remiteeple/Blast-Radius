@@ -4,7 +4,6 @@
 
 UCharacterAnimInstance::UCharacterAnimInstance() :
     bIsBlinking(false),
-    bIsAiming(false),
     bIsMeleeAttacking(false),
     bIsMoving(false),
     MovementSpeed(0.0f),

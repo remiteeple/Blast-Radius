@@ -25,20 +25,7 @@ void UMeleeComponent::BeginPlay()
 
 void UMeleeComponent::OnActorHit(AActor* Self, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit)
 {
-    if (OtherActor != nullptr)
-    {
-        if (OtherActor != Self)
-        {
-            ABlastRadiusCharacter* OtherCharacter = Cast<ABlastRadiusCharacter>(OtherActor);
-            if (OtherCharacter != nullptr)
-            {
-                FDamageEvent DamageEvent;
-                OtherCharacter->TakeDamage(Damage, DamageEvent, nullptr, GetOwner());
-            }
-            else
-                return;
-        }
-    }
+
 }
 
 // Called every frame
@@ -53,4 +40,5 @@ void UMeleeComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 void UMeleeComponent::Melee()
 {
     // handle the animation
+
 }

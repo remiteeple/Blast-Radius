@@ -12,7 +12,7 @@
 #include "Component/BlinkComponent.h"
 #include "Component/HealthComponent.h"
 #include "Component/EnergyComponent.h"
-#include "Component/MeleeComponent.h"
+//#include "Component/MeleeComponent.h"
 #include "Weapon/BlastRadiusSword.h"
 #include "Weapon/BlastRadiusProjectile.h"
 #include "Gameplay/BlastRadiusGameStateBase.h"
@@ -70,7 +70,7 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
 
 
     //BlinkComponent = CreateDefaultSubobject<UBlinkComponent>(TEXT("Blink"));
-    MeleeComponent = CreateDefaultSubobject<UMeleeComponent>(TEXT("Melee"));
+    //MeleeComponent = CreateDefaultSubobject<UMeleeComponent>(TEXT("Melee"));
 
     //Setup the health and energy components
     HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health"));
@@ -122,6 +122,7 @@ void ABlastRadiusCharacter::PostInitializeComponents()
 
     /* Retrieve the blink component */
     BlinkComponent = FindComponentByClass<UBlinkComponent>();
+<<<<<<< HEAD
 
     /* Retrieve the melee component */
     //MeleeComponent = FindComponentByClass<UMeleeComponent>();
@@ -139,6 +140,8 @@ class ABlastRadiusPlayerState* ABlastRadiusCharacter::GetPlayerState()
 class ABlastRadiusGameStateBase* ABlastRadiusCharacter::GetGameState()
 {
     return Cast<ABlastRadiusGameStateBase>(GetWorld()->GetGameState());
+=======
+>>>>>>> 565a07514c43b89dca1fcc7fc16c554763cd6332
 }
 
 void ABlastRadiusCharacter::BeginPlay()
@@ -206,8 +209,9 @@ void ABlastRadiusCharacter::Tick(float DeltaTime)
     /* Check for walking state */
     bIsWalking ? GetCharacterMovement()->MaxWalkSpeed = MaxWalkSpeed : GetCharacterMovement()->MaxWalkSpeed = MaxRunSpeed;
 
-    /* Assign animation instances based on local states */
-    AnimationInstance->bIsAiming = bIsAiming;
+    /* Expose animation states to animation instance */
+    AnimationInstance->bIsFiring = bIsFiring;
+    AnimationInstance->bIsMeleeAttacking = bIsMeleeAttacking;
     AnimationInstance->bIsBlinking = bIsBlinking;
 
     //Toggle energy charge rate based on player movement. If not moving, charge faster.
@@ -243,10 +247,7 @@ void ABlastRadiusCharacter::OnDeath()
     SkeletalMesh->SetSimulatePhysics(true);
     /* Start the delay until respawn */
     GetWorld()->GetTimerManager().SetTimer(TimerHandle_SpawnTimer, this, &ABlastRadiusCharacter::Respawn, SpawnDelay, false);
-
-
 }
-
 
 void ABlastRadiusCharacter::Respawn()
 {
@@ -267,15 +268,9 @@ void ABlastRadiusCharacter::Respawn()
         SkeletalMesh->AddLocalRotation(FRotator(0.0f, -90.0f, 0.0f));
         /* Re-attach the mesh to the capsule component */
         SkeletalMesh->AttachToComponent(GetCapsuleComponent(), FAttachmentTransformRules::KeepRelativeTransform);
-        
     }
     /* Re-enable the actor's tick */
     PrimaryActorTick.bCanEverTick = true;
-
-    /* Disable character's capsule collision */
-
-    /* Enable the character's ragdoll */
-
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -310,23 +305,12 @@ void ABlastRadiusCharacter::Blink()
     }
 }
 
-void ABlastRadiusCharacter::Aim(bool Toggle)
-{
-    /* Set appropriate state */
-    bIsAiming = true;
-}
-
-void ABlastRadiusCharacter::Shoot()
-{
-
-}
-
 void ABlastRadiusCharacter::Fire()
 {
+    bIsFiring = true;
     if (EnergyComponent->OnCooldown == false)
     {
         Weapon->Fire();
-        //this->UseEnergy(Weapon->GetEnergyConsumptionAmount());
         EnergyComponent->SpendEnergy(ShootCost);
     }
 }
@@ -335,9 +319,10 @@ void ABlastRadiusCharacter::Melee()
 {
     if (Sword != nullptr)
     {
-        Sword->Activate();
+        bIsMeleeAttacking = true;
         GetWorld()->GetTimerManager().SetTimer(TimerHandle_MeleeTimer, this, &ABlastRadiusCharacter::PutAwaySword, 0.5f, true);        
-        MeleeComponent->Melee();
+        Sword->Activate();
+        EnergyComponent->SpendEnergy(MeleeCost);
     }
 }
 
@@ -350,4 +335,17 @@ void ABlastRadiusCharacter::PutAwaySword()
 void ABlastRadiusCharacter::LookAt(FVector Direction)
 {
     SetActorRotation(Direction.Rotation());
+}
+
+//////////////////////////////////////////////////////////////////////////
+// Getters
+
+class ABlastRadiusPlayerState* ABlastRadiusCharacter::GetPlayerState() 
+{ 
+    return Cast<ABlastRadiusPlayerState>(PlayerState); 
+}
+
+class ABlastRadiusGameStateBase* ABlastRadiusCharacter::GetGameState()
+{
+    return Cast<class ABlastRadiusGameStateBase>(GetWorld()->GetGameState()); 
 }

@@ -30,6 +30,7 @@ public:
         float MaxWalkSpeed;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
         float MaxRunSpeed;
+
     /** Spawn location variable **/
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
         FVector SpawnPoint;
@@ -38,11 +39,10 @@ public:
     /** Spawn Delay**/
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
         float SpawnDelay;
+
     /** Animations **/
     UPROPERTY(EditDefaultsOnly)
         UAnimMontage* HipFireAnimation;
-    UPROPERTY(EditDefaultsOnly)
-        UAnimMontage* AimFireAnimaion;
     UPROPERTY(EditDefaultsOnly)
         UAnimMontage* MeleeAttackAnimation;
     UPROPERTY(EditDefaultsOnly)
@@ -63,11 +63,14 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
         TSubclassOf<class ABlastRadiusWeapon> WeaponClass;
     ABlastRadiusWeapon* Weapon;
+<<<<<<< HEAD
     /* Blink particles*/
     UPROPERTY(EditDefaultsOnly, Category = "Effects")
         class UParticleSystemComponent* PSC;
     UPROPERTY(EditDefaultsOnly, Category = "Effects")
         UParticleSystem* ProjectileFX;
+=======
+>>>>>>> 565a07514c43b89dca1fcc7fc16c554763cd6332
 
     /** Called when actor hit **/
     void OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
@@ -80,12 +83,6 @@ public:
 
     /** Called when blink is activated **/
     void Blink();
-
-    /** Called for aiming **/
-    void Aim(bool Toggle);
-
-    /** Called for shooting **/
-    void Shoot();
 
     /** Call for shooting **/
     void Fire();
@@ -101,8 +98,7 @@ public:
     /** Getter for Game State **/
     class ABlastRadiusGameStateBase* GetGameState();
 
-
-    /* Called when player health passes lower limit */
+    /** Called when player health passes lower limit **/
     UFUNCTION()
         void OnDeath();
 
@@ -112,13 +108,17 @@ public:
     /** State Definitions **/
     // Default false
     bool bIsWalking = false;
+<<<<<<< HEAD
     bool bIsAiming = false;
+=======
+>>>>>>> 565a07514c43b89dca1fcc7fc16c554763cd6332
     bool bIsMeleeAttacking = false;
     bool bIsFiring = false;
     bool bIsBlinking = false;
 
 private:
     /** Component Declarations **/
+<<<<<<< HEAD
     //class UHealthComponent* HealthComponent; Commented out as it has an attached component, now.
     //class UEnergyComponent* EnergyComponent; Commented out as it has an attached component, now.
 
@@ -133,6 +133,12 @@ private:
     /** Weapon the character uses **/
     //UPROPERTY()
     //    class AWeaponBase* Weapon; // Weapon
+=======
+    class USkeletalMeshComponent* SkeletalMesh;
+    class UBlinkComponent* BlinkComponent;
+    //class UMeleeComponent* MeleeComponent;
+    class UCharacterAnimInstance* AnimationInstance;
+>>>>>>> 565a07514c43b89dca1fcc7fc16c554763cd6332
 
 public:
     /** Returns CameraBoom subobject **/
@@ -162,13 +168,12 @@ protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Camera, meta = (AllowPrivateAccess = "true"))
         class UCameraComponent* TopDownCamera;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
+    /** Energy Spendature Values **/
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy_Cost)
         float BlinkCost = 35.0f;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy_Cost)
         float ShootCost = 15.0f;
-
-
-
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy_Cost)
+        float MeleeCost = 25.0f;
 };
 
