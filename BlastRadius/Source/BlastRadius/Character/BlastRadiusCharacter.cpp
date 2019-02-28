@@ -122,12 +122,12 @@ void ABlastRadiusCharacter::PostInitializeComponents()
 
     /* Retrieve the blink component */
     BlinkComponent = FindComponentByClass<UBlinkComponent>();
-<<<<<<< HEAD
+
 
     /* Retrieve the melee component */
     //MeleeComponent = FindComponentByClass<UMeleeComponent>();
 
-    /* Initialize Particle system for blinks*/
+ 
 
 }
 
@@ -140,8 +140,7 @@ class ABlastRadiusPlayerState* ABlastRadiusCharacter::GetPlayerState()
 class ABlastRadiusGameStateBase* ABlastRadiusCharacter::GetGameState()
 {
     return Cast<ABlastRadiusGameStateBase>(GetWorld()->GetGameState());
-=======
->>>>>>> 565a07514c43b89dca1fcc7fc16c554763cd6332
+
 }
 
 void ABlastRadiusCharacter::BeginPlay()
@@ -340,12 +339,3 @@ void ABlastRadiusCharacter::LookAt(FVector Direction)
 //////////////////////////////////////////////////////////////////////////
 // Getters
 
-class ABlastRadiusPlayerState* ABlastRadiusCharacter::GetPlayerState() 
-{ 
-    return Cast<ABlastRadiusPlayerState>(PlayerState); 
-}
-
-class ABlastRadiusGameStateBase* ABlastRadiusCharacter::GetGameState()
-{
-    return Cast<class ABlastRadiusGameStateBase>(GetWorld()->GetGameState()); 
-}

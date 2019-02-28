@@ -63,14 +63,14 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
         TSubclassOf<class ABlastRadiusWeapon> WeaponClass;
     ABlastRadiusWeapon* Weapon;
-<<<<<<< HEAD
+
     /* Blink particles*/
     UPROPERTY(EditDefaultsOnly, Category = "Effects")
         class UParticleSystemComponent* PSC;
     UPROPERTY(EditDefaultsOnly, Category = "Effects")
         UParticleSystem* ProjectileFX;
-=======
->>>>>>> 565a07514c43b89dca1fcc7fc16c554763cd6332
+
+
 
     /** Called when actor hit **/
     void OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
@@ -108,17 +108,17 @@ public:
     /** State Definitions **/
     // Default false
     bool bIsWalking = false;
-<<<<<<< HEAD
+
     bool bIsAiming = false;
-=======
->>>>>>> 565a07514c43b89dca1fcc7fc16c554763cd6332
+
+
     bool bIsMeleeAttacking = false;
     bool bIsFiring = false;
     bool bIsBlinking = false;
 
 private:
     /** Component Declarations **/
-<<<<<<< HEAD
+
     //class UHealthComponent* HealthComponent; Commented out as it has an attached component, now.
     //class UEnergyComponent* EnergyComponent; Commented out as it has an attached component, now.
 
@@ -130,15 +130,7 @@ private:
 
     class UCharacterAnimInstance* AnimationInstance;
 
-    /** Weapon the character uses **/
-    //UPROPERTY()
-    //    class AWeaponBase* Weapon; // Weapon
-=======
-    class USkeletalMeshComponent* SkeletalMesh;
-    class UBlinkComponent* BlinkComponent;
-    //class UMeleeComponent* MeleeComponent;
-    class UCharacterAnimInstance* AnimationInstance;
->>>>>>> 565a07514c43b89dca1fcc7fc16c554763cd6332
+
 
 public:
     /** Returns CameraBoom subobject **/
