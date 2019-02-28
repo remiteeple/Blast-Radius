@@ -5,6 +5,9 @@
 #include "GameFramework/Controller.h"
 #include "DrawDebugHelpers.h"
 #include "Kismet/GameplayStatics.h"
+#include "Runtime/CoreUObject/Public/UObject/ConstructorHelpers.h"
+#include "Runtime/Engine/Classes/Particles/ParticleSystemComponent.h"
+#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 
 
 // Sets default values for this component's properties
@@ -15,6 +18,8 @@ UBlinkComponent::UBlinkComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
+
+
 }
 
 
@@ -23,8 +28,8 @@ void UBlinkComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
-	
+    //Particles appear when blink initiated.
+
 }
 
 

@@ -23,6 +23,8 @@ public:
 
     FVector GetPickableActor_LineTraceSingleByProfile(FName ProfileName, FVector & StartTrace, FVector & Direction, FVector & EndTrace);
 
+
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;

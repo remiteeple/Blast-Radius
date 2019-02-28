@@ -6,26 +6,26 @@
 #include "GameFramework/Character.h"
 #include "BlastRadiusCharacter.generated.h"
 
-UCLASS(config=Game)
+UCLASS(config = Game)
 class ABlastRadiusCharacter : public ACharacter
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Gameplay, meta = (AllowPrivateAccess = "true"))
+        UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Gameplay, meta = (AllowPrivateAccess = "true"))
         class UHealthComponent* HealthComponent;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Gameplay, meta = (AllowPrivateAccess = "true"))
         class UEnergyComponent* EnergyComponent;
 
 protected:
-	ABlastRadiusCharacter();
+    ABlastRadiusCharacter();
 
-	virtual void PostInitializeComponents() override;
-	virtual void BeginPlay() override;
+    virtual void PostInitializeComponents() override;
+    virtual void BeginPlay() override;
     virtual void Tick(float DeltaTime) override;
 
 public:
-	/** Character movement variable **/
+    /** Character movement variable **/
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
         float MaxWalkSpeed;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
@@ -58,11 +58,16 @@ public:
     //Sword Template to use
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
         TSubclassOf<class ABlastRadiusSword> SwordClass;
-        ABlastRadiusSword* Sword;
-        /* Weapon */
+    ABlastRadiusSword* Sword;
+    /* Weapon */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
         TSubclassOf<class ABlastRadiusWeapon> WeaponClass;
-        ABlastRadiusWeapon* Weapon;
+    ABlastRadiusWeapon* Weapon;
+    /* Blink particles*/
+    UPROPERTY(EditDefaultsOnly, Category = "Effects")
+        class UParticleSystemComponent* PSC;
+    UPROPERTY(EditDefaultsOnly, Category = "Effects")
+        UParticleSystem* ProjectileFX;
 
     /** Called when actor hit **/
     void OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
@@ -104,40 +109,40 @@ public:
     /** Teleports player upon stock loss to spawm point **/
     void Respawn();
 public:
-	/** State Definitions **/
-	// Default false
-	bool bIsWalking = false;
-	bool bIsAiming = false;
+    /** State Definitions **/
+    // Default false
+    bool bIsWalking = false;
+    bool bIsAiming = false;
     bool bIsMeleeAttacking = false;
-	bool bIsFiring = false;
-	bool bIsBlinking = false;
+    bool bIsFiring = false;
+    bool bIsBlinking = false;
 
 private:
-	/** Component Declarations **/
-	//class UHealthComponent* HealthComponent; Commented out as it has an attached component, now.
-	//class UEnergyComponent* EnergyComponent; Commented out as it has an attached component, now.
+    /** Component Declarations **/
+    //class UHealthComponent* HealthComponent; Commented out as it has an attached component, now.
+    //class UEnergyComponent* EnergyComponent; Commented out as it has an attached component, now.
 
-	    class USkeletalMeshComponent* SkeletalMesh;
+    class USkeletalMeshComponent* SkeletalMesh;
 
-	    class UBlinkComponent* BlinkComponent;
+    class UBlinkComponent* BlinkComponent;
 
-        class UMeleeComponent* MeleeComponent;
+    class UMeleeComponent* MeleeComponent;
 
-	    class UCharacterAnimInstance* AnimationInstance;
+    class UCharacterAnimInstance* AnimationInstance;
 
-	/** Weapon the character uses **/
-	//UPROPERTY()
-	//    class AWeaponBase* Weapon; // Weapon
+    /** Weapon the character uses **/
+    //UPROPERTY()
+    //    class AWeaponBase* Weapon; // Weapon
 
 public:
-	/** Returns CameraBoom subobject **/
-	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
+    /** Returns CameraBoom subobject **/
+    FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 
-	/** Returns FollowCamera subobject **/
-	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return TopDownCamera; }
+    /** Returns FollowCamera subobject **/
+    FORCEINLINE class UCameraComponent* GetFollowCamera() const { return TopDownCamera; }
 
-	/** Returns SkeletalMesh component **/
-	FORCEINLINE class USkeletalMeshComponent* GetSkeletalMesh() const { return SkeletalMesh; }
+    /** Returns SkeletalMesh component **/
+    FORCEINLINE class USkeletalMeshComponent* GetSkeletalMesh() const { return SkeletalMesh; }
 
     /** Returns Health component **/
     FORCEINLINE class UHealthComponent* GetHealthComponent() const { return HealthComponent; }

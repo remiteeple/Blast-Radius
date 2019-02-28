@@ -48,11 +48,12 @@ class BLASTRADIUS_API ABlastRadiusProjectile : public AActor
         FTimerHandle SpawnTimer;
 
     UPROPERTY(EditDefaultsOnly, Category = "Effects")
+        class UParticleSystemComponent* PSC1;
+
+    UPROPERTY(EditDefaultsOnly, Category = "Effects")
         UParticleSystem* ProjectileFX;
-
-
-    UPROPERTY(VisibleAnywhere)
-        class UParticleSystemComponent* PSC; 
+    UPROPERTY(EditDefaultsOnly, Category = "Effects")
+        UParticleSystem* ProjectileDestroyFX;
 
 public:
     // Sets default values for this actor's properties
