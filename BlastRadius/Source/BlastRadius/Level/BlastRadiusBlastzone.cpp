@@ -40,9 +40,13 @@ void ABlastRadiusBlastzone::OnComponentEndOverlap(UPrimitiveComponent* Overlappe
             ABlastRadiusCharacter* Player = Cast<ABlastRadiusCharacter>(OtherActor);
             if (Player != nullptr)
             {
-                APlayerState* PlayerState =  Player->GetInstigatorController()->PlayerState;
-                Cast<ABlastRadiusPlayerState>(PlayerState)->DecrementLives();
-                Player->OnDeath();
+                ABlastRadiusPlayerState* PlayerState = Player->GetPlayerState();
+                if (PlayerState)
+                {
+                    PlayerState->DecrementLives();
+                    Player->OnDeath();
+
+                }
             }
     }
 }

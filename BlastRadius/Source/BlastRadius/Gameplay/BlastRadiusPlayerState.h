@@ -18,12 +18,16 @@ class BLASTRADIUS_API ABlastRadiusPlayerState : public APlayerState
 public:
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Lives)
     int CurrentLives = 3;
-    int CurrentDamage;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Damage)
+    int CurrentDamage = 0;
 
     
     void DecrementLives();
     UFUNCTION()
-    int GetLives() { return CurrentLives; };
+    FORCEINLINE int GetLives() { return CurrentLives; }
+    UFUNCTION()
+    FORCEINLINE float GetDamage() { return CurrentDamage; }
+    FORCEINLINE void IncrementDamage(float Damage) { CurrentDamage += Damage; }
+    FORCEINLINE void SetDamage(float Damage) { CurrentDamage = Damage; }
     void RoundEnd();
-	
 };

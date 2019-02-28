@@ -53,6 +53,7 @@ public:
 
     UFUNCTION(BluePrintCallable)
         FORCEINLINE float GetCurrentHealth() { return CurrentHealth; }
+    FORCEINLINE void ResetKnockback() { CurrentHealth = 0; }
 		
 	
 };

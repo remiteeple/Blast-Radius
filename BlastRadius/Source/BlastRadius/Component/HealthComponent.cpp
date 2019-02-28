@@ -2,6 +2,7 @@
 
 #include "HealthComponent.h"
 #include "BlastRadius/Character/BlastRadiusCharacter.h"
+#include "Gameplay/BlastRadiusPlayerState.h"
 
 
 // Sets default values for this component's properties
@@ -31,8 +32,13 @@ void UHealthComponent::BeginPlay()
 //Test function for delegates, highly experimental!
 void UHealthComponent::TakeAnyDamage(AActor* DamagedActor, float Damage, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser)
 {
-
-    //Add the damage to the "health" %
+    /** FOR USE LATER WHEN REPLICATING **/
+    ////Get the player state to modify current player damage
+    //ABlastRadiusPlayerState* PlayerState = Cast<ABlastRadiusCharacter>(GetOwner())->GetPlayerState();
+    ////Add damage to player damage
+    //PlayerState->IncrementDamage(Damage);
+    ////Get the current damage from the player state
+    //CurrentHealth = PlayerState->GetDamage();
     CurrentHealth += Damage;
 
     float KnockBack;
@@ -45,6 +51,7 @@ void UHealthComponent::TakeAnyDamage(AActor* DamagedActor, float Damage, const c
     if (CurrentHealth < 0.f)
     {
         CurrentHealth = 0.f;
+        //PlayerState->SetDamage(0.f);
     }
 }
 
@@ -66,8 +73,16 @@ void UHealthComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 
 void UHealthComponent::TakeDamage(float Damage, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser, FVector HitFrom)
 {
-    //Add the damage to the "health" %
+
+    /** FOR USE LATER WHEN REPLICATING **/
+    ////Get the player state to modify current player damage
+    //ABlastRadiusPlayerState* PlayerState = Cast<ABlastRadiusCharacter>(GetOwner())->GetPlayerState();
+    ////Add damage to player damage
+    //PlayerState->IncrementDamage(Damage);
+    ////Get the current damage from the player state
+    //CurrentHealth = PlayerState->GetDamage();
     CurrentHealth += Damage;
+
 
     float KnockBack;
     KnockBack = ((CurrentHealth / 10) + ((CurrentHealth * Damage) / 20)) / 500.0f;
@@ -83,5 +98,6 @@ void UHealthComponent::TakeDamage(float Damage, const class UDamageType* DamageT
     if (CurrentHealth < 0.f)
     {
         CurrentHealth = 0.f;
+        //PlayerState->SetDamage(0.f);
     }
 }

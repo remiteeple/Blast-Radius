@@ -230,6 +230,8 @@ void ABlastRadiusCharacter::Respawn()
     /* check if the teleport was completed successfully */
     if (TeleportTo(SpawnPoint, GetActorRotation()))
     {
+        GetCapsuleComponent()->SetLinearDamping(10000000000000);
+        HealthComponent->ResetKnockback();
         /* Reset the transform on the mesh */
         SkeletalMesh->ResetRelativeTransform();
         /* Lower the mesh to fit in the capsule */
@@ -239,6 +241,9 @@ void ABlastRadiusCharacter::Respawn()
         /* Re-attach the mesh to the capsule component */
         SkeletalMesh->AttachToComponent(GetCapsuleComponent(), FAttachmentTransformRules::KeepRelativeTransform);
     }
+
+    /**Refill energy **/
+    EnergyComponent->CurrentEnergy = EnergyComponent->MaxEnergy;
     /* Re-enable the actor's tick */
     PrimaryActorTick.bCanEverTick = true;
 }
