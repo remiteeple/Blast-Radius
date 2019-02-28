@@ -11,14 +11,6 @@ class ABlastRadiusCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
-	/** Camera boom positioning the camera behind the character */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	    class USpringArmComponent* CameraBoom;
-
-	/** Follow camera */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	    class UCameraComponent* TopDownCamera;
-
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Gameplay, meta = (AllowPrivateAccess = "true"))
         class UHealthComponent* HealthComponent;
 
@@ -42,7 +34,7 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
         FVector SpawnPoint;
     /** Spawn timer **/
-    FTimerHandle SpawnTimer;
+    FTimerHandle TimerHandle_SpawnTimer;
     /** Spawn Delay**/
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
         float SpawnDelay;
@@ -54,7 +46,7 @@ public:
     UPROPERTY(EditDefaultsOnly)
         UAnimMontage* MeleeAttackAnimation;
     UPROPERTY(EditDefaultsOnly)
-        FTimerHandle MeleeTimer;
+        FTimerHandle TimerHandle_MeleeTimer;
 
     /** Porjectile **/
     //Goes in weapon, in Character for testing. Used to define projectile spawn point.
@@ -67,6 +59,11 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
         TSubclassOf<class ABlastRadiusSword> SwordClass;
         ABlastRadiusSword* Sword;
+        /* Weapon */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+        TSubclassOf<class ABlastRadiusWeapon> WeaponClass;
+        ABlastRadiusWeapon* Weapon;
+
     /** Called when actor hit **/
     void OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
@@ -152,6 +149,21 @@ public:
     FORCEINLINE class UBlinkComponent* GetBlinkComponent() const { return BlinkComponent; }
 
 protected:
+    /** Camera boom positioning the camera behind the character */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+        class USpringArmComponent* CameraBoom;
+
+    /** Follow camera */
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Camera, meta = (AllowPrivateAccess = "true"))
+        class UCameraComponent* TopDownCamera;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
+        float BlinkCost = 35.0f;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
+        float ShootCost = 15.0f;
+
+
 
 };
 

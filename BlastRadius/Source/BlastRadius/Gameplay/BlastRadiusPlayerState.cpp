@@ -15,6 +15,7 @@ void ABlastRadiusPlayerState::DecrementLives()
         RoundEnd();
     }
     GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, FString::FromInt(CurrentLives));
+
 }
 void ABlastRadiusPlayerState::RoundEnd()
 {

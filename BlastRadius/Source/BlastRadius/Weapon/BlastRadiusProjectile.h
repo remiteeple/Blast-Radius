@@ -6,7 +6,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-
+#include "Runtime/Engine/Classes/Particles/ParticleSystem.h"
 #include "BlastRadiusProjectile.generated.h"
 
 
@@ -46,12 +46,23 @@ class BLASTRADIUS_API ABlastRadiusProjectile : public AActor
         Category = "Config",
         meta = (AllowPrivateAccess = "true"))
         FTimerHandle SpawnTimer;
+
+    UPROPERTY(EditDefaultsOnly, Category = "Effects")
+        UParticleSystem* ProjectileFX;
+
+
+    UPROPERTY(VisibleAnywhere)
+        class UParticleSystemComponent* PSC; 
+
 public:
     // Sets default values for this actor's properties
     ABlastRadiusProjectile();
 
     UFUNCTION()
         void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
+    //void ABlastRadiusSword::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+
 
     /** Returns CollisionComp subobject **/
     FORCEINLINE class USphereComponent* GetCollisionComp() const { return CollisionComp; }

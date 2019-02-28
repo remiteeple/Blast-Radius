@@ -7,6 +7,10 @@
 #include "Character/BlastRadiusCharacter.h"
 #include "Runtime/Engine/Classes/GameFramework/DamageType.h"
 #include "Component/HealthComponent.h"
+#include "Runtime/Engine/Classes/GameFramework/DamageType.h"
+#include "Runtime/Engine/Classes/Particles/ParticleSystem.h"
+#include "Runtime/CoreUObject/Public/UObject/ConstructorHelpers.h"
+#include "Runtime/Engine/Classes/Particles/ParticleSystemComponent.h"
 
 // Sets default values
 ABlastRadiusProjectile::ABlastRadiusProjectile()
@@ -15,12 +19,20 @@ ABlastRadiusProjectile::ABlastRadiusProjectile()
     PrimaryActorTick.bCanEverTick = true;
 
     CollisionComp = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComp"));
-    CollisionComp->InitSphereRadius(5.0f);
+    CollisionComp->InitSphereRadius(50.0f);
     CollisionComp->BodyInstance.SetCollisionProfileName("Projectile");
     CollisionComp->OnComponentHit.AddDynamic(this, &ABlastRadiusProjectile::OnHit);
     CollisionComp->SetWalkableSlopeOverride(FWalkableSlopeOverride(WalkableSlope_Unwalkable, 0.f));
     CollisionComp->CanCharacterStepUpOn = ECB_No;
-    CollisionComp->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+    CollisionComp->SetCollisionResponseToChannel(ECC_PhysicsBody, ECR_Overlap);
+
+    //CollisionComp->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+    ////SET the OverlapComponent's Collision to ignore all channels
+    //CollisionComp->SetCollisionResponseToAllChannels(ECR_Ignore);
+    ////SET the OverlapComponents to respond to the Pawn channel and only Overlap events
+    //CollisionComp->SetCollisionResponseToChannel(ECC_PhysicsBody, ECR_Overlap);
+    ////SET the OverlapComponent to be visible in Game
+    //CollisionComp->SetHiddenInGame(false);
 
     //root
     RootComponent = CollisionComp;
@@ -37,7 +49,12 @@ ABlastRadiusProjectile::ABlastRadiusProjectile()
     ProjectileMovementComp->MaxSpeed = 3000.f;
     ProjectileMovementComp->bRotationFollowsVelocity = true;
     ProjectileMovementComp->bShouldBounce = true;
-   
+    ProjectileMovementComp->ProjectileGravityScale = 0.0f;
+    ProjectileMovementComp->Bounciness = 1.0f;
+    ProjectileMovementComp->Friction = 0.0f;
+    ProjectileMovementComp->SetPlaneConstraintAxisSetting(EPlaneConstraintAxisSetting::Z);
+
+
     //Template for HealthComponent->TakeDamage() parameter.
     m_DamageType = UDamageType::StaticClass();
 
@@ -46,7 +63,7 @@ ABlastRadiusProjectile::ABlastRadiusProjectile()
 
     //Damage
     m_LaserDamage = 50.0f;
-    
+
     //max amount of bounces until object is destroyed.
     m_MaxBounceAmount = 5.0f;
 
@@ -56,9 +73,18 @@ ABlastRadiusProjectile::ABlastRadiusProjectile()
 
     /*
     In Blueprint editor:
-    For a multiplayer game, We'll need to uncheck "Initial Velocity in Local Space" 
+    For a multiplayer game, We'll need to uncheck "Initial Velocity in Local Space"
     in the "MovementComp" Component in order for this projectile to replicate correctly over a server.
     */
+
+    static ConstructorHelpers::FObjectFinder<UParticleSystem> PS(TEXT("ParticleSystem'/Game/StarterContent/Particles/P_Explosion'"));
+    if (PS.Succeeded())
+    {
+        ProjectileFX = PS.Object;
+    }
+    PSC = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("MyPSC"));
+    //PSC->SetTemplate(PS.Object); //If you want it to Spawn on Creation, could go to BeginPlay too
+    PSC->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned
@@ -70,6 +96,8 @@ void ABlastRadiusProjectile::BeginPlay()
         this,
         &ABlastRadiusProjectile::DestroySelf,
         m_LifeSpan, true);
+
+
 }
 
 // Called every frame
@@ -82,23 +110,28 @@ void ABlastRadiusProjectile::Tick(float DeltaTime)
 
 void ABlastRadiusProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-    if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) && OtherComp->IsSimulatingPhysics() && OtherActor != GetOwner())
+    //AActor* temp = GetOwner();
+    //AActor* tempChar = GetOwner()->GetOwner();
+    //bool woo = false;
+    //if (temp)
+    //{
+    //    OtherActor->SetOwner(OtherActor);
+    //}
+    //if (tempChar)
+    //{
+    //    OtherActor->SetOwner(OtherActor);
+    //}
+
+    if (OtherActor != nullptr && OtherComp != nullptr)
     {
         //handles collision handle for characters
-        ABlastRadiusCharacter* temp = dynamic_cast<ABlastRadiusCharacter*>(OtherActor);
-        if (temp != nullptr)
+        ABlastRadiusCharacter* OtherCharacter = Cast<ABlastRadiusCharacter>(OtherActor);
+        if (OtherCharacter != nullptr)
         {
             //Calling TakeDamage on the otherActor's HealthComponent. 
-            FDamageEvent DamageEvent;
-            Cast<ABlastRadiusCharacter>(OtherActor)->TakeDamage(m_LaserDamage, DamageEvent, OtherActor->GetInstigatorController(), this->GetOwner());
-
-            float CurrentHealth = temp->GetHealthComponent()->GetCurrentHealth();
-
-            float KnockBack;
-            KnockBack = ((CurrentHealth / 10) + ((CurrentHealth * m_LaserDamage) / 20)) * 5000.0f;
-
-            //Knock back impulse when projectile collides.
-            OtherComp->AddImpulseAtLocation(GetVelocity() * KnockBack, GetActorLocation());
+            const UDamageType* Laser_DamageType = Cast<UDamageType>(UDamageType::StaticClass());
+            OtherCharacter->GetHealthComponent()->TakeDamage(m_LaserDamage, Laser_DamageType, OtherCharacter->GetInstigatorController(), GetOwner(), GetVelocity());
+            GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Red, "OtherCharacter Damage % - " + FString::SanitizeFloat(OtherCharacter->GetHealthComponent()->GetCurrentHealth())); // DEBUG
             DestroySelf();
         }
 
@@ -114,8 +147,20 @@ void ABlastRadiusProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
         {
             DestroySelf();
         }
+        ////Add this somewhere here to Spawn Particles.
+        //if (ProjectileFX)
+        //{
+        //    //Spawn ParticleSystem using GamePlayStatics
+        //    // UGameplayStatics::SpawnEmitterAtLocation(this, ProjectileFX, GetActorLocation());
+        //    //OR Spawn Particle using UParticleSystemComponent
+        //    PSC->SetTemplate(ProjectileFX);
+        //    //ProjectileSprite->bHiddenInGame = true;
+        //    //ProjectileSprite->SetVisibility(false);
+        //}
     }
 }
+
+
 
 
 void ABlastRadiusProjectile::FireInDirection(const FVector& ShootDirection)
