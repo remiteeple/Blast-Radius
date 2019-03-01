@@ -48,10 +48,7 @@ public:
     UPROPERTY(EditDefaultsOnly)
         FTimerHandle TimerHandle_MeleeTimer;
 
-    /** Porjectile **/
-    //Goes in weapon, in Character for testing. Used to define projectile spawn point.
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-        FVector MuzzleOffset;
+    /** Projectile **/
     //Projectile template to fire.
     UPROPERTY(EditDefaultsOnly, Category = Projectile)
         TSubclassOf<class ABlastRadiusProjectile> ProjectileClass;
@@ -69,11 +66,6 @@ public:
         class UParticleSystemComponent* PSC;
     UPROPERTY(EditDefaultsOnly, Category = "Effects")
         UParticleSystem* ProjectileFX;
-
-
-
-    /** Called when actor hit **/
-    void OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
     /** Called for directional movement */
     void Move(FVector Direction, float Scale);
@@ -103,34 +95,22 @@ public:
         void OnDeath();
 
     /** Teleports player upon stock loss to spawm point **/
-    void Respawn();
+    UFUNCTION()
+        void Respawn();
 public:
     /** State Definitions **/
     // Default false
     bool bIsWalking = false;
-
-    bool bIsAiming = false;
-
-
     bool bIsMeleeAttacking = false;
     bool bIsFiring = false;
     bool bIsBlinking = false;
 
 private:
     /** Component Declarations **/
-
-    //class UHealthComponent* HealthComponent; Commented out as it has an attached component, now.
-    //class UEnergyComponent* EnergyComponent; Commented out as it has an attached component, now.
-
     class USkeletalMeshComponent* SkeletalMesh;
-
     class UBlinkComponent* BlinkComponent;
-
     class UMeleeComponent* MeleeComponent;
-
     class UCharacterAnimInstance* AnimationInstance;
-
-
 
 public:
     /** Returns CameraBoom subobject **/

@@ -226,10 +226,6 @@ void ABlastRadiusCharacter::Tick(float DeltaTime)
 
 //////////////////////////////////////////////////////////////////////////
 // States / Conditions
-void ABlastRadiusCharacter::OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
-{
-
-}
 
 void ABlastRadiusCharacter::OnDeath()
 {  /* This check isnt useful currently */
