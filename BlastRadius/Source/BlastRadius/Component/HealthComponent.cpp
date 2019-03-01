@@ -101,3 +101,9 @@ void UHealthComponent::TakeDamage(float Damage, const class UDamageType* DamageT
         //PlayerState->SetDamage(0.f);
     }
 }
+
+FString UHealthComponent::GetCurrentHealthInText()
+{
+    FString CurrentHealthDisplayValue = FString::SanitizeFloat(CurrentHealth);
+    return CurrentHealthDisplayValue;
+}
