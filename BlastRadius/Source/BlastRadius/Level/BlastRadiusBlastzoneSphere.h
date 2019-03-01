@@ -4,19 +4,23 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "BlastRadiusBlastzone.generated.h"
+#include "BlastRadiusBlastzoneSphere.generated.h"
 
 UCLASS()
-class BLASTRADIUS_API ABlastRadiusBlastzone : public AActor
+class BLASTRADIUS_API ABlastRadiusBlastzoneSphere : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ABlastRadiusBlastzone();
+    ABlastRadiusBlastzoneSphere();
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Gameplay)
-        class USphereComponent* Blastzone;
+        class USphereComponent* OuterKillSphere;
+    
+
+
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -26,6 +30,5 @@ public:
 	virtual void Tick(float DeltaTime) override;
     UFUNCTION()
     void OnComponentEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
-	
 	
 };

@@ -57,7 +57,8 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
 	CameraBoom->bEnableCameraLag = true;
 	CameraBoom->CameraLagSpeed = 5.0f;
 	CameraBoom->CameraLagMaxDistance = 250.0f;
-    
+    CameraBoom->bDoCollisionTest = false;
+
 	// Create a follow camera
     TopDownCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
     TopDownCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
