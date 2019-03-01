@@ -63,8 +63,6 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
     TopDownCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
     TopDownCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
-    MuzzleOffset = FVector(100, 0, 0);
-
     /*HealthPercentage = 0.0;
     Energy = 100;*/
 

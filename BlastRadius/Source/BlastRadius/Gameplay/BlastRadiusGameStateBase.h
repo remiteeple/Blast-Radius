@@ -16,6 +16,5 @@ class BLASTRADIUS_API ABlastRadiusGameStateBase : public AGameStateBase
 	
 	
 public:
-    int GetLives() { return 1; };
    
 };

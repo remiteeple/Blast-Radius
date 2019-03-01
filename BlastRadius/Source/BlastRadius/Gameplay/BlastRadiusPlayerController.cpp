@@ -182,11 +182,9 @@ void ABlastRadiusPlayerController::LookAtMouseCursor(float DeltaTime)
     FVector WorldDirection;
     if (UGameplayStatics::DeprojectScreenToWorld(this, MousePosition, WorldPosition, WorldDirection) == true)
     {
-        // Intersect plane with trace hit actor (the ground)
         IntersectVector = FMath::LinePlaneIntersection(WorldPosition, WorldPosition + WorldDirection * HitResultTraceDistance, Character->GetActorLocation(), FVector::UpVector);
     }
 
-    // Trace down to the aiming plane to see if we hit an actor that we can aim at
     FCollisionQueryParams CollisionQueryParams(NAME_Actor, true);
     bool bHit = GetWorld()->LineTraceSingleByChannel(TraceOutResult, IntersectVector, IntersectVector - FVector::UpVector * HitResultTraceDistance, ECC_Pawn, CollisionQueryParams);
 
@@ -211,19 +209,18 @@ void ABlastRadiusPlayerController::LookAtMouseCursor(float DeltaTime)
         FVector PawnLocation = Character->GetActorLocation();
         Direction = TargetLocation - PawnLocation;
 
-        // TODO: remove before alpha
         if (bHit)
         {
             DrawDebugLine(GetWorld(), PawnLocation, TargetLocation, FColor(0, 0, 255), false, -1, 0, 10.0f);
             DrawDebugLine(GetWorld(), IntersectVector, TraceOutResult.ImpactPoint, FColor(255, 255, 0), false, -1, 0, 10.0f);
         }
+
+        // Remove vertical axis orientation.
+        Direction.Z = 0.0f;
+
+        // Make character look at 
+        Character->LookAt(Direction);
     }
-
-    // Remove vertical axis orientation.
-    Direction.Z = 0.0f;
-
-    // Make character look at 
-    Character->LookAt(Direction);
 
     //// Create vectors for Mouse input
     //FVector MouseLocation;
