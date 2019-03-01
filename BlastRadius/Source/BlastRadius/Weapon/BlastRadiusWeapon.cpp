@@ -10,6 +10,8 @@
 #include "Runtime/Engine/Classes/Particles/ParticleSystem.h"
 #include "Runtime/CoreUObject/Public/UObject/ConstructorHelpers.h"
 #include "Runtime/Engine/Classes/Particles/ParticleSystemComponent.h"
+#include "Sound/SoundBase.h"
+#include "Components/AudioComponent.h"
 
 // Sets default values
 ABlastRadiusWeapon::ABlastRadiusWeapon()
@@ -27,6 +29,12 @@ ABlastRadiusWeapon::ABlastRadiusWeapon()
 
 
     ProjectileFX = CreateDefaultSubobject<UParticleSystem>(TEXT("Firing Particles"));
+
+    //Setup the Audio Component
+    AudioComponent = CreateDefaultSubobject<UAudioComponent>("WeaponSound");
+    AudioComponent->SetupAttachment(RootComponent);
+    AudioComponent->bAutoActivate = false;
+    AudioComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
 
     PSC = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("MyPSC"));
     //PSC->SetTemplate(PS.Object); //If you want it to Spawn on Creation, could go to BeginPlay too
@@ -81,6 +89,10 @@ void ABlastRadiusWeapon::Fire()
         UGameplayStatics::SpawnEmitterAtLocation(this, ProjectileFX, MuzzleArrow->GetComponentLocation());
         PSC->SetTemplate(ProjectileFX);
         PSC->SecondsBeforeInactive = 0.5;
+
+        //Play the sound for shooting
+        AudioComponent->SetSound(ShotSound);
+        AudioComponent->Play();
     }
 
 }

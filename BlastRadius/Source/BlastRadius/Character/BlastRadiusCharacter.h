@@ -114,19 +114,11 @@ public:
 
 private:
     /** Component Declarations **/
-
-    //class UHealthComponent* HealthComponent; Commented out as it has an attached component, now.
-    //class UEnergyComponent* EnergyComponent; Commented out as it has an attached component, now.
-
     class USkeletalMeshComponent* SkeletalMesh;
-
-    class UBlinkComponent* BlinkComponent;
-
-    class UMeleeComponent* MeleeComponent;
-
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Blink", meta = (AllowPrivateAccess = "true"))
+        class UBlinkComponent* BlinkComponent;
+    //class UMeleeComponent* MeleeComponent;
     class UCharacterAnimInstance* AnimationInstance;
-
-
 
 public:
     /** Returns CameraBoom subobject **/

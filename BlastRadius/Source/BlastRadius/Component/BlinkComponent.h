@@ -23,6 +23,12 @@ public:
 
     FVector GetPickableActor_LineTraceSingleByProfile(FName ProfileName, FVector & StartTrace, FVector & Direction, FVector & EndTrace);
 
+    UPROPERTY(EditAnywhere, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+        class UAudioComponent* AudioComponent;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+        class USoundBase* BlinkSound;
+
 
 
 protected:

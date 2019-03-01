@@ -63,23 +63,15 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
     TopDownCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
     TopDownCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
-    /*HealthPercentage = 0.0;
-    Energy = 100;*/
-
-
-    //BlinkComponent = CreateDefaultSubobject<UBlinkComponent>(TEXT("Blink"));
-    //MeleeComponent = CreateDefaultSubobject<UMeleeComponent>(TEXT("Melee"));
-
     //Setup the health and energy components
     HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health"));
     EnergyComponent = CreateDefaultSubobject<UEnergyComponent>(TEXT("Energy"));
+    BlinkComponent = CreateDefaultSubobject<UBlinkComponent>(TEXT("Blink"));
 
     Sword = nullptr;
     Weapon = nullptr;
 
     SpawnDelay = 1.0f;
-    //HealthPercentage = 0.0;
-    //Energy = 100;
 
     ProjectileFX = CreateDefaultSubobject<UParticleSystem> (TEXT("Blink Particles"));
     
