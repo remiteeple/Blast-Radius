@@ -49,9 +49,6 @@ public:
         FTimerHandle TimerHandle_MeleeTimer;
 
     /** Porjectile **/
-    //Goes in weapon, in Character for testing. Used to define projectile spawn point.
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-        FVector MuzzleOffset;
     //Projectile template to fire.
     UPROPERTY(EditDefaultsOnly, Category = Projectile)
         TSubclassOf<class ABlastRadiusProjectile> ProjectileClass;
