@@ -66,6 +66,11 @@ public:
     UPROPERTY(EditDefaultsOnly, Category = "Effects")
         UParticleSystem* ProjectileFX;
 
+
+
+    /** Called when actor hit **/
+    void OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
     /** Called for directional movement */
     void Move(FVector Direction, float Scale);
 
@@ -94,22 +99,34 @@ public:
         void OnDeath();
 
     /** Teleports player upon stock loss to spawm point **/
-    UFUNCTION()
-        void Respawn();
+    void Respawn();
 public:
     /** State Definitions **/
     // Default false
     bool bIsWalking = false;
+
+    bool bIsAiming = false;
+
+
     bool bIsMeleeAttacking = false;
     bool bIsFiring = false;
     bool bIsBlinking = false;
 
 private:
     /** Component Declarations **/
+
+    //class UHealthComponent* HealthComponent; Commented out as it has an attached component, now.
+    //class UEnergyComponent* EnergyComponent; Commented out as it has an attached component, now.
+
     class USkeletalMeshComponent* SkeletalMesh;
+
     class UBlinkComponent* BlinkComponent;
+
     class UMeleeComponent* MeleeComponent;
+
     class UCharacterAnimInstance* AnimationInstance;
+
+
 
 public:
     /** Returns CameraBoom subobject **/

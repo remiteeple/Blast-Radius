@@ -55,6 +55,9 @@ protected:
 
     void SetState(EAIState NewState);
 
+    UFUNCTION(BlueprintImplementableEvent, Category = "AI")
+        void OnStateChanged(EAIState NewState);
+
     FRotator DefaultRotation;
 
     /** Patrolling **/
