@@ -3,6 +3,7 @@
 #include "HealthComponent.h"
 #include "BlastRadius/Character/BlastRadiusCharacter.h"
 #include "Gameplay/BlastRadiusPlayerState.h"
+#include "UnrealNetwork.h"
 
 
 // Sets default values for this component's properties
@@ -106,4 +107,13 @@ FString UHealthComponent::GetCurrentHealthInText()
 {
     FString CurrentHealthDisplayValue = FString::SanitizeFloat(CurrentHealth);
     return CurrentHealthDisplayValue;
+}
+
+void UHealthComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+    Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+    // Here we list the variables we want to replicate + a condition if wanted
+
+    DOREPLIFETIME(UHealthComponent, CurrentHealth);
 }

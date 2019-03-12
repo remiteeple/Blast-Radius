@@ -23,7 +23,7 @@ public:
         float MaxEnergy = 100.f;
 
     //Current Energy of the character.
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
+    UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite, Category = Attributes)
         float CurrentEnergy = 100.f;
 
     //Display value of current energy.
@@ -43,7 +43,7 @@ public:
     //Bool for checking if the timer is finished.
     bool OnCooldown = false;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
+    UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite, Category = Attributes)
         bool FastCharge = false;
 
     UFUNCTION(BluePrintCallable)

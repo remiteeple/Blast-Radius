@@ -25,7 +25,7 @@ public:
     /** Health variables **/
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
         float MaxHealth = 999.f; //Maximum Health of the character.
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
+    UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite, Category = Attributes)
         float CurrentHealth = 0.f; //Current health of the character.
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
         FString CurrentHealthDisplayValue;

@@ -3,6 +3,7 @@
 #include "EnergyComponent.h"
 #include "TimerManager.h"
 #include "Engine/World.h"
+#include "UnrealNetwork.h"
 
 
 // Sets default values for this component's properties
@@ -80,3 +81,12 @@ void UEnergyComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 	// ...
 }
 
+void UEnergyComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+    Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+    // Here we list the variables we want to replicate + a condition if wanted
+
+    DOREPLIFETIME(UEnergyComponent, CurrentEnergy);
+    DOREPLIFETIME(UEnergyComponent, FastCharge);
+}
