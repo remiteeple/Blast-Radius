@@ -11,7 +11,6 @@
 
 ABlastRadiusPlayerController::ABlastRadiusPlayerController()
 {
-    //TODO remove before final
     bShowMouseCursor = true;
 }
 
@@ -56,8 +55,12 @@ void ABlastRadiusPlayerController::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
 
+    // Mouse Aim
     LookAtMouseCursor(DeltaTime);
-    LookDirection = UKismetMathLibrary::MakeRotationFromAxes(LookRightDir, LookForwardDir, FVector(0, 0, 0));
+
+    // Gamepad Aim
+    LookDirection = UKismetMathLibrary::MakeRotationFromAxes(LookForwardDir, LookRightDir, FVector(0, 0, 0));
+    Character->SetActorRotation(LookDirection);
 }
 
 void ABlastRadiusPlayerController::LookForward(float Scale)

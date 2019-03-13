@@ -66,11 +66,6 @@ public:
     UPROPERTY(EditDefaultsOnly, Category = "Effects")
         UParticleSystem* ProjectileFX;
 
-
-
-    /** Called when actor hit **/
-    void OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
-
     /** Called for directional movement */
     void Move(FVector Direction, float Scale);
 
@@ -78,25 +73,28 @@ public:
     void LookAt(FVector Direction);
 
     /** Called when blink is activated **/
-    void Blink();
+        void Blink();
 
     /** Call for shooting **/
     void Fire();
 
     /** Called for melee attack **/
-    void Melee();
+        void Melee();
 
     /** Called to hide sword after melee **/
-    void PutAwaySword();
+        void PutAwaySword();
+
+    /** Called when player health passes lower limit **/
+    UFUNCTION(NetMulticast, Reliable, WithValidation)
+        void NetMultiCastOnDeath();
+
+    void OnDeath();
 
     /** Getter for Player State **/
     class ABlastRadiusPlayerState* GetPlayerState();
     /** Getter for Game State **/
     class ABlastRadiusGameStateBase* GetGameState();
 
-    /** Called when player health passes lower limit **/
-    UFUNCTION()
-        void OnDeath();
 
     /** Teleports player upon stock loss to spawm point **/
     void Respawn();
@@ -104,10 +102,7 @@ public:
     /** State Definitions **/
     // Default false
     bool bIsWalking = false;
-
     bool bIsAiming = false;
-
-
     bool bIsMeleeAttacking = false;
     bool bIsFiring = false;
     bool bIsBlinking = false;
