@@ -3,7 +3,7 @@
 #include "HealthComponent.h"
 #include "BlastRadius/Character/BlastRadiusCharacter.h"
 #include "Gameplay/BlastRadiusPlayerState.h"
-#include "UnrealNetwork.h"
+#include "Net/UnrealNetwork.h"
 
 
 // Sets default values for this component's properties
@@ -72,17 +72,28 @@ void UHealthComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 	// ...
 }
 
+//Cast Damage Taken To All Clients
+void UHealthComponent::MulticastTakeDamage_Implementation(FVector LaunchVelocity, float KnockBack)
+{
+    Cast<ABlastRadiusCharacter>(GetOwner())->LaunchCharacter(LaunchVelocity * KnockBack, false, true);
+
+}
+
+//Validate The Function
+bool UHealthComponent::MulticastTakeDamage_Validate(FVector LaunchVelocity, float KnockBack)
+{
+    return true;
+}
 void UHealthComponent::TakeDamage(float Damage, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser, FVector HitFrom)
 {
 
     /** FOR USE LATER WHEN REPLICATING **/
-    ////Get the player state to modify current player damage
-    //ABlastRadiusPlayerState* PlayerState = Cast<ABlastRadiusCharacter>(GetOwner())->GetPlayerState();
-    ////Add damage to player damage
-    //PlayerState->IncrementDamage(Damage);
-    ////Get the current damage from the player state
-    //CurrentHealth = PlayerState->GetDamage();
-    CurrentHealth += Damage;
+    //Get the player state to modify current player damage
+    ABlastRadiusPlayerState* PlayerState = Cast<ABlastRadiusCharacter>(GetOwner())->GetPlayerState();
+    //Add damage to player damage
+    PlayerState->IncrementDamage(Damage);
+    //Get the current damage from the player state
+    CurrentHealth = PlayerState->GetDamage();
 
 
     float KnockBack;
@@ -93,13 +104,14 @@ void UHealthComponent::TakeDamage(float Damage, const class UDamageType* DamageT
                                                                                                    //Knock back impulse when projectile collides.
     FVector LaunchVelocity = HitFrom;
     LaunchVelocity.Z = 0.0f;
-    Cast<ABlastRadiusCharacter>(GetOwner())->LaunchCharacter(LaunchVelocity * KnockBack, false, true);
+
+    MulticastTakeDamage(LaunchVelocity, KnockBack);
 
     //If the characters health is below 0, make it 0.
     if (CurrentHealth < 0.f)
     {
-        CurrentHealth = 0.f;
-        //PlayerState->SetDamage(0.f);
+        
+        PlayerState->SetDamage(0.f);
     }
 }
 

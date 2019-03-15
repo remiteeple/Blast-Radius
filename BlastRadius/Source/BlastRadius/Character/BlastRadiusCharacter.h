@@ -90,8 +90,10 @@ public:
     void PutAwaySword();
 
     /** Getter for Player State **/
+    UFUNCTION(BlueprintCallable)
     class ABlastRadiusPlayerState* GetPlayerState();
     /** Getter for Game State **/
+    UFUNCTION(BlueprintCallable)
     class ABlastRadiusGameStateBase* GetGameState();
 
     /** Called when player health passes lower limit **/
