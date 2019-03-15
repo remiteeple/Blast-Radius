@@ -23,6 +23,7 @@
 #include "Runtime/CoreUObject/Public/UObject/ConstructorHelpers.h"
 #include "Runtime/Engine/Classes/Particles/ParticleSystemComponent.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "Net/UnrealNetwork.h"
 
 //////////////////////////////////////////////////////////////////////////
 // ABlastRadiusCharacter
@@ -80,6 +81,9 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
     PSC->SetupAttachment(RootComponent);
 
     Tags.Add("Player");
+
+    SetReplicates(true);
+    SetReplicateMovement(true);
 }
 
 void ABlastRadiusCharacter::PostInitializeComponents()
@@ -217,26 +221,22 @@ void ABlastRadiusCharacter::Tick(float DeltaTime)
 
 //////////////////////////////////////////////////////////////////////////
 // States / Conditions
-void ABlastRadiusCharacter::OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
-{
-
-}
-
 void ABlastRadiusCharacter::OnDeath()
-{  /* This check isnt useful currently */
-   // check(HealthComponent->CurrentHealth > 0.0f && "Called OnDeath() while alive!");
+{
+    ///* Stop ticking while dead */
+    //PrimaryActorTick.bCanEverTick = false;
 
-    /* Stop ticking while dead */
-    PrimaryActorTick.bCanEverTick = false;
+    ///* Disable character's capsule collision */
+    //GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
-    /* Disable character's capsule collision */
-    GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    ///* Enable the character's ragdoll */
+    //SkeletalMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+    //SkeletalMesh->SetSimulatePhysics(true);
 
-    /* Enable the character's ragdoll */
-    SkeletalMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-    SkeletalMesh->SetSimulatePhysics(true);
-    /* Start the delay until respawn */
-    GetWorld()->GetTimerManager().SetTimer(TimerHandle_SpawnTimer, this, &ABlastRadiusCharacter::Respawn, SpawnDelay, false);
+    ///* Start the delay until respawn */
+    //GetWorld()->GetTimerManager().SetTimer(TimerHandle_SpawnTimer, this, &ABlastRadiusCharacter::Respawn, SpawnDelay, false);
+
+    NetMultiCastOnDeath();
 }
 
 void ABlastRadiusCharacter::Respawn()
@@ -287,7 +287,6 @@ void ABlastRadiusCharacter::Blink()
             PSC->SecondsBeforeInactive = 0.5;
             UGameplayStatics::SpawnEmitterAtLocation(this, ProjectileFX, GetActorLocation());
             PSC->SetTemplate(ProjectileFX);
-
         }
 
         BlinkComponent->Blink(this);
@@ -327,11 +326,36 @@ void ABlastRadiusCharacter::PutAwaySword()
         Sword->PutAway();
 }
 
+void ABlastRadiusCharacter::NetMultiCastOnDeath_Implementation()
+{
+    /* Stop ticking while dead */
+    PrimaryActorTick.bCanEverTick = false;
+
+    /* Disable character's capsule collision */
+    GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+    /* Enable the character's ragdoll */
+    SkeletalMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+    SkeletalMesh->SetSimulatePhysics(true);
+
+    /* Start the delay until respawn */
+    GetWorld()->GetTimerManager().SetTimer(TimerHandle_SpawnTimer, this, &ABlastRadiusCharacter::Respawn, SpawnDelay, false);
+}
+
+bool ABlastRadiusCharacter::NetMultiCastOnDeath_Validate()
+{
+    return true;
+}
+
 void ABlastRadiusCharacter::LookAt(FVector Direction)
 {
     SetActorRotation(Direction.Rotation());
 }
 
-//////////////////////////////////////////////////////////////////////////
-// Getters
 
+//void ABlastRadiusCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+//{
+//    Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+//
+//    DOREPLIFETIME(ABlastRadiusCharacter, )
+//}

@@ -49,6 +49,8 @@ private:
 
     void LookAtMouseCursor(float DeltaTime);
 
+    FVector ThumbStickDir;
+
     FVector LookRightDir;
     FVector LookForwardDir;
 
