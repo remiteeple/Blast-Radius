@@ -109,7 +109,7 @@ void ABlastRadiusCharacter::PostInitializeComponents()
     if (HealthComponent != nullptr)
     {
         // Subscribe to death event
-        HealthComponent->OnDeath.AddDynamic(this, &ABlastRadiusCharacter::OnDeath);
+        HealthComponent->OnDeath.AddDynamic(this, &ABlastRadiusCharacter::NetMultiCastOnDeath);
     }
 
     /* Retrieve the energy component */
@@ -117,12 +117,6 @@ void ABlastRadiusCharacter::PostInitializeComponents()
 
     /* Retrieve the blink component */
     BlinkComponent = FindComponentByClass<UBlinkComponent>();
-
-
-    /* Retrieve the melee component */
-    //MeleeComponent = FindComponentByClass<UMeleeComponent>();
-
- 
 
 }
 
@@ -247,10 +241,11 @@ void ABlastRadiusCharacter::Respawn()
     SkeletalMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
     /* Turn off the ragdoll on the mesh */
     SkeletalMesh->SetSimulatePhysics(false);
+
     /* check if the teleport was completed successfully */
     if (TeleportTo(SpawnPoint, GetActorRotation()))
     {
-        GetCapsuleComponent()->SetLinearDamping(10000000000000);
+        /* Reset the damage factor */
         HealthComponent->ResetKnockback();
         /* Reset the transform on the mesh */
         SkeletalMesh->ResetRelativeTransform();

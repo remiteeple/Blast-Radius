@@ -59,8 +59,18 @@ void ABlastRadiusPlayerController::Tick(float DeltaTime)
     LookAtMouseCursor(DeltaTime);
 
     // Gamepad Aim
-    LookDirection = UKismetMathLibrary::MakeRotationFromAxes(LookForwardDir, LookRightDir, FVector(0, 0, 0));
-    Character->SetActorRotation(LookDirection);
+    ThumbStickDir = FVector(LookForwardValue, LookRightValue, 0.0f);
+    if (ThumbStickDir != FVector::ZeroVector)
+    {
+        LookDirection = UKismetMathLibrary::MakeRotationFromAxes(ThumbStickDir, FVector(0, 0, 0), FVector(0, 0, 0));
+        Character->SetActorRotation(LookDirection);
+    }
+
+    //if (ThumbStickDir == FVector::ZeroVector)
+    //    Character->GetCharacterMovement()->bOrientRotationToMovement = true;
+    //else
+    //    Character->GetCharacterMovement()->bOrientRotationToMovement = false;
+
 }
 
 void ABlastRadiusPlayerController::LookForward(float Scale)
@@ -68,7 +78,7 @@ void ABlastRadiusPlayerController::LookForward(float Scale)
     if (Character == nullptr)
         return;
 
-    LookForwardDir = FVector(0, Scale, 0);
+    LookForwardValue = -Scale;
 
     /* Rotate the character */
     Character->SetActorRotation(LookDirection);
@@ -79,7 +89,7 @@ void ABlastRadiusPlayerController::LookRight(float Scale)
     if (Character == nullptr)
         return;
 
-    LookRightDir = FVector(Scale, 0, 0);
+    LookRightValue = Scale;
 
     /* Rotate the character */
     Character->SetActorRotation(LookDirection);

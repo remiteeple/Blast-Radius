@@ -73,16 +73,16 @@ public:
     void LookAt(FVector Direction);
 
     /** Called when blink is activated **/
-        void Blink();
+    void Blink();
 
     /** Call for shooting **/
     void Fire();
 
     /** Called for melee attack **/
-        void Melee();
+    void Melee();
 
     /** Called to hide sword after melee **/
-        void PutAwaySword();
+    void PutAwaySword();
 
     /** Called when player health passes lower limit **/
     UFUNCTION(NetMulticast, Reliable, WithValidation)

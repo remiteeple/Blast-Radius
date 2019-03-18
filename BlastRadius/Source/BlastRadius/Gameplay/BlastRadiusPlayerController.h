@@ -51,8 +51,8 @@ private:
 
     FVector ThumbStickDir;
 
-    FVector LookRightDir;
-    FVector LookForwardDir;
+    float LookRightValue;
+    float LookForwardValue;
 
     FRotator LookDirection;
 
