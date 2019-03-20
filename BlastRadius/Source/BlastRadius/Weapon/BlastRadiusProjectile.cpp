@@ -27,14 +27,6 @@ ABlastRadiusProjectile::ABlastRadiusProjectile()
     CollisionComp->CanCharacterStepUpOn = ECB_No;
     CollisionComp->SetCollisionResponseToChannel(ECC_PhysicsBody, ECR_Overlap);
 
-    //CollisionComp->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-    ////SET the OverlapComponent's Collision to ignore all channels
-    //CollisionComp->SetCollisionResponseToAllChannels(ECR_Ignore);
-    ////SET the OverlapComponents to respond to the Pawn channel and only Overlap events
-    //CollisionComp->SetCollisionResponseToChannel(ECC_PhysicsBody, ECR_Overlap);
-    ////SET the OverlapComponent to be visible in Game
-    //CollisionComp->SetHiddenInGame(false);
-
     //root
     RootComponent = CollisionComp;
 
@@ -84,6 +76,10 @@ ABlastRadiusProjectile::ABlastRadiusProjectile()
 
     PSC1 = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("MyPSC1"));
     PSC1->SetupAttachment(RootComponent);
+
+
+    SetReplicates(true);
+    SetReplicateMovement(true);
 }
 
 // Called when the game starts or when spawned
