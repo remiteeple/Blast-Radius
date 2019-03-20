@@ -259,6 +259,7 @@ void ABlastRadiusCharacter::Respawn()
 
     /**Refill energy **/
     EnergyComponent->CurrentEnergy = EnergyComponent->MaxEnergy;
+    Cast<ABlastRadiusPlayerState>(PlayerState)->SetDamage(0);
     /* Re-enable the actor's tick */
     PrimaryActorTick.bCanEverTick = true;
 }
@@ -294,12 +295,22 @@ void ABlastRadiusCharacter::Blink()
     }
 }
 
+void ABlastRadiusCharacter::ServerFire_Implementation()
+{
+    Weapon->Fire();
+}
+
+bool ABlastRadiusCharacter::ServerFire_Validate()
+{
+    return true;
+}
+
 void ABlastRadiusCharacter::Fire()
 {
     bIsFiring = true;
     if (EnergyComponent->OnCooldown == false)
     {
-        Weapon->Fire();
+        ServerFire();
         EnergyComponent->SpendEnergy(ShootCost);
     }
 }
@@ -342,15 +353,31 @@ bool ABlastRadiusCharacter::NetMultiCastOnDeath_Validate()
     return true;
 }
 
-void ABlastRadiusCharacter::LookAt(FVector Direction)
+void ABlastRadiusCharacter::ServerLookAt_Implementation(FVector Direction)
 {
     SetActorRotation(Direction.Rotation());
 }
 
+bool ABlastRadiusCharacter::ServerLookAt_Validate(FVector Direction)
+{
+    return true;
+}
 
-//void ABlastRadiusCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
-//{
-//    Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-//
-//    DOREPLIFETIME(ABlastRadiusCharacter, )
-//}
+
+void ABlastRadiusCharacter::LookAt(FVector Direction)
+{
+    Orientation = Direction;
+    ServerLookAt(Direction);
+    
+}
+
+
+void ABlastRadiusCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+    Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+    DOREPLIFETIME(ABlastRadiusCharacter, Weapon);
+    DOREPLIFETIME(ABlastRadiusCharacter, Sword);
+    DOREPLIFETIME(ABlastRadiusCharacter, Orientation)
+
+}

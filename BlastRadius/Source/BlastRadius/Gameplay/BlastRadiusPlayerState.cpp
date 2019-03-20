@@ -27,5 +27,4 @@ void ABlastRadiusPlayerState::GetLifetimeReplicatedProps(TArray< FLifetimeProper
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);
     DOREPLIFETIME(ABlastRadiusPlayerState, CurrentLives);
     DOREPLIFETIME(ABlastRadiusPlayerState, CurrentDamage);
-
 }

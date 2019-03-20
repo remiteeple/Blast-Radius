@@ -51,8 +51,8 @@ public:
     UFUNCTION(BluePrintCallable)
         void TakeDamage(float Damage, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser, FVector HitFrom);
     //Function To Allow Damage To Be Taken On Clients
-    UFUNCTION(NetMulticast, Reliable, WithValidation)
-        void MulticastTakeDamage(FVector LaunchVelocity, float Knockback);
+    UFUNCTION(Server, Reliable, WithValidation)
+        void ServerTakeDamage(FVector LaunchVelocity, float Knockback);
 
     UFUNCTION(BluePrintCallable)
         FORCEINLINE float GetCurrentHealth() { return CurrentHealth; }

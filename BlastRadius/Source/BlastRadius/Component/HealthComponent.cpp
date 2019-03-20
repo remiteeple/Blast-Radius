@@ -30,7 +30,7 @@ void UHealthComponent::BeginPlay()
 	// ...
 	
 }
-//Test function for delegates, highly experimental!
+////Test function for delegates, highly experimental!
 void UHealthComponent::TakeAnyDamage(AActor* DamagedActor, float Damage, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser)
 {
     /** FOR USE LATER WHEN REPLICATING **/
@@ -73,14 +73,14 @@ void UHealthComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 }
 
 //Cast Damage Taken To All Clients
-void UHealthComponent::MulticastTakeDamage_Implementation(FVector LaunchVelocity, float KnockBack)
+void UHealthComponent::ServerTakeDamage_Implementation(FVector LaunchVelocity, float KnockBack)
 {
     Cast<ABlastRadiusCharacter>(GetOwner())->LaunchCharacter(LaunchVelocity * KnockBack, false, true);
 
 }
 
 //Validate The Function
-bool UHealthComponent::MulticastTakeDamage_Validate(FVector LaunchVelocity, float KnockBack)
+bool UHealthComponent::ServerTakeDamage_Validate(FVector LaunchVelocity, float KnockBack)
 {
     return true;
 }
@@ -105,7 +105,7 @@ void UHealthComponent::TakeDamage(float Damage, const class UDamageType* DamageT
     FVector LaunchVelocity = HitFrom;
     LaunchVelocity.Z = 0.0f;
 
-    MulticastTakeDamage(LaunchVelocity, KnockBack);
+    ServerTakeDamage(LaunchVelocity, KnockBack);
 
     //If the characters health is below 0, make it 0.
     if (CurrentHealth < 0.f)

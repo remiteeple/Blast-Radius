@@ -30,6 +30,9 @@ public:
         float MaxWalkSpeed;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
         float MaxRunSpeed;
+    /**Replicated Orientation**/
+    UPROPERTY(Replicated)
+        FVector Orientation;
 
     /** Spawn location variable **/
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
@@ -54,10 +57,12 @@ public:
     //Sword Template to use
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
         TSubclassOf<class ABlastRadiusSword> SwordClass;
+    UPROPERTY(Replicated)
     ABlastRadiusSword* Sword;
     /* Weapon */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
         TSubclassOf<class ABlastRadiusWeapon> WeaponClass;
+    UPROPERTY(Replicated)
     ABlastRadiusWeapon* Weapon;
 
     /* Blink particles*/
@@ -71,16 +76,26 @@ public:
 
     /** Called for directional rotation of character  **/
     void LookAt(FVector Direction);
+    /** Server Call for directional rotation of character  **/
+    UFUNCTION(Server, Reliable, WithValidation)
+    void ServerLookAt(FVector Direction);
 
     /** Called when blink is activated **/
     void Blink();
+    /** Server Call when blink is activated **/
+   // void ServerBlink();
 
     /** Call for shooting **/
     void Fire();
 
+    /*Server Call for Shooting*/
+    UFUNCTION(Server, Reliable, WithValidation)
+    void ServerFire();
     /** Called for melee attack **/
     void Melee();
-
+    /** Sever Call for melee attack **/
+   // UFUNCTION(Server, Reliable, WithValidation)
+  //void ServerMelee();
     /** Called to hide sword after melee **/
     void PutAwaySword();
 
