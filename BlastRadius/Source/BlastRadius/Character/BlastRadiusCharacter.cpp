@@ -274,6 +274,16 @@ void ABlastRadiusCharacter::Move(FVector Direction, float Scale)
     }
 }
 
+void ABlastRadiusCharacter::ServerBlink_Implementation()
+{
+    BlinkComponent->Blink(this);
+}
+
+bool ABlastRadiusCharacter::ServerBlink_Validate()
+{
+    return true;
+}
+
 void ABlastRadiusCharacter::Blink()
 {
     if (EnergyComponent->OnCooldown == false)
@@ -286,6 +296,7 @@ void ABlastRadiusCharacter::Blink()
         }
 
         BlinkComponent->Blink(this);
+        ServerBlink();
         EnergyComponent->SpendEnergy(BlinkCost);
 
         if (ProjectileFX)
@@ -367,6 +378,7 @@ bool ABlastRadiusCharacter::ServerLookAt_Validate(FVector Direction)
 void ABlastRadiusCharacter::LookAt(FVector Direction)
 {
     Orientation = Direction;
+    SetActorRotation(Direction.Rotation());
     ServerLookAt(Direction);
     
 }

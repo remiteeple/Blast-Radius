@@ -83,7 +83,8 @@ public:
     /** Called when blink is activated **/
     void Blink();
     /** Server Call when blink is activated **/
-   // void ServerBlink();
+    UFUNCTION(Server, Reliable, WithValidation)
+    void ServerBlink();
 
     /** Call for shooting **/
     void Fire();
