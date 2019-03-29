@@ -26,17 +26,21 @@ class BLASTRADIUS_API ABlastRadiusProjectile : public AActor
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
         class UProjectileMovementComponent* ProjectileMovementComp;
 
-    UPROPERTY()
+public:
+    UPROPERTY(BlueprintReadWrite, Category = Projectile)
         float m_LifeSpan;
 
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite, Category = Projectile)
         float m_LaserDamage;
 
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite, Category = Projectile)
         int m_MaxBounceAmount;
 
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite, Category = Projectile)
         float m_KnockbackFactor;
+
+    UPROPERTY(BlueprintReadWrite, Category = Projectile)
+        float m_BlowBackRange;
 
     UPROPERTY(EditDefaultsOnly, Category = ProjectileDamage)
         TSubclassOf<UDamageType> m_DamageType;

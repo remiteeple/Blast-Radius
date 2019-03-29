@@ -63,6 +63,9 @@ ABlastRadiusProjectile::ABlastRadiusProjectile()
     //Knock back Amount for collision with projectile. This might be Health percentage * 10 later.
     m_KnockbackFactor = 100.0f;
 
+    //Blow back range for projectile on projectile explosion
+    m_BlowBackRange = 25.0f;
+
 
     /*
     In Blueprint editor:
@@ -70,7 +73,7 @@ ABlastRadiusProjectile::ABlastRadiusProjectile()
     in the "MovementComp" Component in order for this projectile to replicate correctly over a server.
     */
 
-    
+
     ProjectileFX = CreateDefaultSubobject<UParticleSystem>(TEXT("Projectile Particles"));
     ProjectileDestroyFX = CreateDefaultSubobject<UParticleSystem>(TEXT("Projectile Destroyed Particles"));
 
@@ -110,7 +113,8 @@ void ABlastRadiusProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
 
     if (OtherActor != nullptr && OtherComp != nullptr)
     {
-        //handles collision handle for characters
+        // Collision Response between projectile & character.
+        //ABlastRadiusCharacter* ThisCharacter = Cast<ABlastRadiusCharacter>(GetOwner());
         ABlastRadiusCharacter* OtherCharacter = Cast<ABlastRadiusCharacter>(OtherActor);
         if (OtherCharacter != nullptr)
         {
@@ -126,6 +130,58 @@ void ABlastRadiusProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
             }
             DestroySelf();
         }
+
+        // Projectile 2 Projectile logic. - Remi
+        //Get a list of characters.
+        //Calculate math
+        //  Damage = m_LaserDamage / m_MaxBounceAmount;  this prevents the maximum damage build up from being higher than a base attack.
+        //  blowback direction = direction * velocity
+        //  blowback vector = -direction * m_MaxBounceAmount
+        //Check if the character actors are within range.
+        //apply damage to characters in range
+
+        // Collision response between projectiles.
+        ABlastRadiusProjectile* OtherProjectile = Cast<ABlastRadiusProjectile>(OtherActor);
+        if (OtherProjectile != nullptr)
+        {
+            // Get a list of player actors.
+            TArray<AActor*>CharacterActors;
+            UGameplayStatics::GetAllActorsOfClass(GetWorld(), ABlastRadiusCharacter::StaticClass(), CharacterActors);
+
+            // Calculate the math for appropriate reponse.
+            FVector difference = OtherProjectile->GetActorLocation() - this->GetActorLocation();
+            FVector direction = difference.GetSafeNormal();
+            float distance = difference.Size();
+
+            // Cycle through all players.
+            for (auto Actor : CharacterActors)
+            {
+                // Calculate direction & distance to impact for each character(actor)
+                FVector directionToImpactLocation = FVector(difference - Actor->GetActorLocation()).GetSafeNormal();
+                float playerToImpactDistance = FVector(this->GetActorLocation() - Actor->GetActorLocation()).Size();
+
+                FVector BlowBackVector = directionToImpactLocation * m_MaxBounceAmount;
+
+                // If player is in range.
+                if (playerToImpactDistance > m_BlowBackRange)
+                {
+                    // Call TakeDamage on all characters within range's HealthComponent. 
+                    ABlastRadiusCharacter* Character = Cast<ABlastRadiusCharacter>(Actor);
+                    const UDamageType* Laser_DamageType = Cast<UDamageType>(UDamageType::StaticClass());
+                    Character->GetHealthComponent()->TakeDamage(m_LaserDamage / m_MaxBounceAmount, Laser_DamageType, Character->GetInstigatorController(), GetOwner(), BlowBackVector * GetVelocity());
+                    //GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Red, "BlowBackDamage % - " + FString::SanitizeFloat(Character->GetHealthComponent()->GetCurrentHealth())); // DEBUG
+                }
+            }
+
+            if (ProjectileDestroyFX)
+            {
+                UGameplayStatics::SpawnEmitterAtLocation(this, ProjectileDestroyFX, GetActorLocation());
+                PSC1->SetTemplate(ProjectileDestroyFX);
+            }
+
+            DestroySelf();
+        }
+
 
         //Decrement bounce when hitting walls until bounce limit is hit.
         if (m_MaxBounceAmount != 0)
