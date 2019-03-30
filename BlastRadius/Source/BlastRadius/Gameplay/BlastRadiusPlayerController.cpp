@@ -19,8 +19,10 @@ void ABlastRadiusPlayerController::SetupInputComponent()
     Super::SetupInputComponent();
 
     // Set up gameplay key bindings
-    InputComponent->BindAxis("LookForward", this, &ABlastRadiusPlayerController::LookForward);
-    InputComponent->BindAxis("LookRight", this, &ABlastRadiusPlayerController::LookRight);
+    InputComponent->BindAxis("AimForward", this, &ABlastRadiusPlayerController::AimForward);
+    InputComponent->BindAxis("AimRight", this, &ABlastRadiusPlayerController::AimRight);
+
+    InputComponent->BindAxis("LookRight", this, &ABlastRadiusPlayerController::AimRight);
 
     InputComponent->BindAxis("MoveVertical", this, &ABlastRadiusPlayerController::MoveVertical);
     InputComponent->BindAxis("MoveHorizontal", this, &ABlastRadiusPlayerController::MoveHorizontal);
@@ -65,15 +67,9 @@ void ABlastRadiusPlayerController::Tick(float DeltaTime)
         LookDirection = UKismetMathLibrary::MakeRotationFromAxes(ThumbStickDir, FVector(0, 0, 0), FVector(0, 0, 0));
         Character->SetActorRotation(LookDirection);
     }
-
-    //if (ThumbStickDir == FVector::ZeroVector)
-    //    Character->GetCharacterMovement()->bOrientRotationToMovement = true;
-    //else
-    //    Character->GetCharacterMovement()->bOrientRotationToMovement = false;
-
 }
 
-void ABlastRadiusPlayerController::LookForward(float Scale)
+void ABlastRadiusPlayerController::AimForward(float Scale)
 {
     if (Character == nullptr)
         return;
@@ -84,7 +80,7 @@ void ABlastRadiusPlayerController::LookForward(float Scale)
     Character->SetActorRotation(LookDirection);
 }
 
-void ABlastRadiusPlayerController::LookRight(float Scale)
+void ABlastRadiusPlayerController::AimRight(float Scale)
 {
     if (Character == nullptr)
         return;
@@ -93,6 +89,15 @@ void ABlastRadiusPlayerController::LookRight(float Scale)
 
     /* Rotate the character */
     Character->SetActorRotation(LookDirection);
+}
+
+void ABlastRadiusPlayerController::LookRight(float Scale)
+{
+    if (Character == nullptr)
+        return;
+
+    /* Orbit camera around character */
+    Character->AddControllerYawInput(Scale * CameraSensitivity * GetWorld()->GetDeltaSeconds());
 }
 
 void ABlastRadiusPlayerController::MoveVertical(float Scale)

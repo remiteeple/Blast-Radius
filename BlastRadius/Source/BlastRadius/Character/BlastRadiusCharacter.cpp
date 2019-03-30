@@ -55,8 +55,7 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
     // Create a camera boom (pulls in towards the player if there is a collision)
     CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
     CameraBoom->SetupAttachment(RootComponent);
-    CameraBoom->TargetArmLength = 300.0f; // The camera follows at this distance behind the character	
-    CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
+    CameraBoom->bUsePawnControlRotation = true;
     CameraBoom->bEnableCameraLag = true;
     CameraBoom->CameraLagSpeed = 5.0f;
     CameraBoom->CameraLagMaxDistance = 250.0f;
@@ -289,9 +288,40 @@ void ABlastRadiusCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedCompon
 // Input / Actions
 void ABlastRadiusCharacter::Move(FVector Direction, float Scale)
 {
-    if (Scale != 0.0f)
+    if ((Controller != NULL) && (Scale != 0.0f))
     {
-        AddMovementInput(Direction, Scale);
+        // discern forward direction
+        const FRotator Rotation = GetCameraBoom()->GetTargetRotation(); //Controller->GetControlRotation();
+        const FRotator YawRotation(0, Rotation.Yaw, 0);
+
+        // get forward vector
+        if (Direction.X != 0.0f)
+        {
+            const FVector DirectionX = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+
+            // apply movement
+            AddMovementInput(DirectionX, Scale);
+        }
+        else if (Direction.Y != 0.0f)
+        {
+            const FVector DirectionY = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+
+            // apply movement
+            AddMovementInput(DirectionY, Scale);
+        }
+    }
+}
+
+void ABlastRadiusCharacter::LookAt(FVector Direction)
+{
+    if ((Controller != NULL) && Direction != FVector::ZeroVector)
+    {
+        // assign direction to replicated value
+        Orientation = Direction;
+
+        // rorate character
+        SetActorRotation(Direction.Rotation());
+        ServerLookAt(Direction);
     }
 }
 
@@ -393,13 +423,6 @@ void ABlastRadiusCharacter::ServerLookAt_Implementation(FVector Direction)
 bool ABlastRadiusCharacter::ServerLookAt_Validate(FVector Direction)
 {
     return true;
-}
-
-void ABlastRadiusCharacter::LookAt(FVector Direction)
-{
-    Orientation = Direction;
-    SetActorRotation(Direction.Rotation());
-    ServerLookAt(Direction);
 }
 
 void ABlastRadiusCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

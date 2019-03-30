@@ -29,7 +29,9 @@ public:
 
 private:
     /** interaction methods **/
-    void LookForward(float Scale);
+    void AimForward(float Scale);
+    void AimRight(float Scale);
+
     void LookRight(float Scale);
 
     void MoveVertical(float Scale);
@@ -55,6 +57,8 @@ private:
     float LookForwardValue;
 
     FRotator LookDirection;
+
+    float CameraSensitivity = 25.0f;
 
 private:
     /** ABlastRadiusCharacter possession reference **/
