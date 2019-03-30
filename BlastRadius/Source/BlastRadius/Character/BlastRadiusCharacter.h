@@ -104,6 +104,7 @@ public:
     UFUNCTION(NetMulticast, Reliable, WithValidation)
         void NetMultiCastOnDeath();
 
+    /** Called on character death **/
     void OnDeath();
 
     /** Getter for Player State **/
@@ -113,9 +114,13 @@ public:
     UFUNCTION(BlueprintCallable)
     class ABlastRadiusGameStateBase* GetGameState();
 
-
     /** Teleports player upon stock loss to spawm point **/
     void Respawn();
+
+    /** Handle character overlap **/
+    UFUNCTION()
+    void OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult);
+
 public:
     /** State Definitions **/
     // Default false
@@ -128,8 +133,12 @@ public:
 private:
     /** Component Declarations **/
     class USkeletalMeshComponent* SkeletalMesh;
+
+    class UCapsuleComponent* CapsuleCollider;
+
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Blink", meta = (AllowPrivateAccess = "true"))
         class UBlinkComponent* BlinkComponent;
+
     //class UMeleeComponent* MeleeComponent;
     class UCharacterAnimInstance* AnimationInstance;
 

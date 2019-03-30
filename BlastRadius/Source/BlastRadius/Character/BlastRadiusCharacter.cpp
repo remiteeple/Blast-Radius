@@ -15,6 +15,8 @@
 //#include "Component/MeleeComponent.h"
 #include "Weapon/BlastRadiusSword.h"
 #include "Weapon/BlastRadiusProjectile.h"
+#include "Pickup/BlastRadiusPickup.h"
+#include "Pickup/BlastRadiusBattery.h"
 #include "Gameplay/BlastRadiusGameStateBase.h"
 #include "Gameplay/BlastRadiusPlayerState.h"
 #include "Weapon/BlastRadiusWeapon.h"
@@ -29,43 +31,43 @@
 // ABlastRadiusCharacter
 
 ABlastRadiusCharacter::ABlastRadiusCharacter() :
-	SkeletalMesh(nullptr),
-	BlinkComponent(nullptr),
+    SkeletalMesh(nullptr),
+    BlinkComponent(nullptr),
     HealthComponent(nullptr),
     EnergyComponent(nullptr),
     AnimationInstance(nullptr)
 {
-	// Set size for collision capsule
-	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
+    // Set size for collision capsule
+    GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
     GetCapsuleComponent()->SetCollisionProfileName(UCollisionProfile::BlockAll_ProfileName);
 
-	// Don't rotate when the controller rotates. Let that just affect the camera.
-	bUseControllerRotationPitch = false;
-	bUseControllerRotationYaw = false;
-	bUseControllerRotationRoll = false;
+    // Don't rotate when the controller rotates. Let that just affect the camera.
+    bUseControllerRotationPitch = false;
+    bUseControllerRotationYaw = false;
+    bUseControllerRotationRoll = false;
 
-	// Configure character movement
-	GetCharacterMovement()->MaxWalkSpeed = MaxRunSpeed;
-	GetCharacterMovement()->bOrientRotationToMovement = true; // Character moves in the direction of input...	
-	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f); // ...at this rotation rate
-	GetCharacterMovement()->SetJumpAllowed(false);
+    // Configure character movement
+    GetCharacterMovement()->MaxWalkSpeed = MaxRunSpeed;
+    GetCharacterMovement()->bOrientRotationToMovement = true; // Character moves in the direction of input...	
+    GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f); // ...at this rotation rate
+    GetCharacterMovement()->SetJumpAllowed(false);
 
-	// Create a camera boom (pulls in towards the player if there is a collision)
-	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
-	CameraBoom->SetupAttachment(RootComponent);
-	CameraBoom->TargetArmLength = 300.0f; // The camera follows at this distance behind the character	
-	CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
-	CameraBoom->bEnableCameraLag = true;
-	CameraBoom->CameraLagSpeed = 5.0f;
-	CameraBoom->CameraLagMaxDistance = 250.0f;
+    // Create a camera boom (pulls in towards the player if there is a collision)
+    CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
+    CameraBoom->SetupAttachment(RootComponent);
+    CameraBoom->TargetArmLength = 300.0f; // The camera follows at this distance behind the character	
+    CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
+    CameraBoom->bEnableCameraLag = true;
+    CameraBoom->CameraLagSpeed = 5.0f;
+    CameraBoom->CameraLagMaxDistance = 250.0f;
     CameraBoom->bDoCollisionTest = false;
 
-	// Create a follow camera
+    // Create a follow camera
     TopDownCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
     TopDownCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
     TopDownCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
-    //Setup the health and energy components
+    // Setup the health and energy components
     HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health"));
     EnergyComponent = CreateDefaultSubobject<UEnergyComponent>(TEXT("Energy"));
     BlinkComponent = CreateDefaultSubobject<UBlinkComponent>(TEXT("Blink"));
@@ -75,8 +77,8 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
 
     SpawnDelay = 1.0f;
 
-    ProjectileFX = CreateDefaultSubobject<UParticleSystem> (TEXT("Blink Particles"));
-    
+    ProjectileFX = CreateDefaultSubobject<UParticleSystem>(TEXT("Blink Particles"));
+
     PSC = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("MyPSC"));
     PSC->SetupAttachment(RootComponent);
 
@@ -88,9 +90,9 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
 
 void ABlastRadiusCharacter::PostInitializeComponents()
 {
-	Super::PostInitializeComponents();
+    Super::PostInitializeComponents();
 
-	/* Retrieve the skeletal mesh */
+    /* Retrieve the skeletal mesh */
     //Check for skeletal mesh
     SkeletalMesh = GetMesh();
     if (SkeletalMesh != nullptr)
@@ -118,6 +120,8 @@ void ABlastRadiusCharacter::PostInitializeComponents()
     /* Retrieve the blink component */
     BlinkComponent = FindComponentByClass<UBlinkComponent>();
 
+    // Setup overlap
+    GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &ABlastRadiusCharacter::OnOverlapBegin);
 }
 
 class ABlastRadiusPlayerState* ABlastRadiusCharacter::GetPlayerState()
@@ -134,15 +138,15 @@ class ABlastRadiusGameStateBase* ABlastRadiusCharacter::GetGameState()
 
 void ABlastRadiusCharacter::BeginPlay()
 {
-	Super::BeginPlay();
-  
+    Super::BeginPlay();
+
     // Spawn a projectile.
     FActorSpawnParameters SpawnParams;
     SpawnParams.Instigator = this;
     SpawnParams.Owner = this;
     SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn; //TILAN HERE AdjustIfPossibleButAlwaysSpawn
 
-    if (SwordClass) 
+    if (SwordClass)
     {
         Sword = GetWorld()->SpawnActor<ABlastRadiusSword>(SwordClass, SpawnParams);
         Sword->Attach(this);
@@ -154,17 +158,15 @@ void ABlastRadiusCharacter::BeginPlay()
         Weapon->SetOwner(this);
         Weapon->Attach(this);
     }
-
-
 }
 
 void ABlastRadiusCharacter::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaTime);
-   
+    Super::Tick(DeltaTime);
+
     /* Handle movement and orientation */
     GetCharacterMovement()->bOrientRotationToMovement = true; // Character moves in the direction of input...	
-    
+
     float CurrentSpeed = GetVelocity().Size(); // Get character's current speed
     bool bIsMoving = CurrentSpeed > 0.0f && GetCharacterMovement()->IsMovingOnGround(); // Check for character movement
 
@@ -257,11 +259,30 @@ void ABlastRadiusCharacter::Respawn()
         SkeletalMesh->AttachToComponent(GetCapsuleComponent(), FAttachmentTransformRules::KeepRelativeTransform);
     }
 
-    /**Refill energy **/
+    /* Refill energy */
     EnergyComponent->CurrentEnergy = EnergyComponent->MaxEnergy;
     Cast<ABlastRadiusPlayerState>(PlayerState)->SetDamage(0);
     /* Re-enable the actor's tick */
     PrimaryActorTick.bCanEverTick = true;
+}
+
+void ABlastRadiusCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult)
+{
+        if (OtherActor)
+        {
+            // Pickup Battery.
+            if (OtherActor->ActorHasTag("Battery"))
+            {
+                ABlastRadiusBattery* Battery = Cast<ABlastRadiusBattery>(OtherActor);
+                if (Battery)
+                {
+                    // Charge Energy
+                    GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Black, "Picked Up Battery");
+                    EnergyComponent->CurrentEnergy += Battery->Charge;
+                    Battery->Disable();
+                }
+            }
+        }
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -331,7 +352,7 @@ void ABlastRadiusCharacter::Melee()
     if (Sword != nullptr)
     {
         bIsMeleeAttacking = true;
-        GetWorld()->GetTimerManager().SetTimer(TimerHandle_MeleeTimer, this, &ABlastRadiusCharacter::PutAwaySword, 0.5f, true);        
+        GetWorld()->GetTimerManager().SetTimer(TimerHandle_MeleeTimer, this, &ABlastRadiusCharacter::PutAwaySword, 0.5f, true);
         Sword->Activate();
         EnergyComponent->SpendEnergy(MeleeCost);
     }
@@ -374,15 +395,12 @@ bool ABlastRadiusCharacter::ServerLookAt_Validate(FVector Direction)
     return true;
 }
 
-
 void ABlastRadiusCharacter::LookAt(FVector Direction)
 {
     Orientation = Direction;
     SetActorRotation(Direction.Rotation());
     ServerLookAt(Direction);
-    
 }
-
 
 void ABlastRadiusCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
@@ -391,5 +409,4 @@ void ABlastRadiusCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>
     DOREPLIFETIME(ABlastRadiusCharacter, Weapon);
     DOREPLIFETIME(ABlastRadiusCharacter, Sword);
     DOREPLIFETIME(ABlastRadiusCharacter, Orientation)
-
 }
