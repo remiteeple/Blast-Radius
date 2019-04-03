@@ -27,6 +27,8 @@ public:
     FORCEINLINE int GetLives() { return CurrentLives; }
     UFUNCTION(BlueprintCallable)
     FORCEINLINE float GetDamage() { return CurrentDamage; }
+    //FORCEINLINE float GetDamage() { return CurrentEnergy; }
+
     FORCEINLINE void IncrementDamage(float Damage) { CurrentDamage += Damage; }
     FORCEINLINE void SetDamage(float Damage) { CurrentDamage = Damage; }
     void RoundEnd();
