@@ -8,6 +8,9 @@ CURRENTLY IMPLEMENTED - Input Controls:
 WASD / Arrow Keys - Basic Directional Movement
 Shift - Walk Modifier (reduce speed for basic movement)
 
+#CAMERA#
+Q / E - Camera Rotation
+
 #AIMING#
 Mouse Movement - Direct Player Orientation
 
@@ -22,6 +25,9 @@ Middle Mouse - Melee Attack
 #MOVEMENT#
 Gamepad Left ThumbStick - Basic Directional Movement
 Left Trigger - Walk Modifier (reduce speed for basic movement)
+
+#CAMERA#
+??? / ??? - Camera Rotation
 
 #AIMING#
 Gamepad Right ThumbStick - Direct Player Orientation

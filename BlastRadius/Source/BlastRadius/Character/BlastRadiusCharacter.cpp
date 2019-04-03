@@ -66,6 +66,10 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
     TopDownCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
     TopDownCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
+    // Create static mesh for the helmet
+    HelmetMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Helmet Mesh"));
+    HelmetMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
     // Setup the health and energy components
     HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health"));
     EnergyComponent = CreateDefaultSubobject<UEnergyComponent>(TEXT("Energy"));
@@ -102,6 +106,14 @@ void ABlastRadiusCharacter::PostInitializeComponents()
         AnimationInstance = Cast<UCharacterAnimInstance>(SkeletalMesh->GetAnimInstance());
 
         //check(AnimationInstance != nullptr && "Character doesn't have animation!")
+    }
+
+    /* Attach Helmet Mesh to Skeletal Mesh */
+    if (HelmetMesh)
+    {
+        check(HelmetMesh != nullptr && "Character doesn't have a helmet mesh!");
+
+        HelmetMesh->AttachToComponent(SkeletalMesh, FAttachmentTransformRules::SnapToTargetIncludingScale, "HelmetSocket");
     }
 
     /* Retrieve the health component */

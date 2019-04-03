@@ -205,6 +205,10 @@ protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Camera, meta = (AllowPrivateAccess = "true"))
         class UCameraComponent* TopDownCamera;
 
+    /** Helmet Mesh **/
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Helmet, meta = (AllowPrivateAccess = "true"))
+        class UStaticMeshComponent* HelmetMesh;
+
     /** Energy Spendature Values **/
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy_Cost)
         float BlinkCost = 35.0f;
