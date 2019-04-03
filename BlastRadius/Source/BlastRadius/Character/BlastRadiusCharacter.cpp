@@ -85,6 +85,7 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
 
     SetReplicates(true);
     SetReplicateMovement(true);
+    
 }
 
 void ABlastRadiusCharacter::PostInitializeComponents()
@@ -157,6 +158,19 @@ void ABlastRadiusCharacter::BeginPlay()
         Weapon->SetOwner(this);
         Weapon->Attach(this);
     }
+
+    GetWorldTimerManager().SetTimer(UpdateHandle, this, &ABlastRadiusCharacter::UpdateAndCheckPlayer, 0.03333f, true, 0.0f);
+    //PostBeginPlay arguments (non looping: PostBeginPlayDelay, this, &ACharacterBase::PostBeginPlay, 1.0f, false
+    GetWorldTimerManager().SetTimer(PostBeginPlayDelay, this, &ABlastRadiusCharacter::PostBeginPlay, 1.0f, false);
+
+    if (Role > ROLE_AutonomousProxy)
+    {
+        //WHOOPS! WON'T WORK IF PLAYERS ARE ALL ADDED AT SAME TIME
+        //Set an index reference for this character based on what number player it is in the game
+        //SET/ASSIGN NetIndex to GetWorld()->GetGameState()->AuthorityGameMode->GetNumPlayers() - 1
+        NetIndex = GetWorld()->GetGameState()->AuthorityGameMode->GetNumPlayers() - 1;
+    }
+   
 }
 
 void ABlastRadiusCharacter::Tick(float DeltaTime)
@@ -212,6 +226,7 @@ void ABlastRadiusCharacter::Tick(float DeltaTime)
     {
         EnergyComponent->FastCharge = false;
     }
+    
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -284,6 +299,98 @@ void ABlastRadiusCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedCompon
         }
 }
 
+void ABlastRadiusCharacter::AssignTeams()
+{
+    if (!GetGameState())
+        return;
+
+    TeamOneCount = GetGameState()->TeamOneSize;
+    TeamTwoCount = GetGameState()->TeamTwoSize;
+
+        //IF TeamOneCount is GREATER than TeamTwoCount
+        if (TeamOneCount > TeamTwoCount)
+        {
+            //GET the Game State and Increment TeamTwoSize
+            GetGameState()->TeamTwoSize++;
+            //SET/Assign playerTeam to 1
+            playerTeam = 1;
+        }
+        else if (TeamOneCount < TeamTwoCount)
+        {
+            //GET the Game State and Increment TeamOneSize
+            GetGameState()->TeamOneSize++;
+            //SET/Assign playerTeam to 0
+            playerTeam = 0;
+        }
+        else
+        {
+            //GET the Game State and Increment TeamTwoSize
+            GetGameState()->TeamTwoSize++;
+            //SET/Assign playerTeam to 1
+            playerTeam = 1;
+        }
+    //Update the PlayerTeam on the PlayerState
+    //CALL GetPlayerState() and SET the PlayerTeam to this instance's playerTeam
+    if (GetPlayerState())
+        GetPlayerState()->PlayerTeam = playerTeam;
+}
+
+void ABlastRadiusCharacter::AssignNetIndex()
+{
+    NetIndex = GetGameState()->AuthorityGameMode->GetNumPlayers() - 1;
+}
+
+void ABlastRadiusCharacter::UpdateAndCheckPlayer()
+{
+    if (GetGameState())
+    {
+        TeamOneCount = GetGameState()->TeamOneSize;
+        TeamTwoCount = GetGameState()->TeamTwoSize;
+    }
+}
+
+void ABlastRadiusCharacter::PostBeginPlay()
+{
+    if (Role == ROLE_Authority)
+        //CALL Multicast_AssignTeamsColor()
+        Multicast_AssignTeamsColor();
+}
+
+void ABlastRadiusCharacter::Multicast_AssignTeamsColor_Implementation()
+{
+    if (GetGameState()) //
+    {
+        //If we're on team one
+        //IF playerTEam is 0
+        if (playerTeam == 0)
+        {
+            //If the first person material array for team one isn't null,
+            //assign those materials to the first person mesh
+            //IF GetGameState()->TeamOnePMaterials.Num() is GREATER than 0
+           
+                //SET/ASSIGN DefaultTPMaterials to the GameStates's TeamOnePMaterials
+                DefaultTPMaterials = GetGameState()->TeamOnePMaterials;
+                //CALL ApplyMaterialsToMesh() and pass in GetSkeletalMesh(), DefaultTPMaterials
+                SkeletalMesh->SetMaterial(0, DefaultTPMaterials);
+
+        }
+        //ELSE IF playerTeam is 1  //Otherwise if we're on team two, do the same as above but for team two        
+        else if (playerTeam == 1)
+        {
+            //IF GetGameState()->TeamTwoPMaterials.Num() is GREATER than 0
+          
+                //SET/ASSIGN DefaultTPMaterials to the GameStates's TeamTwoPMaterials
+                DefaultTPMaterials = GetGameState()->TeamTwoPMaterials;
+                SkeletalMesh->SetMaterial(0, DefaultTPMaterials);
+                //CALL ApplyMaterialsToMesh() and pass in GetSkeletalMesh(), DefaultTPMaterials
+               
+        
+        }
+        //ENDIF
+    }
+    //ENDIF
+}
+
 //////////////////////////////////////////////////////////////////////////
 // Input / Actions
 void ABlastRadiusCharacter::Move(FVector Direction, float Scale)
@@ -316,12 +423,17 @@ void ABlastRadiusCharacter::LookAt(FVector Direction)
 {
     if ((Controller != NULL) && Direction != FVector::ZeroVector)
     {
-        // assign direction to replicated value
-        Orientation = Direction;
-
-        // rorate character
         SetActorRotation(Direction.Rotation());
-        ServerLookAt(Direction);
+
+        // We set our current facing to the direction the actor is facing
+        //SET/ASSIGN CurrentFAcing to TargetVector
+        Orientation = Direction;
+        //IF Role is LESS THAN ROLE_Authority
+        if (Role < ROLE_Authority)
+        {
+            //CALL ServerChangeFacing() and pass in CurrentFacing
+            ServerLookAt(Orientation);
+        }
     }
 }
 
@@ -431,5 +543,7 @@ void ABlastRadiusCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>
 
     DOREPLIFETIME(ABlastRadiusCharacter, Weapon);
     DOREPLIFETIME(ABlastRadiusCharacter, Sword);
-    DOREPLIFETIME(ABlastRadiusCharacter, Orientation)
+    DOREPLIFETIME(ABlastRadiusCharacter, Orientation);
+    DOREPLIFETIME(ABlastRadiusCharacter, DefaultTPMaterials);
+    DOREPLIFETIME(ABlastRadiusCharacter, playerTeam);
 }

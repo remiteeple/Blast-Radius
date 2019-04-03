@@ -20,7 +20,8 @@ public:
     int CurrentLives = 3;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Damage, Replicated)
     int CurrentDamage = 0;
-
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Replicated)
+        int PlayerTeam;
     
     void DecrementLives();
     UFUNCTION(BlueprintCallable)
