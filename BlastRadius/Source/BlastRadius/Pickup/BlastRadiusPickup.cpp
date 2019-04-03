@@ -3,8 +3,12 @@
 #include "BlastRadiusPickup.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/SphereComponent.h"
+#include "Components/AudioComponent.h"
+#include "Sound/SoundBase.h"
+#include "Particles/ParticleSystemComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
-
+#include "Character/AIBlastRadiusCharacter.h"
 
 // Sets default values
 ABlastRadiusPickup::ABlastRadiusPickup()
@@ -20,21 +24,28 @@ ABlastRadiusPickup::ABlastRadiusPickup()
     SphereComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
     //SphereComponent->SetCollisionResponseToAllChannels(ECR_Ignore);
     //SphereComponent->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
+    SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &ABlastRadiusPickup::OnOverlapBegin);
     RootComponent = SphereComponent;
 
     MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
     MeshComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
     MeshComponent->SetupAttachment(RootComponent);
+
+    PickupFX = CreateDefaultSubobject<UParticleSystem>(TEXT("Pickup Particles"));
+
+    ParticleSystemComponent = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Pickup Particle System Component"));
+    ParticleSystemComponent->SetupAttachment(RootComponent);
+
+    AudioComponent = CreateDefaultSubobject<UAudioComponent>("Pickup Sound");
+    AudioComponent->bAutoActivate = false;
+    AudioComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
+    AudioComponent->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned
 void ABlastRadiusPickup::BeginPlay()
 {
 	Super::BeginPlay();
-
-    // Re-enable the health pickup after specific time passes.
-    FTimerHandle RespawnTimer;
-    GetWorldTimerManager().SetTimer(RespawnTimer, this, &ABlastRadiusPickup::Enable, RespawnTime, true);
 }
 
 // Called every frame
@@ -47,7 +58,6 @@ void ABlastRadiusPickup::Tick(float DeltaTime)
 void ABlastRadiusPickup::PostInitializeComponents()
 {
     Super::PostInitializeComponents();
-
 }
 
 void ABlastRadiusPickup::NotifyActorBeginOverlap(AActor* OtherActor)
@@ -55,14 +65,17 @@ void ABlastRadiusPickup::NotifyActorBeginOverlap(AActor* OtherActor)
     Super::NotifyActorBeginOverlap(OtherActor);
 }
 
-
 void ABlastRadiusPickup::Disable_Implementation()
 {
     if (SphereComponent)
     {
-        this->SetActorHiddenInGame(true);
+        MeshComponent->SetHiddenInGame(true);
         SphereComponent->SetActive(false);
         SphereComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+        // Re-enable the health pickup after specific time passes.
+        FTimerHandle RespawnTimer;
+        GetWorldTimerManager().SetTimer(RespawnTimer, this, &ABlastRadiusPickup::Enable, RespawnTime, false);
     }
 }
 
@@ -70,8 +83,31 @@ void ABlastRadiusPickup::Enable_Implementation()
 {
     if (SphereComponent)
     {
-        this->SetActorHiddenInGame(false);
+        MeshComponent->SetHiddenInGame(true);
         SphereComponent->SetActive(true);
         SphereComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+    }
+}
+
+void ABlastRadiusPickup::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult)
+{
+    ABlastRadiusCharacter* Character = Cast<ABlastRadiusCharacter>(OtherActor);
+    if (Character)
+    {
+        if (PickupFX)
+        {
+            ParticleSystemComponent->SecondsBeforeInactive = 0.5;
+            UGameplayStatics::SpawnEmitterAtLocation(this, PickupFX, GetActorLocation());
+            ParticleSystemComponent->SetTemplate(PickupFX);
+        }
+
+        if (PickupFX)
+        {
+            UGameplayStatics::SpawnEmitterAtLocation(this, PickupFX, GetActorLocation());
+        }
+
+        //Play the audio for blinking
+        AudioComponent->SetSound(PickupSound);
+        AudioComponent->Play();
     }
 }

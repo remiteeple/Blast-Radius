@@ -47,34 +47,20 @@ void ABlastRadiusExplosion::BeginPlay()
     {
         for (auto Hit : HitResults)
         {
-            GEngine->AddOnScreenDebugMessage(-1, 15, FColor::Blue, Hit.GetActor()->GetActorLabel());
+            //GEngine->AddOnScreenDebugMessage(-1, 15, FColor::Blue, Hit.GetActor()->GetActorLabel());
 
-            FVector difference = ExplosionLocation - Hit.GetActor()->GetActorLocation();
+            FVector difference =  Hit.GetActor()->GetActorLocation() - ExplosionLocation;
             FVector direction = difference.GetSafeNormal();
             float distance = difference.Size();
 
-            // Calculate direction & distance to impact for each character(actor)
-            FVector directionToImpactLocation = FVector(difference - Hit.GetActor()->GetActorLocation()).GetSafeNormal();
-            float playerToImpactDistance = FVector(ExplosionLocation - Hit.GetActor()->GetActorLocation()).Size();
-
-            FVector BlowBackVector = directionToImpactLocation * 1000;
+            FVector BlowBackVector = direction * 500 ;
 
             if (Cast<ABlastRadiusCharacter>(Hit.GetActor()) != nullptr)
             {
                 ABlastRadiusCharacter* Character = Cast<ABlastRadiusCharacter>(Hit.GetActor());
 
                 const UDamageType* Laser_DamageType = Cast<UDamageType>(UDamageType::StaticClass());
-                Character->GetHealthComponent()->TakeDamage(100, Laser_DamageType, Character->GetInstigatorController(), GetOwner(), BlowBackVector * GetVelocity());
-                //GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Red, "BlowBackDamage % - " + FString::SanitizeFloat(Character->GetHealthComponent()->GetCurrentHealth())); // DEBUG
-
-                USkeletalMeshComponent* MeshComp = Character->GetSkeletalMesh();
-
-                if (MeshComp != nullptr)
-                {
-                    MeshComp->AddRadialImpulse(ExplosionLocation, ExplosionRadius, 1000.0f, ERadialImpulseFalloff::RIF_Linear);
-
-
-                }
+                Character->GetHealthComponent()->TakeDamage(40, Laser_DamageType, Character->GetInstigatorController(), GetOwner(), BlowBackVector );
             }
         }
     }

@@ -7,6 +7,8 @@
 #include "BlastRadiusGameStateBase.h"
 #include "EngineGlobals.h"
 #include "Runtime/Engine/Classes/Engine/Engine.h"
+#include "Kismet/GameplayStatics.h"
+#include "GameFramework/PlayerStart.h"
 
 
 ABlastRadiusGameMode::ABlastRadiusGameMode()
@@ -22,27 +24,78 @@ ABlastRadiusGameMode::ABlastRadiusGameMode()
  
 }
 
-//**** Failed attempts at getting the playerstate to get the player's lives ****//
-//void ABlastRadiusGameMode::StartPlay()
+void ABlastRadiusGameMode::HandleStartingNewPlayer_Implementation(APlayerController* NewPlayer)
+{
+    //CALL Super Function
+    Super::HandleStartingNewPlayer_Implementation(NewPlayer);
+    //CALL HandleNewPlayer() pass in NewPlayer
+    HandleNewPlayer(NewPlayer);
+}
+
+void ABlastRadiusGameMode::RespawnPlayer(APlayerController* NewPlayer, int playerTeam, int NetIndex)
+{
+    TArray<AActor*> PlayerStarts;
+    //CALL UGameplayStatics::GetAllActorsOfClass() and pass in GetWorld(), APlayerStart::StaticClass(), PlayerStarts to populate the PlayerStarts TArray
+    UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerStart::StaticClass(), PlayerStarts);
+    //TArray<AActor*> PreferredStarts;
+
+    //DECLARE a APawn* called pawn and assign it to the return value of SpawnDefaultPawnFor(NewPlayer, PlayerStarts[0]), Look up this Function in the documentation
+    APawn* pawn = SpawnDefaultPawnFor(NewPlayer, PlayerStarts[0]);
+    //IF the pawn is not nullptr
+    if (pawn)
+    {
+        //IF the pawn is a ACharacterBase type
+        if (Cast<ABlastRadiusCharacter>(pawn))
+        {
+            //SET the pawn's playerTeam to the playerTeam passed in
+            Cast<ABlastRadiusCharacter>(pawn)->playerTeam = playerTeam;
+            //SET the pawn's NetIndex to the NetIndex passed in
+            Cast<ABlastRadiusCharacter>(pawn)->NetIndex = NetIndex;
+
+            //CALL SetPawn() on the NewPlayer and pass in pawn
+            NewPlayer->SetPawn(pawn);
+            //CALL RestartPlayer() and pass in NewPlayer ..Look up the RestartPlayer() function in the documentation
+            RestartPlayer(NewPlayer);
+
+        }
+        //ENDIF
+    }
+    //ENDIF
+}
+
+//void ABlastRadiusGameMode::HandleMatchIsWaitingToStart()
 //{
-//    Super::StartPlay();
-//    ABlastRadiusCharacter* Player = Cast<ABlastRadiusCharacter>(Cast<ABlastRadiusGameStateBase>(GameStateClass)->PlayerArray[0]);
-//    BlastRadiusState = Player->GetPlayerState();
-//    if (PlayerStateClass != nullptr)
-//        BlastRadiusState = Cast<ABlastRadiusPlayerState>(PlayerStateClass);
 //
 //}
-//void ABlastRadiusGameMode::Tick(float DeltaTime)
+//
+//void ABlastRadiusGameMode::HandleMatchHasStarted()
 //{
-//    Super::Tick(DeltaTime);
-//    
-//    if (BlastRadiusState->GetLives() <= 0)
-//    {
-//        RoundEnd();
-//    }
+//
 //}
 //
-//void ABlastRadiusGameMode::RoundEnd()
+//void ABlastRadiusGameMode::HandleMatchHasEnded()
 //{
-//    GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, TEXT("WIN"));
+//
 //}
+//
+//bool ABlastRadiusGameMode::ReadyToEndMatch_Implementation()
+//{
+//    return false;
+//}
+
+void ABlastRadiusGameMode::HandleNewPlayer(APlayerController* NewPlayer)
+{
+    //DECLARE a ACharacterBase* called character and assign it to the Cast of NewPlayer->GetPawn()
+    ABlastRadiusCharacter* character = Cast<ABlastRadiusCharacter>(NewPlayer->GetPawn());
+    //IF the character is not nullptr
+    if (character)
+    {
+        //Draw a debug message saying character has logged in
+        GEngine->AddOnScreenDebugMessage(-1, 10, FColor::Blue, "Character Logged In");
+        //CALL AssignTeams() on the character
+        character->AssignTeams();
+        //CALL AssignNetIndex() on the character
+        character->AssignNetIndex();
+    }
+}
+
