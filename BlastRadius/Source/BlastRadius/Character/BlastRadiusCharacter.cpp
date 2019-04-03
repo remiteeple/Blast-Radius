@@ -237,15 +237,21 @@ void ABlastRadiusCharacter::OnDeath()
 void ABlastRadiusCharacter::Respawn()
 {
     /* Re-enable characters capsule collision */
-    GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-    /* Turn off collision on the characters mesh */
-    SkeletalMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-    /* Turn off the ragdoll on the mesh */
-    SkeletalMesh->SetSimulatePhysics(false);
-
     /* check if the teleport was completed successfully */
     if (TeleportTo(SpawnPoint, GetActorRotation()))
     {
+        
+        GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+        //add drag to limit momentum on respawn.
+
+        /* Turn off collision on the characters mesh */
+        SkeletalMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+        /* Turn off the ragdoll on the mesh */
+        
+        GetCapsuleComponent()->SetPhysicsLinearVelocity(FVector::ZeroVector);
+        SkeletalMesh->SetSimulatePhysics(false);
+        SkeletalMesh->AttachToComponent(GetCapsuleComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+
         /* Reset the damage factor */
         HealthComponent->ResetKnockback();
         /* Reset the transform on the mesh */
@@ -255,33 +261,35 @@ void ABlastRadiusCharacter::Respawn()
         /* Rotate the mesh to the correct orientation */
         SkeletalMesh->AddLocalRotation(FRotator(0.0f, -90.0f, 0.0f));
         /* Re-attach the mesh to the capsule component */
-        SkeletalMesh->AttachToComponent(GetCapsuleComponent(), FAttachmentTransformRules::KeepRelativeTransform);
     }
+
 
     /* Refill energy */
     EnergyComponent->CurrentEnergy = EnergyComponent->MaxEnergy;
     Cast<ABlastRadiusPlayerState>(PlayerState)->SetDamage(0);
     /* Re-enable the actor's tick */
     PrimaryActorTick.bCanEverTick = true;
+
+
 }
 
 void ABlastRadiusCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult)
 {
-        if (OtherActor)
+    if (OtherActor)
+    {
+        // Pickup Battery.
+        if (OtherActor->ActorHasTag("Battery"))
         {
-            // Pickup Battery.
-            if (OtherActor->ActorHasTag("Battery"))
+            ABlastRadiusBattery* Battery = Cast<ABlastRadiusBattery>(OtherActor);
+            if (Battery)
             {
-                ABlastRadiusBattery* Battery = Cast<ABlastRadiusBattery>(OtherActor);
-                if (Battery)
-                {
-                    // Charge Energy
-                    GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Black, "Picked Up Battery");
-                    EnergyComponent->CurrentEnergy += Battery->Charge;
-                    Battery->Disable();
-                }
+                // Charge Energy
+                GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Black, "Picked Up Battery");
+                EnergyComponent->CurrentEnergy += Battery->Charge;
+                Battery->Disable();
             }
         }
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////
