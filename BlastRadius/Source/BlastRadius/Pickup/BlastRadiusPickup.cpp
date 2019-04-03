@@ -46,10 +46,6 @@ ABlastRadiusPickup::ABlastRadiusPickup()
 void ABlastRadiusPickup::BeginPlay()
 {
 	Super::BeginPlay();
-
-    // Re-enable the health pickup after specific time passes.
-    FTimerHandle RespawnTimer;
-    GetWorldTimerManager().SetTimer(RespawnTimer, this, &ABlastRadiusPickup::Enable, RespawnTime, true);
 }
 
 // Called every frame
@@ -76,6 +72,10 @@ void ABlastRadiusPickup::Disable_Implementation()
         MeshComponent->SetHiddenInGame(true);
         SphereComponent->SetActive(false);
         SphereComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+        // Re-enable the health pickup after specific time passes.
+        FTimerHandle RespawnTimer;
+        GetWorldTimerManager().SetTimer(RespawnTimer, this, &ABlastRadiusPickup::Enable, RespawnTime, false);
     }
 }
 

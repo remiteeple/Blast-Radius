@@ -433,13 +433,9 @@ void ABlastRadiusCharacter::LookAt(FVector Direction)
     {
         SetActorRotation(Direction.Rotation());
 
-        // We set our current facing to the direction the actor is facing
-        //SET/ASSIGN CurrentFAcing to TargetVector
         Orientation = Direction;
-        //IF Role is LESS THAN ROLE_Authority
         if (Role < ROLE_Authority)
         {
-            //CALL ServerChangeFacing() and pass in CurrentFacing
             ServerLookAt(Orientation);
         }
     }

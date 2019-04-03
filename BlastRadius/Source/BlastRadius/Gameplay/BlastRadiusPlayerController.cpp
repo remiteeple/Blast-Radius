@@ -8,6 +8,7 @@
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "DrawDebugHelpers.h"
 #include "Runtime/Engine/Classes/Kismet/KismetMathLibrary.h"
+#include "Camera/CameraComponent.h"
 
 ABlastRadiusPlayerController::ABlastRadiusPlayerController()
 {
@@ -22,7 +23,7 @@ void ABlastRadiusPlayerController::SetupInputComponent()
     InputComponent->BindAxis("AimForward", this, &ABlastRadiusPlayerController::AimForward);
     InputComponent->BindAxis("AimRight", this, &ABlastRadiusPlayerController::AimRight);
 
-    InputComponent->BindAxis("LookRight", this, &ABlastRadiusPlayerController::AimRight);
+    InputComponent->BindAxis("LookRight", this, &ABlastRadiusPlayerController::LookRight);
 
     InputComponent->BindAxis("MoveVertical", this, &ABlastRadiusPlayerController::MoveVertical);
     InputComponent->BindAxis("MoveHorizontal", this, &ABlastRadiusPlayerController::MoveHorizontal);
