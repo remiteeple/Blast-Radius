@@ -25,6 +25,9 @@ protected:
     UPROPERTY(EditAnywhere, Category = "DebugSphere")
         bool DebugSphereEnabled;
 
+    UPROPERTY(EditAnywhere, Category = "Explosion")
+        float Damage;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

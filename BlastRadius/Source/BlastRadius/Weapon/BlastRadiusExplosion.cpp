@@ -15,7 +15,8 @@ ABlastRadiusExplosion::ABlastRadiusExplosion()
     // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
     PrimaryActorTick.bCanEverTick = true;
 
-    ExplosionRadius = 500;
+    ExplosionRadius = 400;
+    Damage = 25;
 
     //change to false later. To be toggled via blueprint editor.
     DebugSphereEnabled = true;
@@ -41,7 +42,7 @@ void ABlastRadiusExplosion::BeginPlay()
         DrawDebugSphere(GetWorld(), ExplosionLocation, ExplosionRadius, 50, FColor::Green, true, 5);
     }
 
-    bool Ishit = GetWorld()->SweepMultiByChannel(HitResults, ExplosionLocation, ExplosionLocation, FQuat::Identity, ECC_WorldStatic, CollisionSphere);
+    bool Ishit = GetWorld()->SweepMultiByChannel(HitResults, ExplosionLocation, ExplosionLocation, FQuat::Identity, ECC_Pawn, CollisionSphere);
 
     if (Ishit)
     {
@@ -53,14 +54,14 @@ void ABlastRadiusExplosion::BeginPlay()
             FVector direction = difference.GetSafeNormal();
             float distance = difference.Size();
 
-            FVector BlowBackVector = direction * 500 ;
+            FVector BlowBackVector = direction * 10000 ;
 
-            if (Cast<ABlastRadiusCharacter>(Hit.GetActor()) != nullptr)
+            if (Hit.GetActor()->ActorHasTag("Player"))
             {
                 ABlastRadiusCharacter* Character = Cast<ABlastRadiusCharacter>(Hit.GetActor());
 
                 const UDamageType* Laser_DamageType = Cast<UDamageType>(UDamageType::StaticClass());
-                Character->GetHealthComponent()->TakeDamage(40, Laser_DamageType, Character->GetInstigatorController(), GetOwner(), BlowBackVector );
+                Character->GetHealthComponent()->TakeDamage(Damage, Laser_DamageType, Character->GetInstigatorController(), GetOwner(), BlowBackVector );
             }
         }
     }

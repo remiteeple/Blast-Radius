@@ -123,9 +123,11 @@ void ABlastRadiusProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
         ABlastRadiusCharacter* OtherCharacter = Cast<ABlastRadiusCharacter>(OtherActor);
         if (OtherCharacter != nullptr)
         {
+            FVector projectileVel = GetVelocity();
             //Calling TakeDamage on the otherActor's HealthComponent. 
             const UDamageType* Laser_DamageType = Cast<UDamageType>(UDamageType::StaticClass());
-            OtherCharacter->GetHealthComponent()->TakeDamage(m_LaserDamage, Laser_DamageType, OtherCharacter->GetInstigatorController(), GetOwner(), GetVelocity());
+            OtherCharacter->GetHealthComponent()->TakeDamage(m_LaserDamage, Laser_DamageType, OtherCharacter->GetInstigatorController(), GetOwner(), projectileVel);
+
             GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Red, "OtherCharacter Damage % - " + FString::SanitizeFloat(OtherCharacter->GetHealthComponent()->GetCurrentHealth())); // DEBUG
 
             if (ProjectileDestroyFX)
