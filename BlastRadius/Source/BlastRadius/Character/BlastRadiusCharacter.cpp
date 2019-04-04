@@ -50,8 +50,8 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
 
     // Configure character movement
     GetCharacterMovement()->MaxWalkSpeed = MaxRunSpeed;
-    GetCharacterMovement()->bOrientRotationToMovement = true; // Character moves in the direction of input...	
-    GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f); // ...at this rotation rate
+    GetCharacterMovement()->bOrientRotationToMovement = false;
+    GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f);
     GetCharacterMovement()->SetJumpAllowed(false);
 
     // Create a camera boom (pulls in towards the player if there is a collision)
@@ -192,10 +192,7 @@ void ABlastRadiusCharacter::BeginPlay()
 
 void ABlastRadiusCharacter::Tick(float DeltaTime)
 {
-    Super::Tick(DeltaTime);
-
-    /* Handle movement and orientation */
-    GetCharacterMovement()->bOrientRotationToMovement = true; // Character moves in the direction of input...	
+    Super::Tick(DeltaTime);	
 
     float CurrentSpeed = GetVelocity().Size(); // Get character's current speed
     bool bIsMoving = CurrentSpeed > 0.0f && GetCharacterMovement()->IsMovingOnGround(); // Check for character movement
