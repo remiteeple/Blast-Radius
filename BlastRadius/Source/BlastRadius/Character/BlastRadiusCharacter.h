@@ -43,6 +43,41 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
         float SpawnDelay;
 
+    /**Team Variables**/
+    //TODO Week 7:The player's current team.
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "MPCharacter|Gameplay", Replicated)// ReplicatedUsing = OnRep_ChangeColor)//meta = (ClampMin = "1", ClampMax = "2"), Replicated
+        int playerTeam;
+
+    //TODO Week 7:Size of team one (grabbed from game state)
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "MPCharacter|Debug", Replicated) //meta = (EditCondition = "AreTeamsEnabled", ClampMin = "0")
+        int TeamOneCount;
+    //TODO Week 7: Size of team two (grabbed from game state)
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "MPCharacter|Debug", Replicated) // , meta = (EditCondition = "AreTeamsEnabled", ClampMin = "0")
+        int TeamTwoCount;
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "MPCharacter|Debug", Replicated)
+        int NetIndex;
+    //TODO Week 7: Players Material Color
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MPCharacter|Mesh", Replicated)
+        class UMaterialInterface* DefaultTPMaterials;
+    //TODO Week 7: Update Player Timer
+    //Calls UpdateAndCheckPlayer
+    FTimerHandle UpdateHandle;
+
+    //TODO Week 7: PostBeginPlay Timer
+    UPROPERTY(Replicated)
+        FTimerHandle PostBeginPlayDelay;
+    /**Team Functions**/
+    void AssignTeams();
+    //TODO Week 7: Assigns a Network Index to the player that logs in
+    void AssignNetIndex();
+    //TODO Week 7: Multicasts to all clients to assign the team color to Simulated_Proxy's and Autonomous_Proxy's when player logs in(CALLED FROM SERVER)
+    UFUNCTION(NetMulticast, Reliable)
+        void Multicast_AssignTeamsColor();
+    UFUNCTION(BlueprintCallable, Category = FPSWizard)
+        virtual void UpdateAndCheckPlayer();
+    UFUNCTION(BlueprintCallable, Category = FPSWizard)
+        void PostBeginPlay();
+
     /** Animations **/
     UPROPERTY(EditDefaultsOnly)
         UAnimMontage* HipFireAnimation;
@@ -169,6 +204,10 @@ protected:
     /** Follow camera */
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Camera, meta = (AllowPrivateAccess = "true"))
         class UCameraComponent* TopDownCamera;
+
+    /** Helmet Mesh **/
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Helmet, meta = (AllowPrivateAccess = "true"))
+        class UStaticMeshComponent* HelmetMesh;
 
     /** Energy Spendature Values **/
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy_Cost)

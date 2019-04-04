@@ -13,6 +13,10 @@
 #include "Runtime/CoreUObject/Public/UObject/ConstructorHelpers.h"
 #include "Runtime/Engine/Classes/Particles/ParticleSystemComponent.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "Runtime/Engine/Classes/Engine/World.h"
+#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "BlastRadiusExplosion.h"
+
 
 // Sets default values
 ABlastRadiusProjectile::ABlastRadiusProjectile()
@@ -59,7 +63,7 @@ ABlastRadiusProjectile::ABlastRadiusProjectile()
     m_LaserDamage = 50.0f;
 
     //max amount of bounces until object is destroyed.
-    m_MaxBounceAmount = 5.0f;
+    m_BouncesLeft = 5.0f;
 
     //Knock back Amount for collision with projectile. This might be Health percentage * 10 later.
     m_KnockbackFactor = 100.0f;
@@ -150,30 +154,43 @@ void ABlastRadiusProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
             TArray<AActor*>CharacterActors;
             UGameplayStatics::GetAllActorsOfClass(GetWorld(), ABlastRadiusCharacter::StaticClass(), CharacterActors);
 
-            // Calculate the math for appropriate reponse.
-            FVector difference = OtherProjectile->GetActorLocation() - this->GetActorLocation();
-            FVector direction = difference.GetSafeNormal();
-            float distance = difference.Size();
-
-            // Cycle through all players.
-            for (auto Actor : CharacterActors)
+            if (ExplosionClass)
             {
-                // Calculate direction & distance to impact for each character(actor)
-                FVector directionToImpactLocation = FVector(difference - Actor->GetActorLocation()).GetSafeNormal();
-                float playerToImpactDistance = FVector(this->GetActorLocation() - Actor->GetActorLocation()).Size();
-
-                FVector BlowBackVector = directionToImpactLocation * m_MaxBounceAmount;
-
-                // If player is in range.
-                if (playerToImpactDistance > m_BlowBackRange)
+                UWorld* World = GetWorld();
+                if (World)
                 {
-                    // Call TakeDamage on all characters within range's HealthComponent. 
-                    ABlastRadiusCharacter* Character = Cast<ABlastRadiusCharacter>(Actor);
-                    const UDamageType* Laser_DamageType = Cast<UDamageType>(UDamageType::StaticClass());
-                    Character->GetHealthComponent()->TakeDamage(m_LaserDamage / m_MaxBounceAmount, Laser_DamageType, Character->GetInstigatorController(), GetOwner(), BlowBackVector * GetVelocity());
-                    //GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Red, "BlowBackDamage % - " + FString::SanitizeFloat(Character->GetHealthComponent()->GetCurrentHealth())); // DEBUG
+                    FActorSpawnParameters SpawnParams;
+                    SpawnParams.Instigator = Instigator;
+                    // Spawn the projectile at the muzzle.
+                    World->SpawnActor<ABlastRadiusExplosion>(ExplosionClass, OtherProjectile->GetActorLocation(), GetActorRotation(), SpawnParams);
                 }
             }
+
+
+
+            //// Cycle through all players.
+            //for (auto Actor : CharacterActors)
+            //{
+                //FVector difference = OtherProjectile->GetActorLocation() - Actor->GetActorLocation();
+                //FVector direction = difference.GetSafeNormal();
+                //float distance = difference.Size();
+
+                //// Calculate direction & distance to impact for each character(actor)
+                //FVector directionToImpactLocation = FVector(difference - Actor->GetActorLocation()).GetSafeNormal();
+                //float playerToImpactDistance = FVector(this->GetActorLocation() - Actor->GetActorLocation()).Size();
+
+                //FVector BlowBackVector = directionToImpactLocation * m_MaxBounceAmount;
+
+                //// If player is in range.
+                //if (playerToImpactDistance > m_BlowBackRange)
+                //{
+                //    // Call TakeDamage on all characters within range's HealthComponent. 
+                //    ABlastRadiusCharacter* Character = Cast<ABlastRadiusCharacter>(Actor);
+                //    const UDamageType* Laser_DamageType = Cast<UDamageType>(UDamageType::StaticClass());
+                //    Character->GetHealthComponent()->TakeDamage(m_LaserDamage / m_MaxBounceAmount, Laser_DamageType, Character->GetInstigatorController(), GetOwner(), BlowBackVector * GetVelocity());
+                //    //GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Red, "BlowBackDamage % - " + FString::SanitizeFloat(Character->GetHealthComponent()->GetCurrentHealth())); // DEBUG
+                //}
+            //}
 
             if (ProjectileDestroyFX)
             {
@@ -186,11 +203,11 @@ void ABlastRadiusProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
 
 
         //Decrement bounce when hitting walls until bounce limit is hit.
-        if (m_MaxBounceAmount != 0)
+        if (m_BouncesLeft != 0)
         {
             if (OtherActor->ActorHasTag("Wall"))
             {
-                m_MaxBounceAmount--;
+                m_BouncesLeft--;
             }
         }
         else

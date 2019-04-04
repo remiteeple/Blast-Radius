@@ -4,8 +4,8 @@
 #include "TimerManager.h"
 #include "Engine/World.h"
 #include "UnrealNetwork.h"
-
-
+#include "Gameplay/BlastRadiusPlayerState.h"
+#include "Character/BlastRadiusCharacter.h"
 // Sets default values for this component's properties
 UEnergyComponent::UEnergyComponent()
 {
@@ -35,7 +35,10 @@ void UEnergyComponent::SpendEnergy(float EnergyCost)
     {
         OnCooldown = true;
     }
-    
+    //Get the player state to modify current player damage
+    ABlastRadiusPlayerState* PlayerState = Cast<ABlastRadiusCharacter>(GetOwner())->GetPlayerState();
+    if (PlayerState)
+         PlayerState->CurrentEnergy = CurrentEnergy;
 }
 
 void UEnergyComponent::ToggleCoolDown()
@@ -83,6 +86,10 @@ void UEnergyComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
         GEngine->AddOnScreenDebugMessage(40, 5.f, FColor::Green, FString::Printf(TEXT("Fast Charge: %x"), FastCharge));
     }
 	// ...
+     //Get the player state to modify current player damage
+    ABlastRadiusPlayerState* PlayerState = Cast<ABlastRadiusCharacter>(GetOwner())->GetPlayerState();
+    if (PlayerState)
+        PlayerState->CurrentEnergy = CurrentEnergy;
 }
 
 void UEnergyComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

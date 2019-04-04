@@ -34,13 +34,16 @@ public:
         float m_LaserDamage;
 
     UPROPERTY(BlueprintReadWrite, Category = Projectile)
-        int m_MaxBounceAmount;
+        int m_BouncesLeft;
 
     UPROPERTY(BlueprintReadWrite, Category = Projectile)
         float m_KnockbackFactor;
 
     UPROPERTY(BlueprintReadWrite, Category = Projectile)
         float m_BlowBackRange;
+
+    UPROPERTY(EditDefaultsOnly, Category = Projectile)
+        TSubclassOf<class ABlastRadiusExplosion> ExplosionClass;
 
     UPROPERTY(EditDefaultsOnly, Category = ProjectileDamage)
         TSubclassOf<UDamageType> m_DamageType;
