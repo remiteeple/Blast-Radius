@@ -93,4 +93,6 @@ public:
 
     //Simple function that flips velocity.
     void FlipVelocity();
+
+    //Simple Function that changes the direction to be the same as the player's current facing direction.
 };
