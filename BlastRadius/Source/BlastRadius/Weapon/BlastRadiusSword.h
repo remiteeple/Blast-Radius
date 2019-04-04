@@ -27,9 +27,6 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-    //A bool that ensures only 1 deflect per draw.
-    bool DeflectedOnce;
-
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
