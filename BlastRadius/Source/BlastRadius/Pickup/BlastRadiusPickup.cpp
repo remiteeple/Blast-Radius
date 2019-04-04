@@ -94,6 +94,7 @@ void ABlastRadiusPickup::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent
     ABlastRadiusCharacter* Character = Cast<ABlastRadiusCharacter>(OtherActor);
     if (Character)
     {
+        // Play particle animation.
         if (PickupFX)
         {
             ParticleSystemComponent->SecondsBeforeInactive = 0.5;
@@ -101,13 +102,11 @@ void ABlastRadiusPickup::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent
             ParticleSystemComponent->SetTemplate(PickupFX);
         }
 
-        if (PickupFX)
+        // Play the audio for pickup.
+        if (PickupSound)
         {
-            UGameplayStatics::SpawnEmitterAtLocation(this, PickupFX, GetActorLocation());
+            AudioComponent->SetSound(PickupSound);
+            AudioComponent->Play();
         }
-
-        //Play the audio for blinking
-        AudioComponent->SetSound(PickupSound);
-        AudioComponent->Play();
     }
 }
