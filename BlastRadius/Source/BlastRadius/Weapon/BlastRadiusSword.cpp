@@ -88,7 +88,12 @@ void ABlastRadiusSword::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp
     if (OtherProjectile != nullptr && DeflectedOnce == false)
     {
         DeflectedOnce = true;
-        OtherProjectile->FlipVelocity();
+        //OtherProjectile->FlipVelocity();
+
+        //FRotator newDirection = GetOwner()->GetActorRotation();
+
+        OtherProjectile->FireInDirection(GetOwner()->GetActorRotation().Vector());
+
     }
 }
 
