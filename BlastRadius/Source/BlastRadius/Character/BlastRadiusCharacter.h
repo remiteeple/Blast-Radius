@@ -63,7 +63,7 @@ public:
     //Calls UpdateAndCheckPlayer
     FTimerHandle UpdateHandle;
 
-    //TODO Week 7: PostBeginPlay Timer
+    //TODO Week 7: PostBeginPlay Timer`
     UPROPERTY(Replicated)
         FTimerHandle PostBeginPlayDelay;
     /**Team Functions**/
@@ -85,6 +85,10 @@ public:
         UAnimMontage* MeleeAttackAnimation;
     UPROPERTY(EditDefaultsOnly)
         FTimerHandle TimerHandle_MeleeTimer;
+
+    /** Audio **/
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Audio)
+        class USoundBase* DeathSound;
 
     //Projectile template to fire.
     UPROPERTY(EditDefaultsOnly, Category = Projectile)
@@ -208,6 +212,10 @@ protected:
     /** Helmet Mesh **/
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Helmet, meta = (AllowPrivateAccess = "true"))
         class UStaticMeshComponent* HelmetMesh;
+
+    /** Audio Component **/
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Audio, meta = (AllowPrivateAccess = "true"))
+        class UAudioComponent* AudioComponent;
 
     /** Energy Spendature Values **/
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy_Cost)

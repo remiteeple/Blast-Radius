@@ -5,6 +5,8 @@
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/ArrowComponent.h"
+#include "Components/AudioComponent.h"
+#include "Sound/SoundBase.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -12,7 +14,6 @@
 #include "Component/BlinkComponent.h"
 #include "Component/HealthComponent.h"
 #include "Component/EnergyComponent.h"
-//#include "Component/MeleeComponent.h"
 #include "Weapon/BlastRadiusSword.h"
 #include "Weapon/BlastRadiusProjectile.h"
 #include "Pickup/BlastRadiusPickup.h"
@@ -69,6 +70,10 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
     // Create static mesh for the helmet
     HelmetMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Helmet Mesh"));
     HelmetMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+    // Create audio component
+    AudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("Audio Component"));
+    AudioComponent->SetupAttachment(RootComponent);
 
     // Setup the health and energy components
     HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health"));
@@ -182,7 +187,6 @@ void ABlastRadiusCharacter::BeginPlay()
         //SET/ASSIGN NetIndex to GetWorld()->GetGameState()->AuthorityGameMode->GetNumPlayers() - 1
         NetIndex = GetWorld()->GetGameState()->AuthorityGameMode->GetNumPlayers() - 1;
     }
-   
 }
 
 void ABlastRadiusCharacter::Tick(float DeltaTime)
@@ -290,14 +294,11 @@ void ABlastRadiusCharacter::Respawn()
         /* Re-attach the mesh to the capsule component */
     }
 
-
     /* Refill energy */
     EnergyComponent->CurrentEnergy = EnergyComponent->MaxEnergy;
     Cast<ABlastRadiusPlayerState>(PlayerState)->SetDamage(0);
     /* Re-enable the actor's tick */
     PrimaryActorTick.bCanEverTick = true;
-
-
 }
 
 void ABlastRadiusCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult)
@@ -533,6 +534,13 @@ void ABlastRadiusCharacter::NetMultiCastOnDeath_Implementation()
     /* Enable the character's ragdoll */
     SkeletalMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
     SkeletalMesh->SetSimulatePhysics(true);
+
+    /* Play death sound */
+    if (DeathSound)
+    {
+        AudioComponent->SetSound(DeathSound);
+        AudioComponent->Play();
+    }
 
     /* Start the delay until respawn */
     GetWorld()->GetTimerManager().SetTimer(TimerHandle_SpawnTimer, this, &ABlastRadiusCharacter::Respawn, SpawnDelay, false);

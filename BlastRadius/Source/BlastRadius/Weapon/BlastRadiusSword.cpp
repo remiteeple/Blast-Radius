@@ -6,7 +6,7 @@
 #include "Character/BlastRadiusCharacter.h"
 #include "Component/HealthComponent.h"
 #include "Weapon/BlastRadiusProjectile.h"
-
+#include "Net/UnrealNetwork.h"
 
 
 // Sets default values
