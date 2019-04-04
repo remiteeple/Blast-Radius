@@ -24,12 +24,9 @@ ABlastRadiusSword::ABlastRadiusSword()
     HitBoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("Hit Box"));
     HitBoxComponent->SetupAttachment(RootComponent);
     //SetActorEnableCollision(false);
-    HitBoxComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    HitBoxComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
     SetActorHiddenInGame(true);
     HitBoxComponent->OnComponentBeginOverlap.AddDynamic(this, &ABlastRadiusSword::OnOverlapBegin);
-
-    //Init deflection bool
-    DeflectedOnce = false;
 }
 
 // Called when the game starts or when spawned
@@ -67,14 +64,11 @@ void ABlastRadiusSword::Attach(class ABlastRadiusCharacter* Character)
 void ABlastRadiusSword::Activate()
 {
     SetActorHiddenInGame(false);
-    HitBoxComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 }
 
 void ABlastRadiusSword::PutAway()
 {
     SetActorHiddenInGame(true);
-    DeflectedOnce = false;
-    HitBoxComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 ABlastRadiusSword* ABlastRadiusSword::GetSword()
@@ -85,14 +79,9 @@ ABlastRadiusSword* ABlastRadiusSword::GetSword()
 void ABlastRadiusSword::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
     ABlastRadiusProjectile* OtherProjectile = Cast<ABlastRadiusProjectile>(OtherActor);
-    if (OtherProjectile != nullptr && DeflectedOnce == false)
+    if (OtherProjectile != nullptr)
     {
-        DeflectedOnce = true;
-        //OtherProjectile->FlipVelocity();
-
-        //FRotator newDirection = GetOwner()->GetActorRotation();
-
-        OtherProjectile->FireInDirection(GetOwner()->GetActorRotation().Vector());
+        OtherProjectile->FlipVelocity();
 
     }
 }

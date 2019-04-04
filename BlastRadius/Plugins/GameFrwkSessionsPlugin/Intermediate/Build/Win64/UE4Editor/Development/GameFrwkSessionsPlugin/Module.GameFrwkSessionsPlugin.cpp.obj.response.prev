@@ -24,15 +24,7 @@
 /wd4838
 /we4668
 /I .
-<<<<<<< HEAD
 /I "C:\Users\David Silva-Parent\Documents\GitHub\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Source\GameFrwkSessionsPlugin\Private"
-=======
-<<<<<<< HEAD
-/I C:\Users\gilb0075\Desktop\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Source\GameFrwkSessionsPlugin\Private
-=======
-/I C:\Users\hill0402\Desktop\UE4Working\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Source\GameFrwkSessionsPlugin\Private
->>>>>>> c5482e30d707d2e373e11f5e1c9b73a45c2b87df
->>>>>>> a5b076bfa1ad552e44caff8dae4676dc57839f31
 /I ..\Intermediate\Build\Win64\UE4Editor\Inc\CoreUObject
 /I Runtime
 /I Runtime\CoreUObject\Public
@@ -410,24 +402,10 @@
 /I ThirdParty
 /I ThirdParty\libSampleRate\Public
 /I ThirdParty\libSampleRate
-<<<<<<< HEAD
 /I "C:\Users\David Silva-Parent\Documents\GitHub\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Intermediate\Build\Win64\UE4Editor\Inc\GameFrwkSessionsPlugin"
 /I "C:\Users\David Silva-Parent\Documents\GitHub\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Source"
 /I "C:\Users\David Silva-Parent\Documents\GitHub\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Source\GameFrwkSessionsPlugin\Public"
 /I "C:\Users\David Silva-Parent\Documents\GitHub\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Source\GameFrwkSessionsPlugin"
-=======
-<<<<<<< HEAD
-/I C:\Users\gilb0075\Desktop\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Intermediate\Build\Win64\UE4Editor\Inc\GameFrwkSessionsPlugin
-/I C:\Users\gilb0075\Desktop\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Source
-/I C:\Users\gilb0075\Desktop\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Source\GameFrwkSessionsPlugin\Public
-/I C:\Users\gilb0075\Desktop\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Source\GameFrwkSessionsPlugin
-=======
-/I C:\Users\hill0402\Desktop\UE4Working\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Intermediate\Build\Win64\UE4Editor\Inc\GameFrwkSessionsPlugin
-/I C:\Users\hill0402\Desktop\UE4Working\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Source
-/I C:\Users\hill0402\Desktop\UE4Working\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Source\GameFrwkSessionsPlugin\Public
-/I C:\Users\hill0402\Desktop\UE4Working\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Source\GameFrwkSessionsPlugin
->>>>>>> c5482e30d707d2e373e11f5e1c9b73a45c2b87df
->>>>>>> a5b076bfa1ad552e44caff8dae4676dc57839f31
 /I ..\Plugins\Online\OnlineSubsystem\Intermediate\Build\Win64\UE4Editor\Inc\OnlineSubsystem
 /I ..\Plugins\Online\OnlineSubsystem
 /I ..\Plugins\Online\OnlineSubsystem\Source
@@ -441,7 +419,6 @@
 /I ..\Plugins\Online\OnlineSubsystemNull
 /I ..\Plugins\Online\OnlineSubsystemNull\Source\Public
 /I ..\Plugins\Online\OnlineSubsystemNull\Source
-<<<<<<< HEAD
 /I "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.15.26726\INCLUDE"
 /I "C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.16299.0\ucrt"
@@ -454,29 +431,6 @@
 "C:\Users\David Silva-Parent\Documents\GitHub\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Intermediate\Build\Win64\UE4Editor\Development\GameFrwkSessionsPlugin\Module.GameFrwkSessionsPlugin.cpp"
 /FI"C:\Users\David Silva-Parent\Documents\GitHub\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Intermediate\Build\Win64\UE4Editor\Development\GameFrwkSessionsPlugin\Definitions.GameFrwkSessionsPlugin.h"
 /Fo"C:\Users\David Silva-Parent\Documents\GitHub\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Intermediate\Build\Win64\UE4Editor\Development\GameFrwkSessionsPlugin\Module.GameFrwkSessionsPlugin.cpp.obj"
-=======
-/I "C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.14.26428\INCLUDE"
-/I "C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um"
-/I "C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\ucrt"
-/I "C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\shared"
-/I "C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\um"
-/I "C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\winrt"
-<<<<<<< HEAD
-/FI"C:\Users\gilb0075\Desktop\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\BlastRadiusEditor\Development\Engine\SharedPCH.Engine.h"
-/Yu"C:\Users\gilb0075\Desktop\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\BlastRadiusEditor\Development\Engine\SharedPCH.Engine.h"
-/Fp"C:\Users\gilb0075\Desktop\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\BlastRadiusEditor\Development\Engine\SharedPCH.Engine.h.pch"
-"C:\Users\gilb0075\Desktop\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Intermediate\Build\Win64\UE4Editor\Development\GameFrwkSessionsPlugin\Module.GameFrwkSessionsPlugin.cpp"
-/FI"C:\Users\gilb0075\Desktop\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Intermediate\Build\Win64\UE4Editor\Development\GameFrwkSessionsPlugin\Definitions.GameFrwkSessionsPlugin.h"
-/Fo"C:\Users\gilb0075\Desktop\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Intermediate\Build\Win64\UE4Editor\Development\GameFrwkSessionsPlugin\Module.GameFrwkSessionsPlugin.cpp.obj"
-=======
-/FI"C:\Users\hill0402\Desktop\UE4Working\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\BlastRadiusEditor\Development\Engine\SharedPCH.Engine.h"
-/Yu"C:\Users\hill0402\Desktop\UE4Working\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\BlastRadiusEditor\Development\Engine\SharedPCH.Engine.h"
-/Fp"C:\Users\hill0402\Desktop\UE4Working\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\BlastRadiusEditor\Development\Engine\SharedPCH.Engine.h.pch"
-"C:\Users\hill0402\Desktop\UE4Working\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Intermediate\Build\Win64\UE4Editor\Development\GameFrwkSessionsPlugin\Module.GameFrwkSessionsPlugin.cpp"
-/FI"C:\Users\hill0402\Desktop\UE4Working\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Intermediate\Build\Win64\UE4Editor\Development\GameFrwkSessionsPlugin\Definitions.GameFrwkSessionsPlugin.h"
-/Fo"C:\Users\hill0402\Desktop\UE4Working\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Intermediate\Build\Win64\UE4Editor\Development\GameFrwkSessionsPlugin\Module.GameFrwkSessionsPlugin.cpp.obj"
->>>>>>> c5482e30d707d2e373e11f5e1c9b73a45c2b87df
->>>>>>> a5b076bfa1ad552e44caff8dae4676dc57839f31
 /TP
 /GR-
 /W4
