@@ -6,8 +6,16 @@
 /NAME:"UE4Editor-GameFrwkSessionsPlugin.dll"
 /IGNORE:4221
 /NODEFAULTLIB
+<<<<<<< HEAD
 "C:\Users\alle0230\Documents\GitHub\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\BlastRadiusEditor\Development\Engine\SharedPCH.Engine.h.obj"
 "C:\Users\alle0230\Documents\GitHub\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Intermediate\Build\Win64\UE4Editor\Development\GameFrwkSessionsPlugin\Module.GameFrwkSessionsPlugin.cpp.obj"
 "C:\Users\alle0230\Documents\GitHub\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Intermediate\Build\Win64\UE4Editor\Development\GameFrwkSessionsPlugin\Module.GameFrwkSessionsPlugin.gen.cpp.obj"
 "C:\Users\alle0230\Documents\GitHub\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Intermediate\Build\Win64\UE4Editor\Development\GameFrwkSessionsPlugin\PCLaunch.rc.res"
 /OUT:"C:\Users\alle0230\Documents\GitHub\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Intermediate\Build\Win64\UE4Editor\Development\GameFrwkSessionsPlugin\UE4Editor-GameFrwkSessionsPlugin.lib"
+=======
+"C:\Users\gilb0075\Desktop\TeamJ-SON\BlastRadius\Intermediate\Build\Win64\BlastRadiusEditor\Development\Engine\SharedPCH.Engine.h.obj"
+"C:\Users\gilb0075\Desktop\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Intermediate\Build\Win64\UE4Editor\Development\GameFrwkSessionsPlugin\Module.GameFrwkSessionsPlugin.cpp.obj"
+"C:\Users\gilb0075\Desktop\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Intermediate\Build\Win64\UE4Editor\Development\GameFrwkSessionsPlugin\Module.GameFrwkSessionsPlugin.gen.cpp.obj"
+"C:\Users\gilb0075\Desktop\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Intermediate\Build\Win64\UE4Editor\Development\GameFrwkSessionsPlugin\PCLaunch.rc.res"
+/OUT:"C:\Users\gilb0075\Desktop\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Intermediate\Build\Win64\UE4Editor\Development\GameFrwkSessionsPlugin\UE4Editor-GameFrwkSessionsPlugin.lib"
+>>>>>>> a5b076bfa1ad552e44caff8dae4676dc57839f31

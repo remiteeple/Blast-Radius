@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 C:\Users\alle0230\Documents\GitHub\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Source\GameFrwkSessionsPlugin\MenuSystem\InGameMenu.h
 C:\Users\alle0230\Documents\GitHub\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Source\GameFrwkSessionsPlugin\MenuSystem\MainMenu.h
 C:\Users\alle0230\Documents\GitHub\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Source\GameFrwkSessionsPlugin\MenuSystem\MenuInterface.h
@@ -6,3 +7,13 @@ C:\Users\alle0230\Documents\GitHub\TeamJ-SON\BlastRadius\Plugins\GameFrwkSession
 C:\Users\alle0230\Documents\GitHub\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Source\GameFrwkSessionsPlugin\LobbyGameMode.h
 C:\Users\alle0230\Documents\GitHub\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Source\GameFrwkSessionsPlugin\OnlineGameInstance.h
 C:\Users\alle0230\Documents\GitHub\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Source\GameFrwkSessionsPlugin\OnlineGameMode.h
+=======
+C:\Users\gilb0075\Desktop\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Source\GameFrwkSessionsPlugin\MenuSystem\InGameMenu.h
+C:\Users\gilb0075\Desktop\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Source\GameFrwkSessionsPlugin\MenuSystem\MainMenu.h
+C:\Users\gilb0075\Desktop\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Source\GameFrwkSessionsPlugin\MenuSystem\MenuInterface.h
+C:\Users\gilb0075\Desktop\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Source\GameFrwkSessionsPlugin\MenuSystem\MenuWidget.h
+C:\Users\gilb0075\Desktop\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Source\GameFrwkSessionsPlugin\MenuSystem\ServerRow.h
+C:\Users\gilb0075\Desktop\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Source\GameFrwkSessionsPlugin\LobbyGameMode.h
+C:\Users\gilb0075\Desktop\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Source\GameFrwkSessionsPlugin\OnlineGameInstance.h
+C:\Users\gilb0075\Desktop\TeamJ-SON\BlastRadius\Plugins\GameFrwkSessionsPlugin\Source\GameFrwkSessionsPlugin\OnlineGameMode.h
+>>>>>>> a5b076bfa1ad552e44caff8dae4676dc57839f31
