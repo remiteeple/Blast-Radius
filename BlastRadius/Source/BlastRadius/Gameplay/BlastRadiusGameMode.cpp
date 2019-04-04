@@ -35,12 +35,34 @@ void ABlastRadiusGameMode::HandleStartingNewPlayer_Implementation(APlayerControl
 void ABlastRadiusGameMode::RespawnPlayer(APlayerController* NewPlayer, int playerTeam, int NetIndex)
 {
     TArray<AActor*> PlayerStarts;
+    TArray<AActor*> Players;
+    TArray<AActor*> PreferredStarts;
+    ABlastRadiusCharacter* Player = nullptr;
     //CALL UGameplayStatics::GetAllActorsOfClass() and pass in GetWorld(), APlayerStart::StaticClass(), PlayerStarts to populate the PlayerStarts TArray
     UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerStart::StaticClass(), PlayerStarts);
-    //TArray<AActor*> PreferredStarts;
-
+    UGameplayStatics::GetAllActorsOfClass(GetWorld(), ABlastRadiusCharacter::StaticClass(), Players);
+    for (AActor* Actor : Players)
+    {
+        Player = Cast<ABlastRadiusCharacter>(Actor);
+        if (Player->GetController() != NewPlayer)
+        {
+            break;
+        }
+    }
+    for (int i = 0; i < PlayerStarts.Num(); i++)
+    {
+        float Distance = Player->GetDistanceTo(Cast<AActor>(PlayerStarts[i]));
+            if (Distance >= 500.0f)
+            {
+                PreferredStarts.Add(PlayerStarts[i]);
+                
+            }
+    }
+    APawn* pawn = nullptr;
     //DECLARE a APawn* called pawn and assign it to the return value of SpawnDefaultPawnFor(NewPlayer, PlayerStarts[0]), Look up this Function in the documentation
-    APawn* pawn = SpawnDefaultPawnFor(NewPlayer, PlayerStarts[0]);
+    
+        pawn = SpawnDefaultPawnFor(NewPlayer, PreferredStarts[0]);
+ 
     //IF the pawn is not nullptr
     if (pawn)
     {

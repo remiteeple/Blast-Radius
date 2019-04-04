@@ -21,6 +21,7 @@
 #include "Gameplay/BlastRadiusGameStateBase.h"
 #include "Gameplay/BlastRadiusPlayerState.h"
 #include "Weapon/BlastRadiusWeapon.h"
+#include "Gameplay/BlastRadiusGameMode.h"
 #include "Gameplay/BlastRadiusPlayerController.h"
 #include "Runtime/Engine/Classes/Engine/CollisionProfile.h"
 #include "Runtime/CoreUObject/Public/UObject/ConstructorHelpers.h"
@@ -268,31 +269,44 @@ void ABlastRadiusCharacter::OnDeath()
 void ABlastRadiusCharacter::Respawn()
 {
     /* Re-enable characters capsule collision */
-    /* check if the teleport was completed successfully */
-    if (TeleportTo(SpawnPoint, GetActorRotation()))
+    if (Role == ROLE_Authority)
     {
-        
-        GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-        //add drag to limit momentum on respawn.
-
-        /* Turn off collision on the characters mesh */
-        SkeletalMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-        /* Turn off the ragdoll on the mesh */
-        
-        GetCapsuleComponent()->SetPhysicsLinearVelocity(FVector::ZeroVector);
-        SkeletalMesh->SetSimulatePhysics(false);
-        SkeletalMesh->AttachToComponent(GetCapsuleComponent(), FAttachmentTransformRules::KeepRelativeTransform);
-
-        /* Reset the damage factor */
-        HealthComponent->ResetKnockback();
-        /* Reset the transform on the mesh */
-        SkeletalMesh->ResetRelativeTransform();
-        /* Lower the mesh to fit in the capsule */
-        SkeletalMesh->AddLocalOffset(FVector(0.0f, 0.0f, -90.0f));
-        /* Rotate the mesh to the correct orientation */
-        SkeletalMesh->AddLocalRotation(FRotator(0.0f, -90.0f, 0.0f));
-        /* Re-attach the mesh to the capsule component */
+        //GET the ABaseGameMode and assign it to a variable called GM
+        ABlastRadiusGameMode* GM = Cast<ABlastRadiusGameMode>(GetWorld()->GetAuthGameMode());
+        //IF GM is NOT nullptr
+        if (GM)
+        {
+            //CALL RespawnPlayer() on the GM passing in playerTeam, NetIndex
+            GM->RespawnPlayer(Cast<APlayerController>(GetController()), playerTeam, NetIndex);
+           
+        }
+        //ENDIF
     }
+    /* check if the teleport was completed successfully */
+    //if (TeleportTo(SpawnPoint, GetActorRotation()))
+    //{
+    //    
+    //    GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+    //    //add drag to limit momentum on respawn.
+
+    //    /* Turn off collision on the characters mesh */
+    //    SkeletalMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    //    /* Turn off the ragdoll on the mesh */
+    //    
+    //    GetCapsuleComponent()->SetPhysicsLinearVelocity(FVector::ZeroVector);
+    //    SkeletalMesh->SetSimulatePhysics(false);
+    //    SkeletalMesh->AttachToComponent(GetCapsuleComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+
+    //    /* Reset the damage factor */
+    //    HealthComponent->ResetKnockback();
+    //    /* Reset the transform on the mesh */
+    //    SkeletalMesh->ResetRelativeTransform();
+    //    /* Lower the mesh to fit in the capsule */
+    //    SkeletalMesh->AddLocalOffset(FVector(0.0f, 0.0f, -90.0f));
+    //    /* Rotate the mesh to the correct orientation */
+    //    SkeletalMesh->AddLocalRotation(FRotator(0.0f, -90.0f, 0.0f));
+    //    /* Re-attach the mesh to the capsule component */
+    //}
 
     /* Refill energy */
     EnergyComponent->CurrentEnergy = EnergyComponent->MaxEnergy;
