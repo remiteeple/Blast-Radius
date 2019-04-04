@@ -67,6 +67,10 @@ void UEnergyComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
     {
         CurrentEnergy = MaxEnergy;
     }
+    else if (CurrentEnergy < MinEnergy)
+    {
+        CurrentEnergy = MinEnergy;
+    }
 
     CurrentEnergyDisplayValue = FString::SanitizeFloat(CurrentEnergy);
 

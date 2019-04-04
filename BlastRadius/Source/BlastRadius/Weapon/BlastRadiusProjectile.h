@@ -87,4 +87,7 @@ public:
     void FireInDirection(const FVector& ShootDirection);
 
     void DestroySelf();
+
+    //Simple function that flips velocity.
+    void FlipVelocity();
 };

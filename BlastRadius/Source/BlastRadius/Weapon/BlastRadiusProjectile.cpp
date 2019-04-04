@@ -7,6 +7,7 @@
 #include "Character/BlastRadiusCharacter.h"
 #include "Runtime/Engine/Classes/GameFramework/DamageType.h"
 #include "Component/HealthComponent.h"
+#include "Weapon/BlastRadiusSword.h"
 #include "Runtime/Engine/Classes/GameFramework/DamageType.h"
 #include "Runtime/Engine/Classes/Particles/ParticleSystem.h"
 #include "Runtime/CoreUObject/Public/UObject/ConstructorHelpers.h"
@@ -131,6 +132,7 @@ void ABlastRadiusProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
             DestroySelf();
         }
 
+
         // Projectile 2 Projectile logic. - Remi
         //Get a list of characters.
         //Calculate math
@@ -220,4 +222,13 @@ void ABlastRadiusProjectile::FireInDirection(const FVector& ShootDirection)
 void ABlastRadiusProjectile::DestroySelf()
 {
     this->Destroy();
+}
+
+void ABlastRadiusProjectile::FlipVelocity()
+{
+    FVector NewVelocity;
+    NewVelocity = ProjectileMovementComp->Velocity;
+    NewVelocity *= (FVector(-1.0, -1.0, 1.0));
+
+    ProjectileMovementComp->Velocity = NewVelocity;
 }

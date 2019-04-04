@@ -22,6 +22,10 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
         float MaxEnergy = 100.f;
 
+    //Minimum Energy of the character
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
+        float MinEnergy = -20.f;
+
     //Current Energy of the character.
     UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite, Category = Attributes)
         float CurrentEnergy = 100.f;

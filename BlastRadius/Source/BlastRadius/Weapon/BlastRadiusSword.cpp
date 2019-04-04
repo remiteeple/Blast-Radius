@@ -5,6 +5,8 @@
 #include "Components/StaticMeshComponent.h"
 #include "Character/BlastRadiusCharacter.h"
 #include "Component/HealthComponent.h"
+#include "Weapon/BlastRadiusProjectile.h"
+
 
 
 // Sets default values
@@ -15,15 +17,16 @@ ABlastRadiusSword::ABlastRadiusSword()
 
     StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
     //StaticMesh->SetupAttachment(RootComponent);
-    StaticMesh->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+    //StaticMesh->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+    StaticMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
     RootComponent = StaticMesh;
 
     HitBoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("Hit Box"));
     HitBoxComponent->SetupAttachment(RootComponent);
-    SetActorEnableCollision(false);
+    //SetActorEnableCollision(false);
     HitBoxComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
     SetActorHiddenInGame(true);
-    //HitBoxComponent->OnComponentHit.AddDynamic(this, &UPrimitiveComponent::OnComponentHit);
+    HitBoxComponent->OnComponentBeginOverlap.AddDynamic(this, &ABlastRadiusSword::OnOverlapBegin);
 }
 
 // Called when the game starts or when spawned
@@ -51,7 +54,7 @@ void ABlastRadiusSword::Attach(class ABlastRadiusCharacter* Character)
     SetActorHiddenInGame(true);
 
     // Disable weapon's physics.
-    SetActorEnableCollision(false);
+    //SetActorEnableCollision(false);
 
     // Attach weapon to the character's mesh.
     AttachToComponent(Character->GetSkeletalMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, "SwordSocket");
@@ -73,19 +76,13 @@ ABlastRadiusSword* ABlastRadiusSword::GetSword()
     return this;
 }
 
-void ABlastRadiusSword::OnComponentHit(UPrimitiveComponent * HitComponent, AActor * OtherActor, UPrimitiveComponent * OtherComponent, FVector NormalImpulse, const FHitResult & Hit)
+void ABlastRadiusSword::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-    if (OtherActor == nullptr)
-        return;
-
-    ABlastRadiusCharacter* OtherCharacter = Cast<ABlastRadiusCharacter>(OtherActor);
-    if (OtherCharacter != nullptr && OtherActor != this->GetOwner())
+    ABlastRadiusProjectile* OtherProjectile = Cast<ABlastRadiusProjectile>(OtherActor);
+    if (OtherProjectile != nullptr)
     {
-        //Do damage to player/ enemy (OtherActor)
-        const UDamageType* Melee_DamageType = Cast<UDamageType>(UDamageType::StaticClass());
-        OtherCharacter->GetHealthComponent()->TakeDamage(MeleeDamage, Melee_DamageType, GetOwner()->GetInstigatorController(), GetOwner(), GetOwner()->GetActorLocation());
+        OtherProjectile->FlipVelocity();
+
     }
-    else
-        return;
 }
 
