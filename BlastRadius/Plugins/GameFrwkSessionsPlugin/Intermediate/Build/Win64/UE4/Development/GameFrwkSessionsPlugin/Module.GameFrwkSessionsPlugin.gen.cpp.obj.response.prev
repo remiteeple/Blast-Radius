@@ -21,7 +21,7 @@
 /wd4838
 /we4668
 /I .
-/I "D:\Temp\Week 9\Solution\Game\Plugins\GameFrwkSessionsPlugin\Source\GameFrwkSessionsPlugin\Private"
+/I "D:\Temp\Week 9\Game\Plugins\GameFrwkSessionsPlugin\Source\GameFrwkSessionsPlugin\Private"
 /I ..\Intermediate\Build\Win64\UE4\Inc\CoreUObject
 /I Runtime
 /I Runtime\CoreUObject\Public
@@ -206,10 +206,10 @@
 /I ..\Intermediate\Build\Win64\UE4\Inc\AnimationCore
 /I Runtime\AnimationCore\Public
 /I Runtime\AnimationCore
-/I "D:\Temp\Week 9\Solution\Game\Plugins\GameFrwkSessionsPlugin\Intermediate\Build\Win64\UE4\Inc\GameFrwkSessionsPlugin"
-/I "D:\Temp\Week 9\Solution\Game\Plugins\GameFrwkSessionsPlugin\Source"
-/I "D:\Temp\Week 9\Solution\Game\Plugins\GameFrwkSessionsPlugin\Source\GameFrwkSessionsPlugin\Public"
-/I "D:\Temp\Week 9\Solution\Game\Plugins\GameFrwkSessionsPlugin\Source\GameFrwkSessionsPlugin"
+/I "D:\Temp\Week 9\Game\Plugins\GameFrwkSessionsPlugin\Intermediate\Build\Win64\UE4\Inc\GameFrwkSessionsPlugin"
+/I "D:\Temp\Week 9\Game\Plugins\GameFrwkSessionsPlugin\Source"
+/I "D:\Temp\Week 9\Game\Plugins\GameFrwkSessionsPlugin\Source\GameFrwkSessionsPlugin\Public"
+/I "D:\Temp\Week 9\Game\Plugins\GameFrwkSessionsPlugin\Source\GameFrwkSessionsPlugin"
 /I ..\Plugins\Online\OnlineSubsystem\Intermediate\Build\Win64\UE4\Inc\OnlineSubsystem
 /I ..\Plugins\Online\OnlineSubsystem
 /I ..\Plugins\Online\OnlineSubsystem\Source
@@ -268,12 +268,12 @@
 /I "D:\Windows Kits\10\include\10.0.16299.0\winrt"
 /D_HAS_EXCEPTIONS=0
 /D_HAS_EXCEPTIONS=0
-/FI"D:\Temp\Week 9\Solution\Game\Intermediate\Build\Win64\Game\Development\Engine\SharedPCH.Engine.h"
-/Yu"D:\Temp\Week 9\Solution\Game\Intermediate\Build\Win64\Game\Development\Engine\SharedPCH.Engine.h"
-/Fp"D:\Temp\Week 9\Solution\Game\Intermediate\Build\Win64\Game\Development\Engine\SharedPCH.Engine.h.pch"
-"D:\Temp\Week 9\Solution\Game\Plugins\GameFrwkSessionsPlugin\Intermediate\Build\Win64\UE4\Development\GameFrwkSessionsPlugin\Module.GameFrwkSessionsPlugin.gen.cpp"
-/FI"D:\Temp\Week 9\Solution\Game\Plugins\GameFrwkSessionsPlugin\Intermediate\Build\Win64\UE4\Development\GameFrwkSessionsPlugin\Definitions.GameFrwkSessionsPlugin.h"
-/Fo"D:\Temp\Week 9\Solution\Game\Plugins\GameFrwkSessionsPlugin\Intermediate\Build\Win64\UE4\Development\GameFrwkSessionsPlugin\Module.GameFrwkSessionsPlugin.gen.cpp.obj"
+/FI"D:\Temp\Week 9\Game\Intermediate\Build\Win64\Game\Development\Engine\SharedPCH.Engine.h"
+/Yu"D:\Temp\Week 9\Game\Intermediate\Build\Win64\Game\Development\Engine\SharedPCH.Engine.h"
+/Fp"D:\Temp\Week 9\Game\Intermediate\Build\Win64\Game\Development\Engine\SharedPCH.Engine.h.pch"
+"D:\Temp\Week 9\Game\Plugins\GameFrwkSessionsPlugin\Intermediate\Build\Win64\UE4\Development\GameFrwkSessionsPlugin\Module.GameFrwkSessionsPlugin.gen.cpp"
+/FI"D:\Temp\Week 9\Game\Plugins\GameFrwkSessionsPlugin\Intermediate\Build\Win64\UE4\Development\GameFrwkSessionsPlugin\Definitions.GameFrwkSessionsPlugin.h"
+/Fo"D:\Temp\Week 9\Game\Plugins\GameFrwkSessionsPlugin\Intermediate\Build\Win64\UE4\Development\GameFrwkSessionsPlugin\Module.GameFrwkSessionsPlugin.gen.cpp.obj"
 /TP
 /GR-
 /W4

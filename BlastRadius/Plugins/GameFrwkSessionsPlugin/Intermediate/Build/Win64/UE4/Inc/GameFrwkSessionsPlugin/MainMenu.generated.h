@@ -13,12 +13,12 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 #endif
 #define GAMEFRWKSESSIONSPLUGIN_MainMenu_generated_h
 
-#define BlastRadius_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_13_GENERATED_BODY \
+#define Game_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_13_GENERATED_BODY \
 	friend struct Z_Construct_UScriptStruct_FServerData_Statics; \
 	GAMEFRWKSESSIONSPLUGIN_API static class UScriptStruct* StaticStruct();
 
 
-#define BlastRadius_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_28_RPC_WRAPPERS \
+#define Game_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_28_RPC_WRAPPERS \
  \
 	DECLARE_FUNCTION(execQuitPressed) \
 	{ \
@@ -69,7 +69,7 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 	}
 
 
-#define BlastRadius_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_28_RPC_WRAPPERS_NO_PURE_DECLS \
+#define Game_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_28_RPC_WRAPPERS_NO_PURE_DECLS \
  \
 	DECLARE_FUNCTION(execQuitPressed) \
 	{ \
@@ -120,7 +120,7 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 	}
 
 
-#define BlastRadius_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_28_INCLASS_NO_PURE_DECLS \
+#define Game_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_28_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesUMainMenu(); \
 	friend struct Z_Construct_UClass_UMainMenu_Statics; \
@@ -129,7 +129,7 @@ public: \
 	DECLARE_SERIALIZER(UMainMenu)
 
 
-#define BlastRadius_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_28_INCLASS \
+#define Game_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_28_INCLASS \
 private: \
 	static void StaticRegisterNativesUMainMenu(); \
 	friend struct Z_Construct_UClass_UMainMenu_Statics; \
@@ -138,7 +138,7 @@ public: \
 	DECLARE_SERIALIZER(UMainMenu)
 
 
-#define BlastRadius_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_28_STANDARD_CONSTRUCTORS \
+#define Game_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_28_STANDARD_CONSTRUCTORS \
 	/** Standard constructor, called after all reflected properties have been initialized */ \
 	NO_API UMainMenu(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()); \
 	DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(UMainMenu) \
@@ -151,7 +151,7 @@ private: \
 public:
 
 
-#define BlastRadius_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_28_ENHANCED_CONSTRUCTORS \
+#define Game_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_28_ENHANCED_CONSTRUCTORS \
 private: \
 	/** Private move- and copy-constructors, should never be used */ \
 	NO_API UMainMenu(UMainMenu&&); \
@@ -162,7 +162,7 @@ DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(UMainMenu); \
 	DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(UMainMenu)
 
 
-#define BlastRadius_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_28_PRIVATE_PROPERTY_OFFSET \
+#define Game_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_28_PRIVATE_PROPERTY_OFFSET \
 	FORCEINLINE static uint32 __PPO__HostButton() { return STRUCT_OFFSET(UMainMenu, HostButton); } \
 	FORCEINLINE static uint32 __PPO__JoinButton() { return STRUCT_OFFSET(UMainMenu, JoinButton); } \
 	FORCEINLINE static uint32 __PPO__QuitButton() { return STRUCT_OFFSET(UMainMenu, QuitButton); } \
@@ -180,31 +180,31 @@ DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(UMainMenu); \
 	FORCEINLINE static uint32 __PPO__ServerList() { return STRUCT_OFFSET(UMainMenu, ServerList); }
 
 
-#define BlastRadius_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_25_PROLOG
-#define BlastRadius_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_28_GENERATED_BODY_LEGACY \
+#define Game_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_25_PROLOG
+#define Game_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_28_GENERATED_BODY_LEGACY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	BlastRadius_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_28_PRIVATE_PROPERTY_OFFSET \
-	BlastRadius_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_28_RPC_WRAPPERS \
-	BlastRadius_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_28_INCLASS \
-	BlastRadius_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_28_STANDARD_CONSTRUCTORS \
+	Game_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_28_PRIVATE_PROPERTY_OFFSET \
+	Game_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_28_RPC_WRAPPERS \
+	Game_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_28_INCLASS \
+	Game_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_28_STANDARD_CONSTRUCTORS \
 public: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
 
-#define BlastRadius_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_28_GENERATED_BODY \
+#define Game_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_28_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	BlastRadius_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_28_PRIVATE_PROPERTY_OFFSET \
-	BlastRadius_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_28_RPC_WRAPPERS_NO_PURE_DECLS \
-	BlastRadius_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_28_INCLASS_NO_PURE_DECLS \
-	BlastRadius_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_28_ENHANCED_CONSTRUCTORS \
+	Game_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_28_PRIVATE_PROPERTY_OFFSET \
+	Game_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_28_RPC_WRAPPERS_NO_PURE_DECLS \
+	Game_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_28_INCLASS_NO_PURE_DECLS \
+	Game_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h_28_ENHANCED_CONSTRUCTORS \
 private: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
 
 #undef CURRENT_FILE_ID
-#define CURRENT_FILE_ID BlastRadius_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h
+#define CURRENT_FILE_ID Game_Plugins_GameFrwkSessionsPlugin_Source_GameFrwkSessionsPlugin_MenuSystem_MainMenu_h
 
 
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
