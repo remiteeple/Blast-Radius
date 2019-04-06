@@ -28,11 +28,13 @@ public:
     void Tick(float DeltaTime);
 
 private:
-    /** interaction methods **/
+    /** Interaction methods **/
     void AimForward(float Scale);
     void AimRight(float Scale);
 
     void LookRight(float Scale);
+    //void SnapRightPressed();
+    //void SnapRightReleased();
 
     void MoveVertical(float Scale);
     void MoveHorizontal(float Scale);
@@ -45,12 +47,18 @@ private:
 
     void BlinkPressed();
     void BlinkReleased();
-
+    
     void MeleePressed();
     void MeleeReleased();
 
     void LookAtMouseCursor(float DeltaTime);
 
+private:
+    /** ABlastRadiusCharacter possession reference **/
+    class ABlastRadiusCharacter* Character;
+
+private:
+    /* Control members */
     FVector ThumbStickDir;
 
     float LookRightValue;
@@ -60,8 +68,10 @@ private:
 
     float CameraSensitivity = 25.0f;
 
-private:
-    /** ABlastRadiusCharacter possession reference **/
-    class ABlastRadiusCharacter* Character;
+    //bool RightTapPressed;
+    //bool LeftTapPressed;
+
+    //float TimeSinceLastRightTap;
+    //float TimeSinceLastLeftTap;
 
 };
