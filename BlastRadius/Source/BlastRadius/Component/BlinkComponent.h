@@ -13,26 +13,27 @@ class BLASTRADIUS_API UBlinkComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:	
-	// Sets default values for this component's properties
 	UBlinkComponent();
 
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-    
-    void Blink(AActor* Character);
+    /* Blink the owner. */
+    UFUNCTION()
+        void Blink();
 
-    FVector GetPickableActor_LineTraceSingleByProfile(FName ProfileName, FVector & StartTrace, FVector & Direction, FVector & EndTrace);
-
-    UPROPERTY(EditAnywhere, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+private:
+    /* Audio Component */
+    UPROPERTY(EditDefaultsOnly, Category = Audio)
         class UAudioComponent* AudioComponent;
 
-    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+    /* Blink Sound */
+    UPROPERTY(EditDefaultsOnly, Category = Audio)
         class USoundBase* BlinkSound;
 
+    /* Particle System Component */
+    UPROPERTY(EditDefaultsOnly, Category = FX)
+        class UParticleSystemComponent* ParticleSystemComponent;
 
-
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
+    /* Blink Particles */
+    UPROPERTY(EditDefaultsOnly, Category = FX)
+        UParticleSystem* BlinkParticleFX;
 	
 };

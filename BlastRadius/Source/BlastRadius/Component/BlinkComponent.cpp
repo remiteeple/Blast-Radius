@@ -12,68 +12,48 @@
 #include "Components/AudioComponent.h"
 
 
-// Sets default values for this component's properties
 UBlinkComponent::UBlinkComponent()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
-
-    //Setup the Audio Component
+    // Setup the Audio Component
     AudioComponent = CreateDefaultSubobject<UAudioComponent>("BlinkSound");
     AudioComponent->bAutoActivate = false;
-    AudioComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
+
+    // Setup the Particle System Component
+    ParticleSystemComponent = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Blink Particle System"));
+
+    // Setup the Blink Particle
+    BlinkParticleFX = CreateDefaultSubobject<UParticleSystem>(TEXT("Blink Particle FX"));
 }
 
-
-// Called when the game starts
-void UBlinkComponent::BeginPlay()
+void UBlinkComponent::Blink()
 {
-	Super::BeginPlay();
+        ABlastRadiusCharacter* Player = Cast<ABlastRadiusCharacter>(GetOwner());
 
-    //Particles appear when blink initiated.
-
-}
-
-
-// Called every frame
-void UBlinkComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
-}
-
-void UBlinkComponent::Blink(AActor* Character)
-{
-        ABlastRadiusCharacter* Player = Cast<ABlastRadiusCharacter>(Character);
-        FVector StartTrace = Player->GetActorLocation();
+        // Calculate start position and end position.
+        FVector StartLocation = Player->GetActorLocation();
         FVector Direction = Player->GetActorRotation().Vector();
-        FVector EndTrace = StartTrace + Direction * 300.f;
+        FVector EndLocation = StartLocation + Direction * 300.f;
 
-        FVector BlinkPosition = EndTrace;//GetPickableActor_LineTraceSingleByProfile("Visible", StartTrace, Direction, EndTrace);
+        // Spawn particle before translating player position.
+        if (BlinkParticleFX)
+        {
+            ParticleSystemComponent->SetRelativeLocation(Player->GetActorLocation());
+            ParticleSystemComponent->SecondsBeforeInactive = 0.5;
+            UGameplayStatics::SpawnEmitterAtLocation(this, BlinkParticleFX, Player->GetActorLocation());
+            ParticleSystemComponent->SetTemplate(BlinkParticleFX);
+        }
 
-        //Player = Cast<ABlastRadiusCharacter>(GetOwner());
-        FVector InitialPosition = Player->GetActorLocation();
-
-        Character->SetActorLocation(FMath::Lerp(InitialPosition, BlinkPosition, 1));
-
-        //Play the audio for blinking
+        //Play the audio for blinking.
         AudioComponent->SetSound(BlinkSound);
         AudioComponent->Play();
-}
 
-FVector UBlinkComponent::GetPickableActor_LineTraceSingleByProfile(FName ProfileName, FVector & StartTrace, FVector & Direction, FVector & EndTrace)
-{
-   FCollisionQueryParams TraceParams;
-   TraceParams.AddIgnoredActor(GetOwner());
-   TraceParams.bTraceComplex = true;
-   TraceParams.bReturnPhysicalMaterial = true;
-   
-   FHitResult Hit(ForceInit);
-   UWorld* World = GetWorld();
-   World->LineTraceSingleByProfile(Hit, StartTrace, EndTrace, ProfileName, TraceParams); // simple trace function "Pawn"
-   DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor::Green, true, 1, 0, 1.f);
-   
-   return Hit.GetActor()->GetActorLocation();   
+        // Move player to end location.
+        Player->SetActorLocation(FMath::Lerp(StartLocation, EndLocation, 1));
+
+        // Spawn particle after translating player position.
+        if (BlinkParticleFX)
+        {
+            ParticleSystemComponent->SetRelativeLocation(Player->GetActorLocation());
+            UGameplayStatics::SpawnEmitterAtLocation(this, BlinkParticleFX, Player->GetActorLocation());
+        }
 }

@@ -9,6 +9,7 @@
 #include "DrawDebugHelpers.h"
 #include "Runtime/Engine/Classes/Kismet/KismetMathLibrary.h"
 #include "Camera/CameraComponent.h"
+#include "GameFramework/SpringArmComponent.h"
 
 ABlastRadiusPlayerController::ABlastRadiusPlayerController()
 {
@@ -19,18 +20,23 @@ void ABlastRadiusPlayerController::SetupInputComponent()
 {
     Super::SetupInputComponent();
 
-    // Set up gameplay key bindings
+    /* Aim */
     InputComponent->BindAxis("AimForward", this, &ABlastRadiusPlayerController::AimForward);
     InputComponent->BindAxis("AimRight", this, &ABlastRadiusPlayerController::AimRight);
 
+    /* Camera */
     InputComponent->BindAxis("LookRight", this, &ABlastRadiusPlayerController::LookRight);
+    //InputComponent->BindAction("SnapRight", IE_Pressed, this, &ABlastRadiusPlayerController::SnapRightPressed);
+    //InputComponent->BindAction("SnapRight", IE_Released, this, &ABlastRadiusPlayerController::SnapRightReleased);
 
+    /* Movement */
     InputComponent->BindAxis("MoveVertical", this, &ABlastRadiusPlayerController::MoveVertical);
     InputComponent->BindAxis("MoveHorizontal", this, &ABlastRadiusPlayerController::MoveHorizontal);
 
     InputComponent->BindAction("Walk", IE_Pressed, this, &ABlastRadiusPlayerController::WalkPressed);
     InputComponent->BindAction("Walk", IE_Released, this, &ABlastRadiusPlayerController::WalkReleased);
 
+    /* Actions */
     InputComponent->BindAction("Fire", IE_Pressed, this, &ABlastRadiusPlayerController::FirePressed);
     InputComponent->BindAction("Fire", IE_Released, this, &ABlastRadiusPlayerController::FireReleased);
 
@@ -68,6 +74,11 @@ void ABlastRadiusPlayerController::Tick(float DeltaTime)
         LookDirection = UKismetMathLibrary::MakeRotationFromAxes(ThumbStickDir, FVector(0, 0, 0), FVector(0, 0, 0));
         Character->SetActorRotation(LookDirection);
     }
+
+    //if (RightTapPressed)
+    //    TimeSinceLastRightTap += DeltaTime;
+    //else
+    //    TimeSinceLastRightTap = 0.0f;
 }
 
 void ABlastRadiusPlayerController::AimForward(float Scale)
@@ -103,6 +114,30 @@ void ABlastRadiusPlayerController::LookRight(float Scale)
     /* Orbit camera around character */
     Character->AddControllerYawInput(Scale * CameraSensitivity * GetWorld()->GetDeltaSeconds());
 }
+
+//void ABlastRadiusPlayerController::SnapRightPressed()
+//{
+//    if (Character == nullptr)
+//        return;
+//
+//    if (RightTapPressed == false)
+//    {
+//        /* Start double tap timer. */
+//        RightTapPressed = true;
+//    }
+//
+//    if (RightTapPressed && TimeSinceLastRightTap >= 0.15f)
+//    {
+//        /* Add 45 degrees to camera orbit around player. */
+//        float CurrentControlRotation = Character->GetController()->GetControlRotation().Yaw;
+//        Character->AddControllerYawInput(45.0f);
+//    }
+//}
+//
+//void ABlastRadiusPlayerController::SnapRightReleased()
+//{
+//
+//}
 
 void ABlastRadiusPlayerController::MoveVertical(float Scale)
 {
@@ -243,41 +278,4 @@ void ABlastRadiusPlayerController::LookAtMouseCursor(float DeltaTime)
         // Make character look at 
         Character->LookAt(Direction);
     }
-
-    //// Create vectors for Mouse input
-    //FVector MouseLocation;
-    //FVector MouseDircetion;
-
-    //// Translate mouse position on 2D screen to 3D world position
-    //bool Success = DeprojectMousePositionToWorld(MouseLocation, MouseDircetion);
-
-    //// If translation succeeded
-    //if (Success)
-    //{
-    //    // Define trace
-    //    float TraceDistance = 10000.0f;
-    //    FVector TraceBegin = MouseLocation;
-    //    FVector TraceEnd = MouseLocation + MouseDircetion * TraceDistance;
-
-    //    // Define plane
-    //    FVector PlaneOrigin = Character->GetActorForwardVector();
-    //    FVector PlaneNormal = FVector(0.0f, 0.0f, 1.0f);
-
-    //    // Get planar intersect for floor
-    //    FVector LookLocation = FMath::LinePlaneIntersection(TraceBegin, TraceEnd, PlaneOrigin, PlaneNormal);
-
-    //    // Get direction for character aim
-    //    FRotator LookRotation = (LookLocation - Character->GetActorLocation()).Rotation();
-
-    //    // Nullify non-used axes
-    //    LookRotation.Pitch = 0.0f;
-    //    LookRotation.Roll = 0.0f;
-    //    LookLocation.Z = Character->GetActorLocation().Z;
-
-    //    // TODO: remove before alpha build
-    //    DrawDebugLine(GetWorld(), Character->GetActorLocation(), LookLocation, FColor(0, 0, 255), false, -1, 0, 10.0f);
-
-    //    // Rotate character
-    //    Character->SetActorRotation(LookRotation);
-    //}
 }

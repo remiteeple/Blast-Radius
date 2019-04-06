@@ -56,8 +56,8 @@ public:
 
     UFUNCTION(BluePrintCallable)
         FORCEINLINE float GetCurrentHealth() { return CurrentHealth; }
-    UFUNCTION(BluePrintCallable)
-        FORCEINLINE FString GetCurrentHealthInText();
+    //UFUNCTION(BluePrintCallable)
+    //    FString GetCurrentHealthInText();
 
     FORCEINLINE void ResetKnockback() { CurrentHealth = 0; }
 		

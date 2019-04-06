@@ -115,11 +115,11 @@ void UHealthComponent::TakeDamage(float Damage, const class UDamageType* DamageT
     }
 }
 
-FString UHealthComponent::GetCurrentHealthInText()
-{
-    FString CurrentHealthDisplayValue = FString::SanitizeFloat(CurrentHealth);
-    return CurrentHealthDisplayValue;
-}
+//FString UHealthComponent::GetCurrentHealthInText()
+//{
+//    FString CurrentHealthDisplayValue = FString::SanitizeFloat(CurrentHealth);
+//    return CurrentHealthDisplayValue;
+//}
 
 void UHealthComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
