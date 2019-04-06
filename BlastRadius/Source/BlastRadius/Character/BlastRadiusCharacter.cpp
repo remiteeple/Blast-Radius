@@ -81,21 +81,19 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
     EnergyComponent = CreateDefaultSubobject<UEnergyComponent>(TEXT("Energy"));
     BlinkComponent = CreateDefaultSubobject<UBlinkComponent>(TEXT("Blink"));
 
+    // Nullify variables.
     Sword = nullptr;
     Weapon = nullptr;
 
+    // Set default spawn-delay.
     SpawnDelay = 1.0f;
 
-    ProjectileFX = CreateDefaultSubobject<UParticleSystem>(TEXT("Blink Particles"));
-
-    PSC = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("MyPSC"));
-    PSC->SetupAttachment(RootComponent);
-
+    // Add unique tag.
     Tags.Add("Player");
 
+    // Enable replication.
     SetReplicates(true);
     SetReplicateMovement(true);
-    
 }
 
 void ABlastRadiusCharacter::PostInitializeComponents()
@@ -103,15 +101,13 @@ void ABlastRadiusCharacter::PostInitializeComponents()
     Super::PostInitializeComponents();
 
     /* Retrieve the skeletal mesh */
-    //Check for skeletal mesh
     SkeletalMesh = GetMesh();
     if (SkeletalMesh != nullptr)
     {
         check(SkeletalMesh != nullptr && "Character doesn't have a skeletal mesh!");
+
         /* Retrieve the animation instance */
         AnimationInstance = Cast<UCharacterAnimInstance>(SkeletalMesh->GetAnimInstance());
-
-        //check(AnimationInstance != nullptr && "Character doesn't have animation!")
     }
 
     /* Attach Helmet Mesh to Skeletal Mesh */
@@ -132,12 +128,6 @@ void ABlastRadiusCharacter::PostInitializeComponents()
         HealthComponent->OnDeath.AddDynamic(this, &ABlastRadiusCharacter::NetMultiCastOnDeath);
     }
 
-    /* Retrieve the energy component */
-    EnergyComponent = FindComponentByClass<UEnergyComponent>();
-
-    /* Retrieve the blink component */
-    BlinkComponent = FindComponentByClass<UBlinkComponent>();
-
     // Setup overlap
     GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &ABlastRadiusCharacter::OnOverlapBegin);
 }
@@ -147,7 +137,6 @@ class ABlastRadiusPlayerState* ABlastRadiusCharacter::GetPlayerState()
     return Cast<class ABlastRadiusPlayerState>(this->PlayerState);
 }
 
-//TODO Week 7: Return the ABaseGameState
 class ABlastRadiusGameStateBase* ABlastRadiusCharacter::GetGameState()
 {
     return Cast<ABlastRadiusGameStateBase>(GetWorld()->GetGameState());
@@ -194,6 +183,7 @@ void ABlastRadiusCharacter::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);	
 
+    /* Set movement state. */
     float CurrentSpeed = GetVelocity().Size(); // Get character's current speed
     bool bIsMoving = CurrentSpeed > 0.0f && GetCharacterMovement()->IsMovingOnGround(); // Check for character movement
 
@@ -204,7 +194,7 @@ void ABlastRadiusCharacter::Tick(float DeltaTime)
     FVector MovementDirection = GetLastMovementInputVector(); // Get character movement direction
     FVector CharacterDirection = GetActorForwardVector(); // Get character direction
 
-    /* Blend strafe animation when moving */
+    /* Blend strafe animation when moving. */
     if (!MovementDirection.IsNearlyZero())
     {
         /* Calculate the Strafing Rotation which is the Arc Tan difference between the Character's Last Movement Direction and Current Movement Direction */
@@ -240,7 +230,6 @@ void ABlastRadiusCharacter::Tick(float DeltaTime)
     {
         EnergyComponent->FastCharge = false;
     }
-    
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -427,7 +416,7 @@ void ABlastRadiusCharacter::Multicast_AssignTeamsColor_Implementation()
 // Input / Actions
 void ABlastRadiusCharacter::Move(FVector Direction, float Scale)
 {
-    if ((Controller != NULL) && (Scale != 0.0f))
+    if ((Controller != nullptr) && (Scale != 0.0f))
     {
         // discern forward direction
         const FRotator Rotation = GetCameraBoom()->GetTargetRotation(); //Controller->GetControlRotation();
@@ -453,7 +442,7 @@ void ABlastRadiusCharacter::Move(FVector Direction, float Scale)
 
 void ABlastRadiusCharacter::LookAt(FVector Direction)
 {
-    if ((Controller != NULL) && Direction != FVector::ZeroVector)
+    if ((Controller != nullptr) && (Direction != FVector::ZeroVector))
     {
         SetActorRotation(Direction.Rotation());
 
@@ -467,7 +456,7 @@ void ABlastRadiusCharacter::LookAt(FVector Direction)
 
 void ABlastRadiusCharacter::ServerBlink_Implementation()
 {
-    BlinkComponent->Blink(this);
+    BlinkComponent->Blink();
 }
 
 bool ABlastRadiusCharacter::ServerBlink_Validate()
@@ -479,21 +468,14 @@ void ABlastRadiusCharacter::Blink()
 {
     if (EnergyComponent->OnCooldown == false)
     {
-        if (ProjectileFX)
+        BlinkComponent->Blink();
+
+        if (Role < ROLE_Authority)
         {
-            PSC->SecondsBeforeInactive = 0.5;
-            UGameplayStatics::SpawnEmitterAtLocation(this, ProjectileFX, GetActorLocation());
-            PSC->SetTemplate(ProjectileFX);
+           ServerBlink();
         }
 
-        BlinkComponent->Blink(this);
-        ServerBlink();
         EnergyComponent->SpendEnergy(BlinkCost);
-
-        if (ProjectileFX)
-        {
-            UGameplayStatics::SpawnEmitterAtLocation(this, ProjectileFX, GetActorLocation());
-        }
     }
 }
 

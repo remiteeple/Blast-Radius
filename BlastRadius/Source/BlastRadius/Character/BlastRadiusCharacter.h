@@ -11,12 +11,6 @@ class ABlastRadiusCharacter : public ACharacter
 {
     GENERATED_BODY()
 
-        UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Gameplay, meta = (AllowPrivateAccess = "true"))
-        class UHealthComponent* HealthComponent;
-
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Gameplay, meta = (AllowPrivateAccess = "true"))
-        class UEnergyComponent* EnergyComponent;
-
 protected:
     ABlastRadiusCharacter();
 
@@ -24,30 +18,65 @@ protected:
     virtual void BeginPlay() override;
     virtual void Tick(float DeltaTime) override;
 
-public:
-    /** Character movement variable **/
+#pragma region Members
+protected:
+    /* Replicated Orientation */
+    UPROPERTY(Replicated)
+        FVector Orientation;
+
+    /*  Character Movement Values  */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
         float MaxWalkSpeed;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
         float MaxRunSpeed;
-    /**Replicated Orientation**/
-    UPROPERTY(Replicated)
-        FVector Orientation;
 
-    /** Spawn location variable **/
+    /*  Energy Spendature Values  */
+        UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy_Cost)
+        float BlinkCost = 35.0f;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy_Cost)
+        float ShootCost = 15.0f;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy_Cost)
+        float MeleeCost = 25.0f;
+
+    /*  Spawn location variable  */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
         FVector SpawnPoint;
-    /** Spawn timer **/
+    /*  Spawn timer  */
     FTimerHandle TimerHandle_SpawnTimer;
-    /** Spawn Delay**/
+    /*  Spawn Delay */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
         float SpawnDelay;
 
-    /**Team Variables**/
+    /*  Animations  */
+    UPROPERTY(EditDefaultsOnly)
+        UAnimMontage* HipFireAnimation;
+    UPROPERTY(EditDefaultsOnly)
+        UAnimMontage* MeleeAttackAnimation;
+    UPROPERTY(EditDefaultsOnly)
+        FTimerHandle TimerHandle_MeleeTimer;
+
+    /*  Audio  */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Audio)
+        class USoundBase* DeathSound;
+
+    /* Templates */
+    UPROPERTY(EditDefaultsOnly, Category = Projectile)
+        TSubclassOf<class ABlastRadiusProjectile> ProjectileClass;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+        TSubclassOf<class ABlastRadiusSword> SwordClass;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+        TSubclassOf<class ABlastRadiusWeapon> WeaponClass;
+
+    UPROPERTY(Replicated)
+        ABlastRadiusSword* Sword;
+    UPROPERTY(Replicated)
+        ABlastRadiusWeapon* Weapon;
+
+public:
+    /* Team Variables */
     //TODO Week 7:The player's current team.
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "MPCharacter|Gameplay", Replicated)// ReplicatedUsing = OnRep_ChangeColor)//meta = (ClampMin = "1", ClampMax = "2"), Replicated
         int playerTeam;
-
     //TODO Week 7:Size of team one (grabbed from game state)
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "MPCharacter|Debug", Replicated) //meta = (EditCondition = "AreTeamsEnabled", ClampMin = "0")
         int TeamOneCount;
@@ -66,7 +95,11 @@ public:
     //TODO Week 7: PostBeginPlay Timer`
     UPROPERTY(Replicated)
         FTimerHandle PostBeginPlayDelay;
-    /**Team Functions**/
+#pragma endregion Members
+
+#pragma region Methods
+public:
+    /* Team Functions */
     void AssignTeams();
     //TODO Week 7: Assigns a Network Index to the player that logs in
     void AssignNetIndex();
@@ -78,151 +111,124 @@ public:
     UFUNCTION(BlueprintCallable, Category = FPSWizard)
         void PostBeginPlay();
 
-    /** Animations **/
-    UPROPERTY(EditDefaultsOnly)
-        UAnimMontage* HipFireAnimation;
-    UPROPERTY(EditDefaultsOnly)
-        UAnimMontage* MeleeAttackAnimation;
-    UPROPERTY(EditDefaultsOnly)
-        FTimerHandle TimerHandle_MeleeTimer;
-
-    /** Audio **/
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Audio)
-        class USoundBase* DeathSound;
-
-    //Projectile template to fire.
-    UPROPERTY(EditDefaultsOnly, Category = Projectile)
-        TSubclassOf<class ABlastRadiusProjectile> ProjectileClass;
-    //Sword Template to use
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-        TSubclassOf<class ABlastRadiusSword> SwordClass;
-    UPROPERTY(Replicated)
-    ABlastRadiusSword* Sword;
-    /* Weapon */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-        TSubclassOf<class ABlastRadiusWeapon> WeaponClass;
-    UPROPERTY(Replicated)
-    ABlastRadiusWeapon* Weapon;
-
-    /* Blink particles*/
-    UPROPERTY(EditDefaultsOnly, Category = "Effects")
-        class UParticleSystemComponent* PSC;
-    UPROPERTY(EditDefaultsOnly, Category = "Effects")
-        UParticleSystem* ProjectileFX;
-
-    /** Called for directional movement */
+    /*  Called for directional movement */
     void Move(FVector Direction, float Scale);
 
-    /** Called for directional rotation of character  **/
+    /*  Called for directional rotation of character   */
     void LookAt(FVector Direction);
-    /** Server Call for directional rotation of character  **/
+    /*  Server Call for directional rotation of character   */
     UFUNCTION(Server, Reliable, WithValidation)
-    void ServerLookAt(FVector Direction);
+        void ServerLookAt(FVector Direction);
 
-    /** Called when blink is activated **/
+    /*  Called when blink is activated  */
     void Blink();
-    /** Server Call when blink is activated **/
+    /*  Server Call when blink is activated  */
     UFUNCTION(Server, Reliable, WithValidation)
-    void ServerBlink();
+        void ServerBlink();
 
-    /** Call for shooting **/
+    /*  Call for shooting  */
     void Fire();
-
-    /*Server Call for Shooting*/
+    /* Server Call for Shooting */
     UFUNCTION(Server, Reliable, WithValidation)
-    void ServerFire();
-    /** Called for melee attack **/
+        void ServerFire();
+
+    /*  Called for melee attack  */
     void Melee();
-    /** Sever Call for melee attack **/
-   // UFUNCTION(Server, Reliable, WithValidation)
-  //void ServerMelee();
-    /** Called to hide sword after melee **/
+    /*  Called to hide sword after melee  */
     void PutAwaySword();
 
-    /** Called when player health passes lower limit **/
+    /*  Called on character death  */
+    void OnDeath();
+    /*  Called when player health passes lower limit  */
     UFUNCTION(NetMulticast, Reliable, WithValidation)
         void NetMultiCastOnDeath();
 
-    /** Called on character death **/
-    void OnDeath();
-
-    /** Getter for Player State **/
+    /*  Getter for Player State  */
     UFUNCTION(BlueprintCallable)
-    class ABlastRadiusPlayerState* GetPlayerState();
-    /** Getter for Game State **/
+        class ABlastRadiusPlayerState* GetPlayerState();
+    /*  Getter for Game State  */
     UFUNCTION(BlueprintCallable)
-    class ABlastRadiusGameStateBase* GetGameState();
+        class ABlastRadiusGameStateBase* GetGameState();
 
-    /** Teleports player upon stock loss to spawm point **/
+    /*  Teleports player upon stock loss to spawn point  */
     void Respawn();
 
-    /** Handle character overlap **/
+    /*  Handle character overlap  */
     UFUNCTION()
-    void OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult);
+        void OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult);
+#pragma region Methods
 
+#pragma region States
 public:
-    /** State Definitions **/
+    /*  State Definitions  */
     // Default false
     bool bIsWalking = false;
     bool bIsAiming = false;
     bool bIsMeleeAttacking = false;
     bool bIsFiring = false;
     bool bIsBlinking = false;
+#pragma endregion States
 
-private:
-    /** Component Declarations **/
-    class USkeletalMeshComponent* SkeletalMesh;
-
-    class UCapsuleComponent* CapsuleCollider;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Blink", meta = (AllowPrivateAccess = "true"))
-        class UBlinkComponent* BlinkComponent;
-
-    //class UMeleeComponent* MeleeComponent;
-    class UCharacterAnimInstance* AnimationInstance;
-
+#pragma region Getters
 public:
-    /** Returns CameraBoom subobject **/
+    /*  Returns CameraBoom subobject  */
     FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 
-    /** Returns FollowCamera subobject **/
+    /*  Returns FollowCamera subobject  */
     FORCEINLINE class UCameraComponent* GetFollowCamera() const { return TopDownCamera; }
 
-    /** Returns SkeletalMesh component **/
+    /*  Returns SkeletalMesh component  */
     FORCEINLINE class USkeletalMeshComponent* GetSkeletalMesh() const { return SkeletalMesh; }
 
-    /** Returns Health component **/
+    /*  Returns Health component  */
     FORCEINLINE class UHealthComponent* GetHealthComponent() const { return HealthComponent; }
 
-    /** Returns Health component **/
+    /*  Returns Health component  */
     FORCEINLINE class UEnergyComponent* GetEnergyComponent() const { return EnergyComponent; }
 
-    /** Returns Health component **/
+    /*  Returns Health component  */
     FORCEINLINE class UBlinkComponent* GetBlinkComponent() const { return BlinkComponent; }
+#pragma endregion Getters
 
+#pragma region Components
 protected:
-    /** Camera boom positioning the camera behind the character */
+    /*  Camera boom positioning the camera behind the character */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
         class USpringArmComponent* CameraBoom;
 
-    /** Follow camera */
+    /*  Follow camera */
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Camera, meta = (AllowPrivateAccess = "true"))
         class UCameraComponent* TopDownCamera;
 
-    /** Helmet Mesh **/
+    /*  Helmet Mesh  */
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Helmet, meta = (AllowPrivateAccess = "true"))
         class UStaticMeshComponent* HelmetMesh;
 
-    /** Audio Component **/
+    /*  Audio Component  */
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Audio, meta = (AllowPrivateAccess = "true"))
         class UAudioComponent* AudioComponent;
 
-    /** Energy Spendature Values **/
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy_Cost)
-        float BlinkCost = 35.0f;
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy_Cost)
-        float ShootCost = 15.0f;
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy_Cost)
-        float MeleeCost = 25.0f;
+    /* Skeletal Mesh Component */
+    class USkeletalMeshComponent* SkeletalMesh;
+
+    /* Capsule Component (Collider) */
+    class UCapsuleComponent* CapsuleCollider;
+
+    /* Character Animation Instance */
+    class UCharacterAnimInstance* AnimationInstance;
+
+    /* Blink Component */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Blink, meta = (AllowPrivateAccess = "true"))
+        class UBlinkComponent* BlinkComponent;
+
+    /* Health Component */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Health, meta = (AllowPrivateAccess = "true"))
+        class UHealthComponent* HealthComponent;
+
+    /* Energy Component */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Energy, meta = (AllowPrivateAccess = "true"))
+        class UEnergyComponent* EnergyComponent;
+
+#pragma endregion Components
 };
 
