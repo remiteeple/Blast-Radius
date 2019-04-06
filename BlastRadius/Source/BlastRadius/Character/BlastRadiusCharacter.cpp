@@ -274,6 +274,10 @@ void ABlastRadiusCharacter::Respawn()
         if (GM)
         {
             //CALL RespawnPlayer() on the GM passing in playerTeam, NetIndex
+    EnergyComponent->CurrentEnergy = EnergyComponent->MaxEnergy;
+    Cast<ABlastRadiusPlayerState>(PlayerState)->SetDamage(0);
+    /* Re-enable the actor's tick */
+    PrimaryActorTick.bCanEverTick = true;
             GM->RespawnPlayer(Cast<APlayerController>(GetController()), playerTeam, NetIndex);
            
         }
@@ -306,10 +310,6 @@ void ABlastRadiusCharacter::Respawn()
     //}
 
     /* Refill energy */
-    EnergyComponent->CurrentEnergy = EnergyComponent->MaxEnergy;
-    Cast<ABlastRadiusPlayerState>(PlayerState)->SetDamage(0);
-    /* Re-enable the actor's tick */
-    PrimaryActorTick.bCanEverTick = true;
 }
 
 void ABlastRadiusCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult)

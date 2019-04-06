@@ -72,13 +72,16 @@ void ABlastRadiusPlayerController::Tick(float DeltaTime)
 
 void ABlastRadiusPlayerController::AimForward(float Scale)
 {
-    if (Character == nullptr)
-        return;
+    if (this != nullptr)
+    {
+        if (Character == nullptr)
+            return;
 
-    LookForwardValue = -Scale;
+        LookForwardValue = -Scale;
 
-    /* Rotate the character */
-    Character->SetActorRotation(LookDirection);
+        /* Rotate the character */
+        Character->SetActorRotation(LookDirection);
+    }
 }
 
 void ABlastRadiusPlayerController::AimRight(float Scale)
