@@ -11,45 +11,57 @@ class ABlastRadiusGameMode : public AGameMode
 {
     GENERATED_BODY()
         
+#pragma region Methods
 public:
 	ABlastRadiusGameMode();
 
+    void BeginPlay() override;
+
+    /* Handle new player override from AGameMode */
+    virtual void HandleStartingNewPlayer_Implementation(APlayerController* NewPlayer) override;
+
+    /* Respawn player */
+    void RespawnPlayer(APlayerController* NewPlayer, int playerTeam, int NetIndex);
+
+    ///* Called when the map transitions to WaitingPostMatch */
+    //virtual void HandleMatchHasEnded() override;
+
+    /* Start Count Down Function */
+    UFUNCTION(BlueprintCallable)
+        void EnablePlayers();
+
+private:
+    void HandleNewPlayer(APlayerController* NewPlayer);
+#pragma endregion Methods
+
+#pragma region Members
+public:
+    /* Team Scores */
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Gameplay)
         int TeamOneScore = 0;
-
-    //TODO Week 7:Team Two's Score
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Gameplay)
         int TeamTwoScore = 0;
+
+    /* Match Timer */
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
         FTimerHandle StartCountDown;
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
         FTimerHandle EndCountDown;
-
     
+    /* Var for team loss */
     int WinningTeam = -1;
     int LosingTeam = -1;
-    //TODO Week 7: Override from GameMode to handle when a new player logs in
-    virtual void HandleStartingNewPlayer_Implementation(APlayerController* NewPlayer) override;
+#pragma endregion Members
 
-    //TODO Week 7: Respawn the player that has died
-    void RespawnPlayer(APlayerController* NewPlayer, int playerTeam, int NetIndex);
-
-    /** Called when the map transitions to WaitingPostMatch */
-    virtual void HandleMatchHasEnded() override;
-
-    void BeginPlay() override;
-
-    /**Start Count Down Function**/
-    UFUNCTION(BlueprintCallable)
-        void EnablePlayers();
+#pragma region Getters
+public:
+    /* Get Winning Team */
     UFUNCTION(BlueprintCallable)
         int GetWinningTeam();
+    /* Get Losing Team */
     UFUNCTION(BlueprintCallable)
         int GetLosingTeam();
-private:
-    //TODO Week 7: Handle the new player
-    void HandleNewPlayer(APlayerController* NewPlayer);
-    
+#pragma endregion Getters
 };
 
 

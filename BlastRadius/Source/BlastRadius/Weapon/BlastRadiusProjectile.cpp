@@ -24,53 +24,50 @@ ABlastRadiusProjectile::ABlastRadiusProjectile()
     // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
     PrimaryActorTick.bCanEverTick = true;
 
-    CollisionComp = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComp"));
-    CollisionComp->InitSphereRadius(50.0f);
-    CollisionComp->BodyInstance.SetCollisionProfileName("Projectile");
-    CollisionComp->OnComponentHit.AddDynamic(this, &ABlastRadiusProjectile::OnHit);
-    CollisionComp->SetWalkableSlopeOverride(FWalkableSlopeOverride(WalkableSlope_Unwalkable, 0.f));
-    CollisionComp->CanCharacterStepUpOn = ECB_No;
-    CollisionComp->SetCollisionResponseToChannel(ECC_PhysicsBody, ECR_Overlap);
+    CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComp"));
+    CollisionComponent->InitSphereRadius(50.0f);
+    CollisionComponent->BodyInstance.SetCollisionProfileName("Projectile");
+    CollisionComponent->OnComponentHit.AddDynamic(this, &ABlastRadiusProjectile::OnHit);
+    CollisionComponent->SetWalkableSlopeOverride(FWalkableSlopeOverride(WalkableSlope_Unwalkable, 0.f));
+    CollisionComponent->CanCharacterStepUpOn = ECB_No;
+    CollisionComponent->SetCollisionResponseToChannel(ECC_PhysicsBody, ECR_Overlap);
+    RootComponent = CollisionComponent;
 
-    //root
-    RootComponent = CollisionComp;
+    //Setup Mesh (laser)
+    ProjectileMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComp"));
+    ProjectileMeshComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+    ProjectileMeshComponent->SetupAttachment(RootComponent);
 
-    //Mesh "Laser"
-    ProjectileMeshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComp"));
-    ProjectileMeshComp->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-    ProjectileMeshComp->SetupAttachment(RootComponent);
+    // Setup Projectile Movement Component
+    // ProjectileMovementComponent is used to govern this projectile's movement
+    ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileComp"));
+    ProjectileMovementComponent->UpdatedComponent = CollisionComponent;
+    ProjectileMovementComponent->InitialSpeed = 3000.f;
+    ProjectileMovementComponent->MaxSpeed = 3000.f;
+    ProjectileMovementComponent->bRotationFollowsVelocity = true;
+    ProjectileMovementComponent->bShouldBounce = true;
+    ProjectileMovementComponent->ProjectileGravityScale = 0.0f;
+    ProjectileMovementComponent->Bounciness = 1.0f;
+    ProjectileMovementComponent->Friction = 0.0f;
+    ProjectileMovementComponent->SetPlaneConstraintAxisSetting(EPlaneConstraintAxisSetting::Z);
 
-    // Use a ProjectileMovementComponent to govern this projectile's movement
-    ProjectileMovementComp = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileComp"));
-    ProjectileMovementComp->UpdatedComponent = CollisionComp;
-    ProjectileMovementComp->InitialSpeed = 3000.f;
-    ProjectileMovementComp->MaxSpeed = 3000.f;
-    ProjectileMovementComp->bRotationFollowsVelocity = true;
-    ProjectileMovementComp->bShouldBounce = true;
-    ProjectileMovementComp->ProjectileGravityScale = 0.0f;
-    ProjectileMovementComp->Bounciness = 1.0f;
-    ProjectileMovementComp->Friction = 0.0f;
-    ProjectileMovementComp->SetPlaneConstraintAxisSetting(EPlaneConstraintAxisSetting::Z);
+    // Template for HealthComponent->TakeDamage() parameter.
+    DamageType = UDamageType::StaticClass();
 
+    // Laser's lifespan.
+    LifeSpan = 3.0f;
 
-    //Template for HealthComponent->TakeDamage() parameter.
-    m_DamageType = UDamageType::StaticClass();
+    // Damage
+    LaserDamage = 50.0f;
 
-    //Laser's lifespan.
-    m_LifeSpan = 3.0f;
+    // Max amount of bounces until object is destroyed.
+    BouncesRemaining = 5.0f;
 
-    //Damage
-    m_LaserDamage = 50.0f;
+    // Knock back Amount for collision with projectile. This might be Health percentage * 10 later.
+    KnockbackFactor = 100.0f;
 
-    //max amount of bounces until object is destroyed.
-    m_BouncesLeft = 5.0f;
-
-    //Knock back Amount for collision with projectile. This might be Health percentage * 10 later.
-    m_KnockbackFactor = 100.0f;
-
-    //Blow back range for projectile on projectile explosion
-    m_BlowBackRange = 25.0f;
-
+    // Blow back range for projectile on projectile explosion
+    BlowBackRange = 25.0f;
 
     /*
     In Blueprint editor:
@@ -78,14 +75,15 @@ ABlastRadiusProjectile::ABlastRadiusProjectile()
     in the "MovementComp" Component in order for this projectile to replicate correctly over a server.
     */
 
+    // Setup particle system component
+    ParticleSystemComponent = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("MyPSC1"));
+    ParticleSystemComponent->SetupAttachment(RootComponent);
 
+    // Setup projectile particle FX
     ProjectileFX = CreateDefaultSubobject<UParticleSystem>(TEXT("Projectile Particles"));
     ProjectileDestroyFX = CreateDefaultSubobject<UParticleSystem>(TEXT("Projectile Destroyed Particles"));
 
-    PSC1 = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("MyPSC1"));
-    PSC1->SetupAttachment(RootComponent);
-
-
+    // Enable replication
     SetReplicates(true);
     SetReplicateMovement(true);
 }
@@ -98,11 +96,11 @@ void ABlastRadiusProjectile::BeginPlay()
     GetWorld()->GetTimerManager().SetTimer(SpawnTimer,
         this,
         &ABlastRadiusProjectile::DestroySelf,
-        m_LifeSpan, true);
+        LifeSpan, true);
 
     if (ProjectileFX)
     {
-        PSC1->SetTemplate(ProjectileFX);
+        ParticleSystemComponent->SetTemplate(ProjectileFX);
     }
 }
 
@@ -119,34 +117,23 @@ void ABlastRadiusProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
     if (OtherActor != nullptr && OtherComp != nullptr)
     {
         // Collision Response between projectile & character.
-        //ABlastRadiusCharacter* ThisCharacter = Cast<ABlastRadiusCharacter>(GetOwner());
         ABlastRadiusCharacter* OtherCharacter = Cast<ABlastRadiusCharacter>(OtherActor);
         if (OtherCharacter != nullptr)
         {
             FVector projectileVel = GetVelocity();
             //Calling TakeDamage on the otherActor's HealthComponent. 
             const UDamageType* Laser_DamageType = Cast<UDamageType>(UDamageType::StaticClass());
-            OtherCharacter->GetHealthComponent()->TakeDamage(m_LaserDamage, Laser_DamageType, OtherCharacter->GetInstigatorController(), GetOwner(), projectileVel);
+            OtherCharacter->GetHealthComponent()->TakeDamage(LaserDamage, Laser_DamageType, OtherCharacter->GetInstigatorController(), GetOwner(), projectileVel);
 
             GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Red, "OtherCharacter Damage % - " + FString::SanitizeFloat(OtherCharacter->GetHealthComponent()->GetCurrentHealth())); // DEBUG
 
             if (ProjectileDestroyFX)
             {
                 UGameplayStatics::SpawnEmitterAtLocation(this, ProjectileDestroyFX, GetActorLocation());
-                PSC1->SetTemplate(ProjectileDestroyFX);
+                ParticleSystemComponent->SetTemplate(ProjectileDestroyFX);
             }
             DestroySelf();
         }
-
-
-        // Projectile 2 Projectile logic. - Remi
-        //Get a list of characters.
-        //Calculate math
-        //  Damage = m_LaserDamage / m_MaxBounceAmount;  this prevents the maximum damage build up from being higher than a base attack.
-        //  blowback direction = direction * velocity
-        //  blowback vector = -direction * m_MaxBounceAmount
-        //Check if the character actors are within range.
-        //apply damage to characters in range
 
         // Collision response between projectiles.
         ABlastRadiusProjectile* OtherProjectile = Cast<ABlastRadiusProjectile>(OtherActor);
@@ -168,8 +155,15 @@ void ABlastRadiusProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
                 }
             }
 
-
-
+            // Projectile 2 Projectile logic. - Remi
+            //Get a list of characters.
+            //Calculate math
+            //  Damage = m_LaserDamage / m_MaxBounceAmount;  this prevents the maximum damage build up from being higher than a base attack.
+            //  blowback direction = direction * velocity
+            //  blowback vector = -direction * m_MaxBounceAmount
+            //Check if the character actors are within range.
+            //apply damage to characters in range
+            // Logic expanded:
             //// Cycle through all players.
             //for (auto Actor : CharacterActors)
             //{
@@ -197,7 +191,7 @@ void ABlastRadiusProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
             if (ProjectileDestroyFX)
             {
                 UGameplayStatics::SpawnEmitterAtLocation(this, ProjectileDestroyFX, GetActorLocation());
-                PSC1->SetTemplate(ProjectileDestroyFX);
+                ParticleSystemComponent->SetTemplate(ProjectileDestroyFX);
             }
 
             DestroySelf();
@@ -205,11 +199,11 @@ void ABlastRadiusProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
 
 
         //Decrement bounce when hitting walls until bounce limit is hit.
-        if (m_BouncesLeft != 0)
+        if (BouncesRemaining != 0)
         {
             if (OtherActor->ActorHasTag("Wall"))
             {
-                m_BouncesLeft--;
+                BouncesRemaining--;
             }
         }
         else
@@ -219,7 +213,7 @@ void ABlastRadiusProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
                 //Spawn ParticleSystem using GamePlayStatics
                 UGameplayStatics::SpawnEmitterAtLocation(this, ProjectileDestroyFX, GetActorLocation());
                 //OR Spawn Particle using UParticleSystemComponent
-                PSC1->SetTemplate(ProjectileDestroyFX);
+                ParticleSystemComponent->SetTemplate(ProjectileDestroyFX);
                 //ProjectileSprite->bHiddenInGame = true;
                 //ProjectileSprite->SetVisibility(false);
             }
@@ -229,14 +223,10 @@ void ABlastRadiusProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
     }
 }
 
-
-
-
 void ABlastRadiusProjectile::FireInDirection(const FVector& ShootDirection)
 {
-    ProjectileMovementComp->Velocity = ShootDirection * ProjectileMovementComp->InitialSpeed;
+    ProjectileMovementComponent->Velocity = ShootDirection * ProjectileMovementComponent->InitialSpeed;
 }
-
 
 void ABlastRadiusProjectile::DestroySelf()
 {
@@ -246,8 +236,8 @@ void ABlastRadiusProjectile::DestroySelf()
 void ABlastRadiusProjectile::FlipVelocity()
 {
     FVector NewVelocity;
-    NewVelocity = ProjectileMovementComp->Velocity;
+    NewVelocity = ProjectileMovementComponent->Velocity;
     NewVelocity *= (FVector(-1.0, -1.0, 1.0));
 
-    ProjectileMovementComp->Velocity = NewVelocity;
+    ProjectileMovementComponent->Velocity = NewVelocity;
 }

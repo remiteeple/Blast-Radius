@@ -2,95 +2,102 @@
 
 #pragma once
 
-//class UInputComponent;
-
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Runtime/Engine/Classes/Particles/ParticleSystem.h"
 #include "BlastRadiusProjectile.generated.h"
-
-
 
 UCLASS()
 class BLASTRADIUS_API ABlastRadiusProjectile : public AActor
 {
     GENERATED_BODY()
 
-        UPROPERTY(VisibleDefaultsOnly, Category = Projectile)
-        class USphereComponent* CollisionComp;
-
-    UPROPERTY(VisibleAnywhere, Category = "Mesh")
-        class UStaticMeshComponent* ProjectileMeshComp;
-
-    /** Projectile movement component */
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
-        class UProjectileMovementComponent* ProjectileMovementComp;
-
-public:
-    UPROPERTY(BlueprintReadWrite, Category = Projectile)
-        float m_LifeSpan;
-
-    UPROPERTY(BlueprintReadWrite, Category = Projectile)
-        float m_LaserDamage;
-
-    UPROPERTY(BlueprintReadWrite, Category = Projectile)
-        int m_BouncesLeft;
-
-    UPROPERTY(BlueprintReadWrite, Category = Projectile)
-        float m_KnockbackFactor;
-
-    UPROPERTY(BlueprintReadWrite, Category = Projectile)
-        float m_BlowBackRange;
-
-    UPROPERTY(EditDefaultsOnly, Category = Projectile)
-        TSubclassOf<class ABlastRadiusExplosion> ExplosionClass;
-
-    UPROPERTY(EditDefaultsOnly, Category = ProjectileDamage)
-        TSubclassOf<UDamageType> m_DamageType;
-
-    /** spawn timer  */
-    UPROPERTY(BlueprintReadOnly,
-        Category = "Config",
-        meta = (AllowPrivateAccess = "true"))
-        FTimerHandle SpawnTimer;
-
-    UPROPERTY(EditDefaultsOnly, Category = "Effects")
-        class UParticleSystemComponent* PSC1;
-
-    UPROPERTY(EditDefaultsOnly, Category = "Effects")
-        UParticleSystem* ProjectileFX;
-    UPROPERTY(EditDefaultsOnly, Category = "Effects")
-        UParticleSystem* ProjectileDestroyFX;
-
 public:
     // Sets default values for this actor's properties
     ABlastRadiusProjectile();
 
-    UFUNCTION()
-        void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
-
-    //void ABlastRadiusSword::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-
-
-    /** Returns CollisionComp subobject **/
-    FORCEINLINE class USphereComponent* GetCollisionComp() const { return CollisionComp; }
-    /** Returns ProjectileMovement subobject **/
-    FORCEINLINE class UProjectileMovementComponent* GetProjectileMovement() const { return ProjectileMovementComp; }
-
-protected:
-    // Called when the game starts or when spawned
-    virtual void BeginPlay() override;
-
-
-
-public:
     // Called every frame
     virtual void Tick(float DeltaTime) override;
 
+    // Called when the game starts or when spawned
+    virtual void BeginPlay() override;
+
+#pragma region Methods
+public:
+    /* Apply direction to projectile movement component */
     void FireInDirection(const FVector& ShootDirection);
 
+    /* Flip the velocity of the projectile */
+    void FlipVelocity();
+
+    /* Timer callable function for destruction */
     void DestroySelf();
 
-    //Simple function that flips velocity.
-    void FlipVelocity();
+    UFUNCTION()
+        void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
+#pragma endregion Methods
+
+#pragma region Components
+protected:
+    /* Sphere Component (Collision) */
+    UPROPERTY(VisibleDefaultsOnly, Category = Projectile)
+        class USphereComponent* CollisionComponent;
+
+    /* Static Mesh Component */
+    UPROPERTY(VisibleAnywhere, Category = Mesh)
+        class UStaticMeshComponent* ProjectileMeshComponent;
+
+    /* Projectile movement component */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
+        class UProjectileMovementComponent* ProjectileMovementComponent;
+
+    /* Particle System Component */
+    UPROPERTY(EditDefaultsOnly, Category = FX)
+        class UParticleSystemComponent* ParticleSystemComponent;
+
+    /* Projectile Particle System */
+    UPROPERTY(EditDefaultsOnly, Category = FX)
+        UParticleSystem* ProjectileFX;
+
+    /* Projectile Destruction Particle System */
+    UPROPERTY(EditDefaultsOnly, Category = FX)
+        UParticleSystem* ProjectileDestroyFX;
+#pragma endregion Components
+
+#pragma region Members
+public:
+    /* Projectile Variables */
+    UPROPERTY(BlueprintReadWrite, Category = Projectile)
+        float LifeSpan;
+    UPROPERTY(BlueprintReadWrite, Category = Projectile)
+        float LaserDamage;
+    UPROPERTY(BlueprintReadWrite, Category = Projectile)
+        int BouncesRemaining;
+    UPROPERTY(BlueprintReadWrite, Category = Projectile)
+        float KnockbackFactor;
+    UPROPERTY(BlueprintReadWrite, Category = Projectile)
+        float BlowBackRange;
+
+    /* Explosion Template */
+    UPROPERTY(EditDefaultsOnly, Category = Projectile)
+        TSubclassOf<class ABlastRadiusExplosion> ExplosionClass;
+
+    /* Damage Identifier */
+    UPROPERTY(EditDefaultsOnly, Category = ProjectileDamage)
+        TSubclassOf<UDamageType> DamageType;
+
+    /* Spawn Timer */
+    UPROPERTY(BlueprintReadOnly, Category = "Config", meta = (AllowPrivateAccess = "true"))
+        FTimerHandle SpawnTimer;
+#pragma endregion Members
+
+#pragma region Getters
+public:
+    /* Returns CollisionComp subobject */
+    FORCEINLINE class USphereComponent* GetCollisionComp() const { return CollisionComponent; }
+
+    /* Returns ProjectileMovement subobject */
+    FORCEINLINE class UProjectileMovementComponent* GetProjectileMovement() const { return ProjectileMovementComponent; }
+#pragma endregion Getters
 };

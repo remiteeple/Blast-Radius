@@ -67,6 +67,7 @@ protected:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
         TSubclassOf<class ABlastRadiusWeapon> WeaponClass;
 
+    /* Weapons */
     UPROPERTY(Replicated)
         ABlastRadiusSword* Sword;
     UPROPERTY(Replicated)
@@ -74,25 +75,19 @@ protected:
 
 public:
     /* Team Variables */
-    //TODO Week 7:The player's current team.
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "MPCharacter|Gameplay", Replicated)// ReplicatedUsing = OnRep_ChangeColor)//meta = (ClampMin = "1", ClampMax = "2"), Replicated
         int playerTeam;
-    //TODO Week 7:Size of team one (grabbed from game state)
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "MPCharacter|Debug", Replicated) //meta = (EditCondition = "AreTeamsEnabled", ClampMin = "0")
         int TeamOneCount;
-    //TODO Week 7: Size of team two (grabbed from game state)
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "MPCharacter|Debug", Replicated) // , meta = (EditCondition = "AreTeamsEnabled", ClampMin = "0")
         int TeamTwoCount;
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "MPCharacter|Debug", Replicated)
         int NetIndex;
-    //TODO Week 7: Players Material Color
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MPCharacter|Mesh", Replicated)
         class UMaterialInterface* DefaultTPMaterials;
-    //TODO Week 7: Update Player Timer
-    //Calls UpdateAndCheckPlayer
-    FTimerHandle UpdateHandle;
 
-    //TODO Week 7: PostBeginPlay Timer`
+    /* Team Update */
+    FTimerHandle UpdateHandle;
     UPROPERTY(Replicated)
         FTimerHandle PostBeginPlayDelay;
 #pragma endregion Members
@@ -101,14 +96,12 @@ public:
 public:
     /* Team Functions */
     void AssignTeams();
-    //TODO Week 7: Assigns a Network Index to the player that logs in
     void AssignNetIndex();
-    //TODO Week 7: Multicasts to all clients to assign the team color to Simulated_Proxy's and Autonomous_Proxy's when player logs in(CALLED FROM SERVER)
     UFUNCTION(NetMulticast, Reliable)
         void Multicast_AssignTeamsColor();
-    UFUNCTION(BlueprintCallable, Category = FPSWizard)
+    UFUNCTION(BlueprintCallable)
         virtual void UpdateAndCheckPlayer();
-    UFUNCTION(BlueprintCallable, Category = FPSWizard)
+    UFUNCTION(BlueprintCallable)
         void PostBeginPlay();
 
     /*  Called for directional movement */
@@ -150,7 +143,7 @@ public:
     UFUNCTION(BlueprintCallable)
         class ABlastRadiusGameStateBase* GetGameState();
 
-    /*  Teleports player upon stock loss to spawn point  */
+    /* Teleports player upon stock loss to spawn point  */
     void Respawn();
 
     /*  Handle character overlap  */
@@ -228,7 +221,6 @@ protected:
     /* Energy Component */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Energy, meta = (AllowPrivateAccess = "true"))
         class UEnergyComponent* EnergyComponent;
-
 #pragma endregion Components
 };
 

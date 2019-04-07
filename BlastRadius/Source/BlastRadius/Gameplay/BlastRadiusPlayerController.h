@@ -25,8 +25,9 @@ public:
 
     virtual void BeginPlay() override;
 
-    void Tick(float DeltaTime);
+    void Tick(float DeltaTime) override;
 
+#pragma region Methods
 private:
     /** Interaction methods **/
     void AimForward(float Scale);
@@ -52,18 +53,18 @@ private:
     void MeleeReleased();
 
     void LookAtMouseCursor(float DeltaTime);
+#pragma endregion Methods
 
+#pragma region Members
 private:
-    /** ABlastRadiusCharacter possession reference **/
+    /* ABlastRadiusCharacter possession reference */
     class ABlastRadiusCharacter* Character;
 
-private:
     /* Control members */
     FVector ThumbStickDir;
 
     float LookRightValue;
     float LookForwardValue;
-
     FRotator LookDirection;
 
     float CameraSensitivity = 25.0f;
@@ -73,5 +74,5 @@ private:
 
     //float TimeSinceLastRightTap;
     //float TimeSinceLastLeftTap;
-
+#pragma endregion Members
 };

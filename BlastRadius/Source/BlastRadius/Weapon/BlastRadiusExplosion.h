@@ -15,23 +15,20 @@ public:
 	// Sets default values for this actor's properties
 	ABlastRadiusExplosion();
 
-protected:
-	// Called when the game starts or when spawned
+    // Called every frame
+    virtual void Tick(float DeltaTime) override;
+
+    // Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+#pragma region Members
     UPROPERTY(EditAnywhere, Category = "Explosion")
-    float ExplosionRadius;
+        float ExplosionRadius;
 
     UPROPERTY(EditAnywhere, Category = "DebugSphere")
         bool DebugSphereEnabled;
 
     UPROPERTY(EditAnywhere, Category = "Explosion")
         float Damage;
-
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
-	
-	
+#pragma region Members
 };

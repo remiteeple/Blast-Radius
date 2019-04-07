@@ -35,5 +35,4 @@ private:
     /* Blink Particles */
     UPROPERTY(EditDefaultsOnly, Category = FX)
         UParticleSystem* BlinkParticleFX;
-	
 };
