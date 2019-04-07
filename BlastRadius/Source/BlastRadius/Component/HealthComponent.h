@@ -22,6 +22,15 @@ public:
 	// Sets default values for this component's properties
 	UHealthComponent();
 
+    // Called every frame
+    virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+protected:
+    // Called when the game starts
+    virtual void BeginPlay() override;
+
+#pragma region Members
+public:
     /** Health variables **/
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
         float MaxHealth = 999.f; //Maximum Health of the character.
@@ -35,31 +44,24 @@ public:
     //Delegate function call initialization.
     FOnDeathSignature OnDeath;
     FOnTakeAnyDamage OnDamage;
+#pragma endregion Members
 
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
-
+#pragma region Methods
 public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
     //Basic function to handle damage taken. Will be modified once weapons are implemented.
     UFUNCTION(BluePrintCallable)
         void TakeAnyDamage(AActor* DamagedActor, float Damage, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser);
 
     UFUNCTION(BluePrintCallable)
         void TakeDamage(float Damage, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser, FVector HitFrom);
+
     //Function To Allow Damage To Be Taken On Clients
     UFUNCTION(Server, Reliable, WithValidation)
         void ServerTakeDamage(FVector LaunchVelocity, float Knockback);
 
     UFUNCTION(BluePrintCallable)
         FORCEINLINE float GetCurrentHealth() { return CurrentHealth; }
-    //UFUNCTION(BluePrintCallable)
-    //    FString GetCurrentHealthInText();
 
     FORCEINLINE void ResetKnockback() { CurrentHealth = 0; }
-		
-	
+#pragma endregion Methods
 };

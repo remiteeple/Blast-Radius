@@ -31,11 +31,11 @@ protected:
         float MaxRunSpeed;
 
     /*  Energy Spendature Values  */
-        UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy_Cost)
+        UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy)
         float BlinkCost = 35.0f;
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy_Cost)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy)
         float ShootCost = 15.0f;
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy_Cost)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy)
         float MeleeCost = 25.0f;
 
     /*  Spawn location variable  */

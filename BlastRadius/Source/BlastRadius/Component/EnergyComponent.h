@@ -9,15 +9,24 @@
 //OnSpendEnergy delegate signature declaration
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSpendEnergy, float, EnergyCost);
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class BLASTRADIUS_API UEnergyComponent : public UActorComponent
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
-public:	
-	// Sets default values for this component's properties
-	UEnergyComponent();
+public:
+    // Sets default values for this component's properties
+    UEnergyComponent();
 
+protected:
+    // Called when the game starts
+    virtual void BeginPlay() override;
+
+    // Called every frame
+    virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+#pragma region Members
+public:
     //Maximum Energy of the character.
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
         float MaxEnergy = 100.f;
@@ -40,38 +49,29 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
         float RechargeRateFast = 0.2f;
 
-    //Delegate function call initialization.
-    UPROPERTY(BluePrintAssignable)
-    FOnSpendEnergy OnSpend;
-
     //Bool for checking if the timer is finished.
     bool OnCooldown = false;
 
     UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite, Category = Attributes)
         bool FastCharge = false;
+#pragma endregion Members
+
+#pragma region Methods
+public:
+    //Delegate function call initialization.
+    UPROPERTY(BluePrintAssignable)
+        FOnSpendEnergy OnSpend;
 
     UFUNCTION(BluePrintCallable)
         void SpendEnergy(float EnergyCost);
 
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
-
-    /*UFUNCTION(BluePrintCallable)
-        void SpendEnergy(float EnergyCost);*/
-
     UFUNCTION(BluePrintCallable)
         void ToggleCoolDown();
 
-    
+#pragma endregion Methods
 
-public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-
+#pragma region Getters
     UFUNCTION(BluePrintCallable)
         FORCEINLINE float GetCurrentEnergy() { return CurrentEnergy; }
-		
-	
+#pragma endregion Getters
 };

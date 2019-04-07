@@ -32,7 +32,7 @@ void UBlinkComponent::Blink()
         // Calculate start position and end position.
         FVector StartLocation = Player->GetActorLocation();
         FVector Direction = Player->GetActorRotation().Vector();
-        FVector EndLocation = StartLocation + Direction * 300.f;
+        FVector EndLocation = StartLocation + Direction * BlinkDistance;
 
         // Spawn particle before translating player position.
         if (BlinkParticleFX)

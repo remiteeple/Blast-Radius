@@ -15,10 +15,17 @@ class BLASTRADIUS_API UBlinkComponent : public UActorComponent
 public:	
 	UBlinkComponent();
 
+#pragma region Methods
     /* Blink the owner. */
     UFUNCTION()
         void Blink();
+#pragma endregion Methods
 
+#pragma region Members
+public:
+    /* Blink Distance */
+    UPROPERTY(EditDefaultsOnly)
+        float BlinkDistance = 300.0f;
 private:
     /* Audio Component */
     UPROPERTY(EditDefaultsOnly, Category = Audio)
@@ -35,4 +42,5 @@ private:
     /* Blink Particles */
     UPROPERTY(EditDefaultsOnly, Category = FX)
         UParticleSystem* BlinkParticleFX;
+#pragma endregion Members
 };
