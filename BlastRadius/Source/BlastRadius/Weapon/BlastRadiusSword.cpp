@@ -90,10 +90,10 @@ void ABlastRadiusSword::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp
 {
     ABlastRadiusProjectile* OtherProjectile = Cast<ABlastRadiusProjectile>(OtherActor);
     if (OtherProjectile != nullptr && DeflectedOnce == false)
-        {
-            DeflectedOnce = true;
-            //OtherProjectile->FlipVelocity();
-            OtherProjectile->FireInDirection(GetOwner()->GetActorRotation().Vector());
-        }
+    {
+        DeflectedOnce = true;
+        //OtherProjectile->FlipVelocity();
+        OtherProjectile->FireInDirection(GetOwner()->GetActorRotation().Vector());
+    }
 }
 

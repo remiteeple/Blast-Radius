@@ -9,17 +9,18 @@
 UCLASS()
 class BLASTRADIUS_API ABlastRadiusExplosion : public AActor
 {
-	GENERATED_BODY()
-	
-public:	
-	// Sets default values for this actor's properties
-	ABlastRadiusExplosion();
+    GENERATED_BODY()
+
+public:
+    // Sets default values for this actor's properties
+    ABlastRadiusExplosion();
 
     // Called every frame
     virtual void Tick(float DeltaTime) override;
 
+protected:
     // Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+    virtual void BeginPlay() override;
 
 #pragma region Members
     UPROPERTY(EditAnywhere, Category = "Explosion")

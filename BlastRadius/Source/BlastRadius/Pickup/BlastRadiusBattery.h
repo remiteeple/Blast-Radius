@@ -17,9 +17,7 @@ class BLASTRADIUS_API ABlastRadiusBattery : public ABlastRadiusPickup
 public:
     ABlastRadiusBattery();
 
+    /* Value to charge the player's battery by */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Battery")
-        float Charge;
-
-    virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
-	
+        float Charge;	
 };

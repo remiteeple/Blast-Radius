@@ -16,10 +16,7 @@ ABlastRadiusPickup::ABlastRadiusPickup()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-    // Enable network replication.
-    SetReplicates(true);
-    SetReplicateMovement(true);
-
+    /* Setup Sphere Component (Collision) */
     SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("Collider"));
     SphereComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
     //SphereComponent->SetCollisionResponseToAllChannels(ECR_Ignore);
@@ -27,19 +24,27 @@ ABlastRadiusPickup::ABlastRadiusPickup()
     SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &ABlastRadiusPickup::OnOverlapBegin);
     RootComponent = SphereComponent;
 
+    /* Setup Mesh Component */
     MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
     MeshComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
     MeshComponent->SetupAttachment(RootComponent);
 
-    PickupFX = CreateDefaultSubobject<UParticleSystem>(TEXT("Pickup Particles"));
-
+    /* Setup Particle System Component */
     ParticleSystemComponent = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Pickup Particle System Component"));
     ParticleSystemComponent->SetupAttachment(RootComponent);
 
+    /* Setup Pickup Particles */
+    PickupFX = CreateDefaultSubobject<UParticleSystem>(TEXT("Pickup Particles"));
+
+    /* Setup Audio Component */
     AudioComponent = CreateDefaultSubobject<UAudioComponent>("Pickup Sound");
     AudioComponent->bAutoActivate = false;
     AudioComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
     AudioComponent->SetupAttachment(RootComponent);
+
+    // Enable network replication.
+    SetReplicates(true);
+    SetReplicateMovement(true);
 }
 
 // Called when the game starts or when spawned
@@ -55,20 +60,11 @@ void ABlastRadiusPickup::Tick(float DeltaTime)
 
 }
 
-void ABlastRadiusPickup::PostInitializeComponents()
-{
-    Super::PostInitializeComponents();
-}
-
-void ABlastRadiusPickup::NotifyActorBeginOverlap(AActor* OtherActor)
-{
-    Super::NotifyActorBeginOverlap(OtherActor);
-}
-
 void ABlastRadiusPickup::Disable_Implementation()
 {
     if (SphereComponent)
     {
+        /* Hide & Disable Pickup */
         MeshComponent->SetHiddenInGame(true);
         SphereComponent->SetActive(false);
         SphereComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
@@ -83,6 +79,7 @@ void ABlastRadiusPickup::Enable_Implementation()
 {
     if (SphereComponent)
     {
+        /* Show & Enable Pickup */
         MeshComponent->SetHiddenInGame(true);
         SphereComponent->SetActive(true);
         SphereComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);

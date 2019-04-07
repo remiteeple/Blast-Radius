@@ -14,8 +14,8 @@ class BLASTRADIUS_API ABlastRadiusGameStateBase : public AGameState
 {
 	GENERATED_BODY()
 	
-	
 public:
+#pragma region Members
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = Materials, Replicated)
         class UMaterialInterface* TeamOnePMaterials;
 
@@ -45,4 +45,5 @@ public:
 
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Gameplay, meta = (ClampMin = 0), Replicated)
         float GameTime;
+#pragma endregion Members
 };

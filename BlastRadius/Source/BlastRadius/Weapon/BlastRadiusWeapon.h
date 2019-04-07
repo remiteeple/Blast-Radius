@@ -18,46 +18,59 @@ public:
     // Sets default values for this actor's properties
     ABlastRadiusWeapon();
 
-    FVector MuzzleDirectionOffSet;
-
-    FRotator MuzzleRotation;
-
-    FVector MuzzleLocation;
-
-    float MagnitudeOffSet;
-    /** Projectile **/
-    //Projectile template to fire.
-    UPROPERTY(EditDefaultsOnly, Category = Projectile)
-        TSubclassOf<class ABlastRadiusProjectile> ProjectileClass;
-
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
-        class UStaticMeshComponent* MeshComponent;
-
-    UPROPERTY(EditAnywhere, Category = Muzzle, meta = (AllowPrivateAccess = "true"))
-        class UArrowComponent* MuzzleArrow;
-
-    UPROPERTY(EditDefaultsOnly, Category = "Effects")
-        UParticleSystem* ProjectileFX;
-
-    UPROPERTY(EditAnywhere, Category = "Audio", meta = (AllowPrivateAccess = "true"))
-        class UAudioComponent* AudioComponent;
-
-    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
-        class USoundBase* ShotSound;
-
-    
-    UPROPERTY(VisibleAnywhere)
-        class UParticleSystemComponent* PSC;
+    // Called every frame
+    virtual void Tick(float DeltaTime) override;
 
 protected:
     // Called when the game starts or when spawned
     virtual void BeginPlay() override;
 
+#pragma region Members
 public:
-    // Called every frame
-    virtual void Tick(float DeltaTime) override;
+    /* Muzzle Location & Rotation Variables */
+    FVector MuzzleDirectionOffSet;
+    FRotator MuzzleRotation;
+    FVector MuzzleLocation;
+    float MagnitudeOffSet;
 
+    /** Projectile Template **/
+    UPROPERTY(EditDefaultsOnly, Category = Projectile)
+        TSubclassOf<class ABlastRadiusProjectile> ProjectileClass;
+#pragma endregion Members
+
+#pragma region Methods
+public:
+    /* Fire the weapon */
     void Fire();
 
+    /* Attach the weapon to the character */
     void Attach(class ABlastRadiusCharacter* Character);
+#pragma endregion Methods
+
+#pragma region Components
+private:
+    /* Static Mesh Component */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
+        class UStaticMeshComponent* MeshComponent;
+
+    /* Arrow Component */
+    UPROPERTY(EditAnywhere, Category = Muzzle, meta = (AllowPrivateAccess = "true"))
+        class UArrowComponent* MuzzleArrow;
+
+    /* Audio Component */
+    UPROPERTY(EditAnywhere, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+        class UAudioComponent* AudioComponent;
+
+    /* Shooting Sound */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+        class USoundBase* ShootingSound;
+
+    /* Particle System Component */
+    UPROPERTY(VisibleAnywhere)
+        class UParticleSystemComponent* ParticleSystemComponent;
+
+    /* Particle System */
+    UPROPERTY(EditDefaultsOnly, Category = "Effects")
+        UParticleSystem* ProjectileFX;
+#pragma endregion Components
 };

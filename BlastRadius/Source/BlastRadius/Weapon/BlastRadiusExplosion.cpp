@@ -15,6 +15,7 @@ ABlastRadiusExplosion::ABlastRadiusExplosion()
     // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
     PrimaryActorTick.bCanEverTick = true;
 
+    // Setup default values
     ExplosionRadius = 400;
     Damage = 25;
 
@@ -50,18 +51,18 @@ void ABlastRadiusExplosion::BeginPlay()
         {
             //GEngine->AddOnScreenDebugMessage(-1, 15, FColor::Blue, Hit.GetActor()->GetActorLabel());
 
-            FVector difference =  Hit.GetActor()->GetActorLocation() - ExplosionLocation;
+            FVector difference = Hit.GetActor()->GetActorLocation() - ExplosionLocation;
             FVector direction = difference.GetSafeNormal();
             float distance = difference.Size();
 
-            FVector BlowBackVector = direction * 10000 ;
+            FVector BlowBackVector = direction * 10000;
 
             if (Hit.GetActor()->ActorHasTag("Player"))
             {
                 ABlastRadiusCharacter* Character = Cast<ABlastRadiusCharacter>(Hit.GetActor());
 
                 const UDamageType* Laser_DamageType = Cast<UDamageType>(UDamageType::StaticClass());
-                Character->GetHealthComponent()->TakeDamage(Damage, Laser_DamageType, Character->GetInstigatorController(), GetOwner(), BlowBackVector );
+                Character->GetHealthComponent()->TakeDamage(Damage, Laser_DamageType, Character->GetInstigatorController(), GetOwner(), BlowBackVector);
             }
         }
     }

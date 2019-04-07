@@ -19,26 +19,28 @@ ABlastRadiusWeapon::ABlastRadiusWeapon()
     // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
     PrimaryActorTick.bCanEverTick = true;
 
-
+    /* Setup Mesh Component */
     MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>("WeaponMesh");
     MeshComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
     RootComponent = MeshComponent;
 
+    /* Setup Arrow Component (Muzzle) */
     MuzzleArrow = CreateDefaultSubobject<UArrowComponent>("WeaponArrow");
     MuzzleArrow->SetupAttachment(RootComponent);
 
-
+    /* Setup Projectile Particle System */
     ProjectileFX = CreateDefaultSubobject<UParticleSystem>(TEXT("Firing Particles"));
 
-    //Setup the Audio Component
+    /* Setup Audio Component */
     AudioComponent = CreateDefaultSubobject<UAudioComponent>("WeaponSound");
     AudioComponent->SetupAttachment(RootComponent);
     AudioComponent->bAutoActivate = false;
     AudioComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
 
-    PSC = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("MyPSC"));
+    /* Setup Projectile System Component */
+    ParticleSystemComponent = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("MyPSC"));
     //PSC->SetTemplate(PS.Object); //If you want it to Spawn on Creation, could go to BeginPlay too
-    PSC->SetupAttachment(RootComponent);
+    ParticleSystemComponent->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned
@@ -78,7 +80,7 @@ void ABlastRadiusWeapon::Fire()
                 // Set the projectile's initial trajectory.
                 FVector LaunchDirection = GetOwner()->GetActorRotation().Vector();
                 Projectile->FireInDirection(LaunchDirection);
-                
+
             }
         }
     }
@@ -87,14 +89,13 @@ void ABlastRadiusWeapon::Fire()
     if (ProjectileFX)
     {
         UGameplayStatics::SpawnEmitterAtLocation(this, ProjectileFX, MuzzleArrow->GetComponentLocation());
-        PSC->SetTemplate(ProjectileFX);
-        PSC->SecondsBeforeInactive = 0.5;
+        ParticleSystemComponent->SetTemplate(ProjectileFX);
+        ParticleSystemComponent->SecondsBeforeInactive = 0.5;
 
         //Play the sound for shooting
-        AudioComponent->SetSound(ShotSound);
+        AudioComponent->SetSound(ShootingSound);
         AudioComponent->Play();
     }
-
 }
 
 void ABlastRadiusWeapon::Attach(class ABlastRadiusCharacter* Character)
@@ -106,13 +107,8 @@ void ABlastRadiusWeapon::Attach(class ABlastRadiusCharacter* Character)
     SetActorHiddenInGame(false);
 
     // Disable weapon's physics.
-    //CALL SetActorEnableCollision() to false
     SetActorEnableCollision(false);
-    //CALL SetSimulatePhysics() in the Primitive and pass in false, disabling physics
 
-
-    // Attach weapon to the character's mesh.
-    //CALL AttachToComponent() and pass in (Character->GetSkeletalMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, "WeaponSocket") <-- We are attaching this Actor to the Characters Skeletal Mesh at the WeaponSocket
+    // Attach weapon to the character's gun socket.
     AttachToComponent(Character->GetSkeletalMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, "GunSocket");
-
 }
