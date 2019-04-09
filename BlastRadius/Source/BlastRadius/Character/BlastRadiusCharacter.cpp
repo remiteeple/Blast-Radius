@@ -29,6 +29,7 @@
 #include "Runtime/Engine/Classes/Particles/ParticleSystemComponent.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
+#include "DrawDebugHelpers.h"
 
 //////////////////////////////////////////////////////////////////////////
 // ABlastRadiusCharacter
@@ -236,6 +237,37 @@ void ABlastRadiusCharacter::Tick(float DeltaTime)
     {
         EnergyComponent->FastCharge = false;
     }
+}
+
+bool ABlastRadiusCharacter::GetPickableActor_LineTraceTestByObjectType(EObjectTypeQuery ObjectType)
+{
+    bool hit = false;
+    FVector StartTrace;
+    FVector Direction;
+    FVector EndTrace;
+
+    SetupRay(StartTrace, Direction, EndTrace);
+    FCollisionQueryParams TraceParams;
+    TraceParams.AddIgnoredActor(this);
+    TraceParams.bTraceComplex = true;
+    TraceParams.bReturnPhysicalMaterial = true;
+
+    TEnumAsByte<EObjectTypeQuery> ObjectToTrace = ObjectType;
+    TArray<TEnumAsByte<EObjectTypeQuery> > ObjectsToTraceAsByte;
+    ObjectsToTraceAsByte.Add(ObjectToTrace);
+
+    FHitResult Hit(ForceInit);
+    UWorld* World = GetWorld();
+    hit = World->LineTraceTestByObjectType(StartTrace, EndTrace, FCollisionObjectQueryParams(ObjectsToTraceAsByte), TraceParams); // simple trace function
+    DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor::Magenta, true, 1, 0, 5.0f);
+    return hit;
+}
+
+void ABlastRadiusCharacter::SetupRay(FVector &StartTrace, FVector &Direction, FVector &EndTrace)
+{
+    StartTrace = GetActorLocation() + GetActorRotation().Vector();
+    Direction = GetActorRotation().Vector();
+    EndTrace = StartTrace + Direction * 150.0f;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -477,7 +509,7 @@ void ABlastRadiusCharacter::Blink()
     {
         bIsBlinking = true;
 
-        /* Blink the character & multicast for clients. */
+        /* Blink the character & multi-cast for clients. */
         BlinkComponent->Blink();
 
         if (Role < ROLE_Authority)
@@ -491,29 +523,36 @@ void ABlastRadiusCharacter::Blink()
 
 void ABlastRadiusCharacter::LobGrenade()
 {
-    // Attempt to lob a grenade.
-    if (GrenadeClass)
+    // Raycast to see if something is blocking the grenade.
+    if (!GetPickableActor_LineTraceTestByObjectType(EObjectTypeQuery::ObjectTypeQuery1))
     {
-        UWorld* World = GetWorld();
-        if (World)
+        // Attempt to lob a grenade.
+        if (GrenadeClass)
         {
-            // Set grenade spawn params.
-            FActorSpawnParameters SpawnParams;
-            SpawnParams.Owner = this;
-            SpawnParams.Instigator = Instigator;
-
-            // Spawn the projectile at the in front of the character.
-            const FVector SpawnLocation = GetActorLocation() + GetActorRotation().Vector() * 150.0f;
-            const FRotator SpawnRotation = GetControlRotation();
-            ABlastRadiusGrenade* Grenade = World->SpawnActor<ABlastRadiusGrenade>(GrenadeClass, SpawnLocation, SpawnRotation, SpawnParams);
-
-            if (Grenade)
+            UWorld* World = GetWorld();
+            if (World)
             {
-                // Set the projectile's initial trajectory.
-                FVector LaunchDirection = GetActorRotation().Vector();
-                Grenade->LobInDirection(LaunchDirection);
+                // Set grenade spawn params.
+                FActorSpawnParameters SpawnParams;
+                SpawnParams.Owner = this;
+                SpawnParams.Instigator = Instigator;
+
+                // Spawn the projectile at the in front of the character.
+                const FVector SpawnLocation = GetActorLocation() + GetActorRotation().Vector() * 150.0f;
+                const FRotator SpawnRotation = GetActorRotation();
+                ABlastRadiusGrenade* Grenade = World->SpawnActor<ABlastRadiusGrenade>(GrenadeClass, SpawnLocation, SpawnRotation, SpawnParams);
+
+                if (Grenade)
+                {
+                    // Set the projectile's initial trajectory.
+                    FVector LaunchDirection = GetActorRotation().Vector();
+                    Grenade->LobInDirection(LaunchDirection);
+                }
             }
         }
+
+        // Spend Energy.
+        EnergyComponent->SpendEnergy(GrenadeCost);
     }
 }
 

@@ -27,6 +27,8 @@ public:
         float ShootCost = 15.0f;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy)
         float MeleeCost = 25.0f;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy)
+        float GrenadeCost = 25.0f;
 protected:
     /* Replicated Orientation */
     UPROPERTY(Replicated)
@@ -96,6 +98,10 @@ public:
 
 #pragma region Methods
 public:
+    /* Raycast */
+    bool GetPickableActor_LineTraceTestByObjectType(EObjectTypeQuery ObjectType);
+    void SetupRay(FVector &StartTrace, FVector &Direction, FVector &EndTrace);
+
     /* Team Functions */
     void AssignTeams();
     void AssignNetIndex();
@@ -167,6 +173,7 @@ public:
     bool bIsMeleeAttacking = false;
     bool bIsFiring = false;
     bool bIsBlinking = false;
+    bool bIsDead = false;
 #pragma endregion States
 
 #pragma region Getters

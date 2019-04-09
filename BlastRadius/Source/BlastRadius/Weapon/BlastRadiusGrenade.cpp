@@ -1,6 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "BlastRadiusGrenade.h"
+#include "BlastRadiusExplosion.h"
+#include "BlastRadiusProjectile.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Components/SphereComponent.h"
 #include "PhysicalMaterials/PhysicalMaterial.h"
@@ -12,7 +14,6 @@
 #include "Runtime/Engine/Classes/Particles/ParticleSystemComponent.h"
 #include "Runtime/Engine/Classes/Engine/World.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
-#include "BlastRadiusExplosion.h"
 #include "Net/UnrealNetwork.h"
 
 
@@ -114,6 +115,17 @@ void ABlastRadiusGrenade::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor
 {
     if (OtherActor != nullptr && OtherComp != nullptr)
     {
+        // Collision Response between projectile & character.
+        ABlastRadiusProjectile* OtherProjectile = Cast<ABlastRadiusProjectile>(OtherActor);
+        if (OtherProjectile != nullptr)
+        {
+            // Destroy impacting projectile.
+            OtherProjectile->Destroy();
+
+            // Explode on impact with projectile.
+            Explode();
+        }
+
         // Collision Response between grenade & character.
         ABlastRadiusCharacter* OtherCharacter = Cast<ABlastRadiusCharacter>(OtherActor);
         if (OtherCharacter != nullptr)
@@ -126,19 +138,19 @@ void ABlastRadiusGrenade::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor
 
 void ABlastRadiusGrenade::Explode()
 {
-    //// Spawn explosion.
-    //if (ExplosionClass != nullptr)
-    //{
-    //    if (ExplosionClass)
-    //    {
-    //        // Set explosion params.
-    //        FActorSpawnParameters SpawnParams;
-    //        SpawnParams.Owner = this;
-    //        SpawnParams.Instigator = Instigator;
-    //        // Spawn explosion at the grenade's location
-    //        GetWorld()->SpawnActor<ABlastRadiusExplosion>(ExplosionClass, GetActorLocation(), GetActorRotation(), SpawnParams);
-    //    }
-    //}
+    // Spawn explosion.
+    if (ExplosionClass != nullptr)
+    {
+        if (ExplosionClass)
+        {
+            // Set explosion params.
+            FActorSpawnParameters SpawnParams;
+            SpawnParams.Owner = this;
+            SpawnParams.Instigator = Instigator;
+            // Spawn explosion at the grenade's location
+            GetWorld()->SpawnActor<ABlastRadiusExplosion>(ExplosionClass, GetActorLocation(), GetActorRotation(), SpawnParams);
+        }
+    }
 
     // Play grenade destruction particle system.
     if (GrenadeDestroyFX)

@@ -16,6 +16,7 @@
 #include "Runtime/Engine/Classes/Engine/World.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "BlastRadiusExplosion.h"
+#include "BlastRadiusGrenade.h"
 #include "Net/UnrealNetwork.h"
 
 // Sets default values

@@ -59,7 +59,6 @@ void ABlastRadiusWeapon::BeginPlay()
 void ABlastRadiusWeapon::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
-
 }
 
 bool ABlastRadiusWeapon::GetPickableActor_LineTraceTestByObjectType(EObjectTypeQuery ObjectType)
