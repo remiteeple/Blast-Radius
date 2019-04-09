@@ -16,7 +16,7 @@
 #include "Runtime/Engine/Classes/Engine/World.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "BlastRadiusExplosion.h"
-
+#include "Net/UnrealNetwork.h"
 
 // Sets default values
 ABlastRadiusProjectile::ABlastRadiusProjectile()
@@ -108,12 +108,15 @@ void ABlastRadiusProjectile::BeginPlay()
 void ABlastRadiusProjectile::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
+
+    if (BouncesRemaining <= 0)
+        DestroySelf();
 }
 
 
 void ABlastRadiusProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-
+    BouncesRemaining--;
     if (OtherActor != nullptr && OtherComp != nullptr)
     {
         // Collision Response between projectile & character.
@@ -149,6 +152,7 @@ void ABlastRadiusProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
                 if (World)
                 {
                     FActorSpawnParameters SpawnParams;
+                    SpawnParams.Owner = this;
                     SpawnParams.Instigator = Instigator;
                     // Spawn the projectile at the muzzle.
                     World->SpawnActor<ABlastRadiusExplosion>(ExplosionClass, OtherProjectile->GetActorLocation(), GetActorRotation(), SpawnParams);
@@ -197,29 +201,26 @@ void ABlastRadiusProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
             DestroySelf();
         }
 
-
-        //Decrement bounce when hitting walls until bounce limit is hit.
-        if (BouncesRemaining != 0)
-        {
-            if (OtherActor->ActorHasTag("Wall"))
-            {
-                BouncesRemaining--;
-            }
-        }
-        else
-        {
-            if (ProjectileDestroyFX)
-            {
-                //Spawn ParticleSystem using GamePlayStatics
-                UGameplayStatics::SpawnEmitterAtLocation(this, ProjectileDestroyFX, GetActorLocation());
-                //OR Spawn Particle using UParticleSystemComponent
-                ParticleSystemComponent->SetTemplate(ProjectileDestroyFX);
-                //ProjectileSprite->bHiddenInGame = true;
-                //ProjectileSprite->SetVisibility(false);
-            }
-            DestroySelf();
-        }
-
+        // this doesn't work
+        ////Decrement bounce when hitting walls until bounce limit is hit.
+        //if (BouncesRemaining != 0)
+        //{
+        //    if (OtherActor->ActorHasTag("Wall"))
+        //    {
+        //        BouncesRemaining--;
+        //    }
+        //}
+        //else
+        //{
+        //    if (ProjectileDestroyFX)
+        //    {
+        //        //Spawn ParticleSystem using GamePlayStatics
+        //        UGameplayStatics::SpawnEmitterAtLocation(this, ProjectileDestroyFX, GetActorLocation());
+        //        //OR Spawn Particle using UParticleSystemComponent
+        //        ParticleSystemComponent->SetTemplate(ProjectileDestroyFX);
+        //    }
+        //    DestroySelf();
+        //}
     }
 }
 
