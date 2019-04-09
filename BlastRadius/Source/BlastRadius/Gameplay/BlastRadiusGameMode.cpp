@@ -166,9 +166,6 @@ void ABlastRadiusGameMode::HandleNewPlayer(APlayerController* NewPlayer)
         /* Assign team and netIndex */
         Character->AssignTeams();
         Character->AssignNetIndex();
-
-        /* Disable input of newPlayer */
-        NewPlayer->DisableInput(Cast<APlayerController>(Character->GetController()));
     }
 }
 

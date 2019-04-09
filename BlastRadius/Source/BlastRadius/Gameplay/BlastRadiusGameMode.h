@@ -36,19 +36,13 @@ private:
 
 #pragma region Members
 public:
-    /* Team Scores */
-    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Gameplay)
-        int TeamOneScore = 0;
-    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Gameplay)
-        int TeamTwoScore = 0;
-
     /* Match Timer */
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
         FTimerHandle StartCountDown;
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
         FTimerHandle EndCountDown;
     
-    /* Var for team loss */
+    /* Var for team win/loss */
     int WinningTeam = -1;
     int LosingTeam = -1;
 #pragma endregion Members

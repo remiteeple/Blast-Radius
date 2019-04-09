@@ -58,5 +58,6 @@ public:
     /* Apply Damage */
     FORCEINLINE void IncrementDamage(float Damage) { CurrentDamage += Damage; }
     FORCEINLINE void SetDamage(float Damage) { CurrentDamage = Damage; }
+	FORCEINLINE void SetEnergy(float Energy) { CurrentEnergy = Energy; }
 #pragma endregion Setters
 };
