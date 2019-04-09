@@ -16,6 +16,7 @@
 #include "Component/EnergyComponent.h"
 #include "Weapon/BlastRadiusSword.h"
 #include "Weapon/BlastRadiusProjectile.h"
+#include "Weapon/BlastRadiusGrenade.h"
 #include "Pickup/BlastRadiusPickup.h"
 #include "Pickup/BlastRadiusBattery.h"
 #include "Gameplay/BlastRadiusGameStateBase.h"
@@ -42,6 +43,7 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
     // Set size for collision capsule
     GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
     GetCapsuleComponent()->SetCollisionProfileName(UCollisionProfile::BlockAll_ProfileName);
+    GetCapsuleComponent()->SetCollisionObjectType(ECC_Pawn);
 
     // Don't rotate when the controller rotates. Let that just affect the camera.
     bUseControllerRotationPitch = false;
@@ -59,7 +61,7 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
     CameraBoom->SetupAttachment(RootComponent);
     CameraBoom->bUsePawnControlRotation = true;
     CameraBoom->bEnableCameraLag = true;
-    CameraBoom->CameraLagSpeed = 5.0f;
+    CameraBoom->CameraLagSpeed = 50.0f;
     CameraBoom->CameraLagMaxDistance = 250.0f;
     CameraBoom->bDoCollisionTest = false;
 
@@ -100,11 +102,15 @@ void ABlastRadiusCharacter::PostInitializeComponents()
 {
     Super::PostInitializeComponents();
 
+    /* Retrieve the arrow component */
+    ArrowComponent = GetArrowComponent(); // ACharacter always has an arrow component.
+
     /* Retrieve the skeletal mesh */
     SkeletalMesh = GetMesh();
     if (SkeletalMesh != nullptr)
     {
         check(SkeletalMesh != nullptr && "Character doesn't have a skeletal mesh!");
+        SkeletalMesh->SetCollisionObjectType(ECC_Pawn);
 
         /* Retrieve the animation instance */
         AnimationInstance = Cast<UCharacterAnimInstance>(SkeletalMesh->GetAnimInstance());
@@ -483,6 +489,44 @@ void ABlastRadiusCharacter::Blink()
     }
 }
 
+void ABlastRadiusCharacter::LobGrenade()
+{
+    // Attempt to lob a grenade.
+    if (GrenadeClass)
+    {
+        UWorld* World = GetWorld();
+        if (World)
+        {
+            // Set grenade spawn params.
+            FActorSpawnParameters SpawnParams;
+            SpawnParams.Owner = this;
+            SpawnParams.Instigator = Instigator;
+
+            // Spawn the projectile at the in front of the character.
+            const FVector SpawnLocation = GetActorLocation() + GetActorRotation().Vector() * 150.0f;
+            const FRotator SpawnRotation = GetControlRotation();
+            ABlastRadiusGrenade* Grenade = World->SpawnActor<ABlastRadiusGrenade>(GrenadeClass, SpawnLocation, SpawnRotation, SpawnParams);
+
+            if (Grenade)
+            {
+                // Set the projectile's initial trajectory.
+                FVector LaunchDirection = GetActorRotation().Vector();
+                Grenade->LobInDirection(LaunchDirection);
+            }
+        }
+    }
+}
+
+void ABlastRadiusCharacter::ServerLobGrenade_Implementation()
+{
+    LobGrenade();
+}
+
+bool ABlastRadiusCharacter::ServerLobGrenade_Validate()
+{
+    return true;
+}
+
 void ABlastRadiusCharacter::ServerFire_Implementation()
 {
     Weapon->Fire();
@@ -501,7 +545,6 @@ void ABlastRadiusCharacter::Fire()
         bIsFiring = true;
         /* Shoot. */
         ServerFire();
-        EnergyComponent->SpendEnergy(ShootCost);
     }
 }
 

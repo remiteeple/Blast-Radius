@@ -19,6 +19,14 @@ protected:
     virtual void Tick(float DeltaTime) override;
 
 #pragma region Members
+public:
+    /*  Energy Spendature Values  */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy)
+        float BlinkCost = 35.0f;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy)
+        float ShootCost = 15.0f;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy)
+        float MeleeCost = 25.0f;
 protected:
     /* Replicated Orientation */
     UPROPERTY(Replicated)
@@ -29,14 +37,6 @@ protected:
         float MaxWalkSpeed;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
         float MaxRunSpeed;
-
-    /*  Energy Spendature Values  */
-        UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy)
-        float BlinkCost = 35.0f;
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy)
-        float ShootCost = 15.0f;
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy)
-        float MeleeCost = 25.0f;
 
     /*  Spawn location variable  */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
@@ -62,9 +62,11 @@ protected:
     /* Templates */
     UPROPERTY(EditDefaultsOnly, Category = Projectile)
         TSubclassOf<class ABlastRadiusProjectile> ProjectileClass;
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+    UPROPERTY(EditDefaultsOnly, Category = Projectile)
+        TSubclassOf<class ABlastRadiusGrenade> GrenadeClass;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
         TSubclassOf<class ABlastRadiusSword> SwordClass;
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
         TSubclassOf<class ABlastRadiusWeapon> WeaponClass;
 
     /* Weapons */
@@ -118,6 +120,11 @@ public:
     /*  Server Call when blink is activated  */
     UFUNCTION(Server, Reliable, WithValidation)
         void ServerBlink();
+
+    /* Call for grenade */
+    void LobGrenade();
+    UFUNCTION(Server, Reliable, WithValidation)
+        void ServerLobGrenade();
 
     /*  Call for shooting  */
     void Fire();
@@ -200,6 +207,9 @@ protected:
     /*  Audio Component  */
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Audio, meta = (AllowPrivateAccess = "true"))
         class UAudioComponent* AudioComponent;
+
+    /* Arrow Component */
+    class UArrowComponent* ArrowComponent;
 
     /* Skeletal Mesh Component */
     class USkeletalMeshComponent* SkeletalMesh;

@@ -32,7 +32,7 @@ void ABlastRadiusExplosion::BeginPlay()
     TArray<FHitResult> HitResults;
 
     //store the explosion location
-    FVector ExplosionLocation = GetActorLocation();
+    FVector ExplosionLocation = GetOwner()->GetActorLocation();
 
     // Create Collision with FCollisionShape::MakeSphere();
     FCollisionShape CollisionSphere = FCollisionShape::MakeSphere(ExplosionRadius);
@@ -49,18 +49,21 @@ void ABlastRadiusExplosion::BeginPlay()
     {
         for (auto Hit : HitResults)
         {
-            //GEngine->AddOnScreenDebugMessage(-1, 15, FColor::Blue, Hit.GetActor()->GetActorLabel());
-
-            FVector difference = Hit.GetActor()->GetActorLocation() - ExplosionLocation;
-            FVector direction = difference.GetSafeNormal();
-            float distance = difference.Size();
-
-            FVector BlowBackVector = direction * 10000;
+            //GEngine->AddOnScreenDebugMessage(-1, 15, FColor::Cyan, Hit.GetActor()->GetActorLabel());
 
             if (Hit.GetActor()->ActorHasTag("Player"))
             {
+                // Calculate knockback.
+                FVector difference = Hit.GetActor()->GetActorLocation() - ExplosionLocation;
+                FVector direction = difference.GetSafeNormal();
+                float distance = difference.Size();
+
+                FVector BlowBackVector = direction * 10000;
+
+                // Cast Character.
                 ABlastRadiusCharacter* Character = Cast<ABlastRadiusCharacter>(Hit.GetActor());
 
+                // Apply knockback and damage to character.
                 const UDamageType* Laser_DamageType = Cast<UDamageType>(UDamageType::StaticClass());
                 Character->GetHealthComponent()->TakeDamage(Damage, Laser_DamageType, Character->GetInstigatorController(), GetOwner(), BlowBackVector);
             }

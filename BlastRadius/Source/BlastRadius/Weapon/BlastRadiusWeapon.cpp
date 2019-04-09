@@ -3,15 +3,18 @@
 #include "BlastRadiusWeapon.h"
 #include "Weapon/BlastRadiusProjectile.h"
 #include "Character/BlastRadiusCharacter.h"
+#include "Component/EnergyComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/ArrowComponent.h"
 #include "Runtime/Engine/Classes/Engine/World.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "Kismet/KismetSystemLibrary.h"
 #include "Runtime/Engine/Classes/Particles/ParticleSystem.h"
 #include "Runtime/CoreUObject/Public/UObject/ConstructorHelpers.h"
 #include "Runtime/Engine/Classes/Particles/ParticleSystemComponent.h"
 #include "Sound/SoundBase.h"
 #include "Components/AudioComponent.h"
+#include "DrawDebugHelpers.h"
 
 // Sets default values
 ABlastRadiusWeapon::ABlastRadiusWeapon()
@@ -48,6 +51,8 @@ void ABlastRadiusWeapon::BeginPlay()
 {
     Super::BeginPlay();
 
+    // Get shooting cost from owner.
+    ShootCost = Cast<ABlastRadiusCharacter>(GetOwner())->ShootCost;
 }
 
 // Called every frame
@@ -57,44 +62,78 @@ void ABlastRadiusWeapon::Tick(float DeltaTime)
 
 }
 
+bool ABlastRadiusWeapon::GetPickableActor_LineTraceTestByObjectType(EObjectTypeQuery ObjectType)
+{
+    bool hit = false;
+    FVector StartTrace;
+    FVector Direction;
+    FVector EndTrace;
+
+    SetupRay(StartTrace, Direction, EndTrace);
+    FCollisionQueryParams TraceParams;
+    TraceParams.AddIgnoredActor(this);
+    TraceParams.bTraceComplex = true;
+    TraceParams.bReturnPhysicalMaterial = true;
+
+    TEnumAsByte<EObjectTypeQuery> ObjectToTrace = ObjectType;
+    TArray<TEnumAsByte<EObjectTypeQuery> > ObjectsToTraceAsByte;
+    ObjectsToTraceAsByte.Add(ObjectToTrace);
+
+    FHitResult Hit(ForceInit);
+    UWorld* World = GetWorld();
+    hit = World->LineTraceTestByObjectType(StartTrace, EndTrace, FCollisionObjectQueryParams(ObjectsToTraceAsByte), TraceParams); // simple trace function
+    DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor::Magenta, true, 1, 0, 5.0f);
+    return hit;
+}
+
+void ABlastRadiusWeapon::SetupRay(FVector &StartTrace, FVector &Direction, FVector &EndTrace)
+{
+    StartTrace = GetOwner()->GetActorLocation() + GetOwner()->GetActorRotation().Vector();
+    Direction = GetOwner()->GetActorRotation().Vector();
+    EndTrace = StartTrace + Direction * 150.0f;
+}
+
 void ABlastRadiusWeapon::Fire()
 {
-    // Attempt to fire a projectile.
-    if (ProjectileClass)
+    // Raycast to see if something is blocking the shot.
+    if (!GetPickableActor_LineTraceTestByObjectType(EObjectTypeQuery::ObjectTypeQuery1))
     {
-        UWorld* World = GetWorld();
-        if (World)
+        // Attempt to fire a projectile.
+        if (ProjectileClass)
         {
-            FActorSpawnParameters SpawnParams;
-            SpawnParams.Owner = this->GetOwner();
-            SpawnParams.Instigator = Instigator;
-            // Spawn the projectile at the muzzle.
-            ABlastRadiusProjectile* Projectile = World->SpawnActor<ABlastRadiusProjectile>(ProjectileClass, MuzzleArrow->GetComponentLocation(), GetOwner()->GetActorRotation(), SpawnParams);
-            if (Projectile)
+            UWorld* World = GetWorld();
+            if (World)
             {
-                //Setting the projectile's Owner to this so we don't collide with it during OnHit.
-                ACharacter* myCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
+                FActorSpawnParameters SpawnParams;
+                SpawnParams.Owner = this->GetOwner();
+                SpawnParams.Instigator = Instigator;
+                // Spawn the projectile at the player's forward vector (muzzle causes offset).
+                const FVector SpawnLocation = GetOwner()->GetActorLocation() + GetOwner()->GetActorRotation().Vector() * 150.0f;
+                const FRotator SpawnRotation = GetOwner()->GetActorRotation();
+                ABlastRadiusProjectile* Projectile = World->SpawnActor<ABlastRadiusProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, SpawnParams);
 
-                Projectile->SetOwner(myCharacter);
-
-                // Set the projectile's initial trajectory.
-                FVector LaunchDirection = GetOwner()->GetActorRotation().Vector();
-                Projectile->FireInDirection(LaunchDirection);
-
+                if (Projectile)
+                {
+                    // Set the projectile's initial trajectory.
+                    FVector LaunchDirection = GetOwner()->GetActorRotation().Vector();
+                    Projectile->FireInDirection(LaunchDirection);
+                }
             }
+            ABlastRadiusCharacter* Character = Cast<ABlastRadiusCharacter>(GetOwner());
+            Character->GetEnergyComponent()->SpendEnergy(ShootCost);
         }
-    }
 
-    //Add this somewhere here to spawn particles.
-    if (ProjectileFX)
-    {
-        UGameplayStatics::SpawnEmitterAtLocation(this, ProjectileFX, MuzzleArrow->GetComponentLocation());
-        ParticleSystemComponent->SetTemplate(ProjectileFX);
-        ParticleSystemComponent->SecondsBeforeInactive = 0.5;
+        //Add this somewhere here to spawn particles.
+        if (ProjectileFX)
+        {
+            UGameplayStatics::SpawnEmitterAtLocation(this, ProjectileFX, MuzzleArrow->GetComponentLocation());
+            ParticleSystemComponent->SetTemplate(ProjectileFX);
+            ParticleSystemComponent->SecondsBeforeInactive = 0.5;
 
-        //Play the sound for shooting
-        AudioComponent->SetSound(ShootingSound);
-        AudioComponent->Play();
+            //Play the sound for shooting
+            AudioComponent->SetSound(ShootingSound);
+            AudioComponent->Play();
+        }
     }
 }
 

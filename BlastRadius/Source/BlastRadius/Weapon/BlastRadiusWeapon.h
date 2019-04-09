@@ -33,6 +33,8 @@ public:
     FVector MuzzleLocation;
     float MagnitudeOffSet;
 
+    float ShootCost;
+
     /** Projectile Template **/
     UPROPERTY(EditDefaultsOnly, Category = Projectile)
         TSubclassOf<class ABlastRadiusProjectile> ProjectileClass;
@@ -40,6 +42,10 @@ public:
 
 #pragma region Methods
 public:
+    /* Raycast */
+    bool GetPickableActor_LineTraceTestByObjectType(EObjectTypeQuery ObjectType);
+    void SetupRay(FVector &StartTrace, FVector &Direction, FVector &EndTrace);
+
     /* Fire the weapon */
     void Fire();
 

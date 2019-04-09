@@ -43,6 +43,9 @@ private:
     void WalkPressed();
     void WalkReleased();
 
+    void GrenadePressed();
+    void GrenadeReleased();
+
     void FirePressed();
     void FireReleased();
 
