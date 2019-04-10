@@ -47,7 +47,7 @@ protected:
 
     /* Static Mesh Component */
     UPROPERTY(VisibleAnywhere, Category = Mesh)
-        class UStaticMeshComponent* ProjectileMeshComponent;
+        class UStaticMeshComponent* GrenadeMeshComponent;
 
     /* Projectile movement component */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
@@ -76,7 +76,7 @@ protected:
 
 #pragma region Members
 public:
-    /* Projectile Variables */
+    /* Grenade Variables */
     UPROPERTY(BlueprintReadWrite, Category = Projectile)
         float FuseTime;
     UPROPERTY(BlueprintReadWrite, Category = Projectile)
