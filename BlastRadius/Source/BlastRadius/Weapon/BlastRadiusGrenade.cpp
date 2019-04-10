@@ -34,9 +34,9 @@ ABlastRadiusGrenade::ABlastRadiusGrenade()
     RootComponent = CollisionComponent;
 
     // Setup Mesh (grenade)
-    ProjectileMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh Component"));
-    ProjectileMeshComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-    ProjectileMeshComponent->SetupAttachment(RootComponent);
+    GrenadeMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh Component"));
+    GrenadeMeshComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    GrenadeMeshComponent->SetupAttachment(RootComponent);
 
     // Setup Projectile Movement Component
     GrenadeMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Projectile Component"));
