@@ -5,6 +5,8 @@
 #include "BlastRadiusProjectile.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Components/SphereComponent.h"
+#include "Sound/SoundBase.h"
+#include "Components/AudioComponent.h"
 #include "PhysicalMaterials/PhysicalMaterial.h"
 #include "Character/BlastRadiusCharacter.h"
 #include "Runtime/Engine/Classes/GameFramework/DamageType.h"
@@ -46,6 +48,12 @@ ABlastRadiusGrenade::ABlastRadiusGrenade()
     GrenadeMovementComponent->ProjectileGravityScale = 2.0f;
     GrenadeMovementComponent->Bounciness = 1.0f;
     GrenadeMovementComponent->Friction = 1.5f;
+
+    // Setup Audio Component
+    AudioComponent = CreateDefaultSubobject<UAudioComponent>("WeaponSound");
+    AudioComponent->SetupAttachment(RootComponent);
+    AudioComponent->bAutoActivate = false;
+    AudioComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
 
     // Template for HealthComponent->TakeDamage() parameter.
     DamageType = UDamageType::StaticClass();
@@ -159,6 +167,10 @@ void ABlastRadiusGrenade::Explode()
         UGameplayStatics::SpawnEmitterAtLocation(this, GrenadeDestroyFX, GetActorLocation());
         ParticleSystemComponent->SetTemplate(GrenadeDestroyFX);
     }
+
+    // Play the sound for exploding
+    AudioComponent->SetSound(ExplodeSound);
+    AudioComponent->Play();
 
     // Remove grenade from world
     DestroySelf();

@@ -53,6 +53,14 @@ protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
         class UProjectileMovementComponent* GrenadeMovementComponent;
 
+    /* Audio Component */
+    UPROPERTY(EditAnywhere, Category = Audio, meta = (AllowPrivateAccess = "true"))
+        class UAudioComponent* AudioComponent;
+
+    /* Shooting Sound */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Audio, meta = (AllowPrivateAccess = "true"))
+        class USoundBase* ExplodeSound;
+
     /* Particle System Component */
     UPROPERTY(EditDefaultsOnly, Category = FX)
         class UParticleSystemComponent* ParticleSystemComponent;

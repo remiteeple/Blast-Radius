@@ -60,6 +60,8 @@ protected:
     /*  Audio  */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Audio)
         class USoundBase* DeathSound;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Audio)
+        class USoundBase* ThrowSound;
 
     /* Templates */
     UPROPERTY(EditDefaultsOnly, Category = Projectile)
@@ -214,9 +216,6 @@ protected:
     /*  Audio Component  */
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Audio, meta = (AllowPrivateAccess = "true"))
         class UAudioComponent* AudioComponent;
-
-    /* Arrow Component */
-    class UArrowComponent* ArrowComponent;
 
     /* Skeletal Mesh Component */
     class USkeletalMeshComponent* SkeletalMesh;

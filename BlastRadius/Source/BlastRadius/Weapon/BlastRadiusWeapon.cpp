@@ -122,17 +122,17 @@ void ABlastRadiusWeapon::Fire()
             Character->GetEnergyComponent()->SpendEnergy(ShootCost);
         }
 
-        //Add this somewhere here to spawn particles.
+        // Spawn particles.
         if (ProjectileFX)
         {
             UGameplayStatics::SpawnEmitterAtLocation(this, ProjectileFX, MuzzleArrow->GetComponentLocation());
             ParticleSystemComponent->SetTemplate(ProjectileFX);
             ParticleSystemComponent->SecondsBeforeInactive = 0.5;
-
-            //Play the sound for shooting
-            AudioComponent->SetSound(ShootingSound);
-            AudioComponent->Play();
         }
+
+        // Play the sound for shooting
+        AudioComponent->SetSound(ShootingSound);
+        AudioComponent->Play();
     }
 }
 

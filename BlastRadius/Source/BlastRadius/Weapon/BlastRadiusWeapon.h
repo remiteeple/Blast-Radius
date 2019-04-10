@@ -47,7 +47,8 @@ public:
     void SetupRay(FVector &StartTrace, FVector &Direction, FVector &EndTrace);
 
     /* Fire the weapon */
-    void Fire();
+    UFUNCTION()
+        void Fire();
 
     /* Attach the weapon to the character */
     void Attach(class ABlastRadiusCharacter* Character);

@@ -4,7 +4,6 @@
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
-#include "Components/ArrowComponent.h"
 #include "Components/AudioComponent.h"
 #include "Sound/SoundBase.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -102,9 +101,6 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
 void ABlastRadiusCharacter::PostInitializeComponents()
 {
     Super::PostInitializeComponents();
-
-    /* Retrieve the arrow component */
-    ArrowComponent = GetArrowComponent(); // ACharacter always has an arrow component.
 
     /* Retrieve the skeletal mesh */
     SkeletalMesh = GetMesh();
@@ -274,19 +270,6 @@ void ABlastRadiusCharacter::SetupRay(FVector &StartTrace, FVector &Direction, FV
 // States / Conditions
 void ABlastRadiusCharacter::OnDeath()
 {
-    ///* Stop ticking while dead */
-    //PrimaryActorTick.bCanEverTick = false;
-
-    ///* Disable character's capsule collision */
-    //GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-
-    ///* Enable the character's ragdoll */
-    //SkeletalMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-    //SkeletalMesh->SetSimulatePhysics(true);
-
-    ///* Start the delay until respawn */
-    //GetWorld()->GetTimerManager().SetTimer(TimerHandle_SpawnTimer, this, &ABlastRadiusCharacter::Respawn, SpawnDelay, false);
-
     NetMultiCastOnDeath();
 }
 
@@ -295,48 +278,22 @@ void ABlastRadiusCharacter::Respawn()
     /* Re-enable characters capsule collision */
     if (Role == ROLE_Authority)
     {
-        //GET the ABaseGameMode and assign it to a variable called GM
-        ABlastRadiusGameMode* GM = Cast<ABlastRadiusGameMode>(GetWorld()->GetAuthGameMode());
-        //IF GM is NOT nullptr
-        if (GM)
+        ABlastRadiusGameMode* GameMode = Cast<ABlastRadiusGameMode>(GetWorld()->GetAuthGameMode());
+        if (GameMode)
         {
-            //CALL RespawnPlayer() on the GM passing in playerTeam, NetIndex
             EnergyComponent->CurrentEnergy = EnergyComponent->MaxEnergy;
             Cast<ABlastRadiusPlayerState>(PlayerState)->SetDamage(0);
+
             /* Re-enable the actor's tick */
             PrimaryActorTick.bCanEverTick = true;
-            GM->RespawnPlayer(Cast<APlayerController>(GetController()), playerTeam, NetIndex);
 
+            /* Respawn Player */
+            GameMode->RespawnPlayer(Cast<APlayerController>(GetController()), playerTeam, NetIndex);
+
+            /* Set the player's state to alive */
+            bIsDead = false;
         }
-        //ENDIF
     }
-    /* check if the teleport was completed successfully */
-    //if (TeleportTo(SpawnPoint, GetActorRotation()))
-    //{
-    //    
-    //    GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-    //    //add drag to limit momentum on respawn.
-
-    //    /* Turn off collision on the characters mesh */
-    //    SkeletalMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-    //    /* Turn off the ragdoll on the mesh */
-    //    
-    //    GetCapsuleComponent()->SetPhysicsLinearVelocity(FVector::ZeroVector);
-    //    SkeletalMesh->SetSimulatePhysics(false);
-    //    SkeletalMesh->AttachToComponent(GetCapsuleComponent(), FAttachmentTransformRules::KeepRelativeTransform);
-
-    //    /* Reset the damage factor */
-    //    HealthComponent->ResetKnockback();
-    //    /* Reset the transform on the mesh */
-    //    SkeletalMesh->ResetRelativeTransform();
-    //    /* Lower the mesh to fit in the capsule */
-    //    SkeletalMesh->AddLocalOffset(FVector(0.0f, 0.0f, -90.0f));
-    //    /* Rotate the mesh to the correct orientation */
-    //    SkeletalMesh->AddLocalRotation(FRotator(0.0f, -90.0f, 0.0f));
-    //    /* Re-attach the mesh to the capsule component */
-    //}
-
-    /* Refill energy */
 }
 
 void ABlastRadiusCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult)
@@ -366,30 +323,22 @@ void ABlastRadiusCharacter::AssignTeams()
     TeamOneCount = GetGameState()->TeamOneSize;
     TeamTwoCount = GetGameState()->TeamTwoSize;
 
-    //IF TeamOneCount is GREATER than TeamTwoCount
+    /* Balance team count */
     if (TeamOneCount > TeamTwoCount)
     {
-        //GET the Game State and Increment TeamTwoSize
         GetGameState()->TeamTwoSize++;
-        //SET/Assign playerTeam to 1
         playerTeam = 1;
     }
     else if (TeamOneCount < TeamTwoCount)
     {
-        //GET the Game State and Increment TeamOneSize
         GetGameState()->TeamOneSize++;
-        //SET/Assign playerTeam to 0
         playerTeam = 0;
     }
     else
     {
-        //GET the Game State and Increment TeamTwoSize
         GetGameState()->TeamTwoSize++;
-        //SET/Assign playerTeam to 1
         playerTeam = 1;
     }
-    //Update the PlayerTeam on the PlayerState
-    //CALL GetPlayerState() and SET the PlayerTeam to this instance's playerTeam
     if (GetPlayerState())
         GetPlayerState()->PlayerTeam = playerTeam;
 }
@@ -417,77 +366,71 @@ void ABlastRadiusCharacter::PostBeginPlay()
 
 void ABlastRadiusCharacter::Multicast_AssignTeamsColor_Implementation()
 {
-    if (GetGameState()) //
+    if (GetGameState()) 
     {
-        //If we're on team one
-        //IF playerTEam is 0
         if (playerTeam == 0)
         {
-            //If the first person material array for team one isn't null,
-            //assign those materials to the first person mesh
-            //IF GetGameState()->TeamOnePMaterials.Num() is GREATER than 0
-
-                //SET/ASSIGN DefaultTPMaterials to the GameStates's TeamOnePMaterials
+            /* Assign team 1 materials */
             DefaultTPMaterials = GetGameState()->TeamOnePMaterials;
-            //CALL ApplyMaterialsToMesh() and pass in GetSkeletalMesh(), DefaultTPMaterials
             SkeletalMesh->SetMaterial(0, DefaultTPMaterials);
 
         }
-        //ELSE IF playerTeam is 1  //Otherwise if we're on team two, do the same as above but for team two        
         else if (playerTeam == 1)
         {
-            //IF GetGameState()->TeamTwoPMaterials.Num() is GREATER than 0
-
-                //SET/ASSIGN DefaultTPMaterials to the GameStates's TeamTwoPMaterials
+            /* Assign team 2 materials */
             DefaultTPMaterials = GetGameState()->TeamTwoPMaterials;
             SkeletalMesh->SetMaterial(0, DefaultTPMaterials);
-            //CALL ApplyMaterialsToMesh() and pass in GetSkeletalMesh(), DefaultTPMaterials
-
 
         }
-        //ENDIF
     }
-    //ENDIF
 }
 
 //////////////////////////////////////////////////////////////////////////
 // Input / Actions
 void ABlastRadiusCharacter::Move(FVector Direction, float Scale)
 {
-    if ((Controller != nullptr) && (Scale != 0.0f))
+    /* Check if character is alive. */
+    if (bIsDead == false)
     {
-        // Discern forward direction.
-        const FRotator Rotation = GetCameraBoom()->GetTargetRotation(); //Controller->GetControlRotation();
-        const FRotator YawRotation(0, Rotation.Yaw, 0);
-
-        if (Direction.X != 0.0f)
+        if ((Controller != nullptr) && (Scale != 0.0f))
         {
-            const FVector DirectionX = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+            // Discern forward direction.
+            const FRotator Rotation = GetCameraBoom()->GetTargetRotation(); //Controller->GetControlRotation();
+            const FRotator YawRotation(0, Rotation.Yaw, 0);
 
-            // Add Movement Input
-            AddMovementInput(DirectionX, Scale);
-        }
-        else if (Direction.Y != 0.0f)
-        {
-            const FVector DirectionY = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+            if (Direction.X != 0.0f)
+            {
+                const FVector DirectionX = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 
-            // Add Movement Input
-            AddMovementInput(DirectionY, Scale);
+                // Add Movement Input
+                AddMovementInput(DirectionX, Scale);
+            }
+            else if (Direction.Y != 0.0f)
+            {
+                const FVector DirectionY = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+
+                // Add Movement Input
+                AddMovementInput(DirectionY, Scale);
+            }
         }
     }
 }
 
 void ABlastRadiusCharacter::LookAt(FVector Direction)
 {
-    /* Set Character's direction for server & client. */
-    if ((Controller != nullptr) && (Direction != FVector::ZeroVector))
+    /* Check if character is alive. */
+    if (bIsDead == false)
     {
-        SetActorRotation(Direction.Rotation());
-
-        Orientation = Direction;
-        if (Role < ROLE_Authority)
+        /* Set Character's direction for server & client. */
+        if ((Controller != nullptr) && (Direction != FVector::ZeroVector))
         {
-            ServerLookAt(Orientation);
+            SetActorRotation(Direction.Rotation());
+
+            Orientation = Direction;
+            if (Role < ROLE_Authority)
+            {
+                ServerLookAt(Orientation);
+            }
         }
     }
 }
@@ -504,24 +447,47 @@ bool ABlastRadiusCharacter::ServerBlink_Validate()
 
 void ABlastRadiusCharacter::Blink()
 {
-    /* Check if character has enough energy. */
-    if (EnergyComponent->OnCooldown == false)
+    /* Check if character is alive. */
+    if (bIsDead == false)
     {
-        bIsBlinking = true;
-
-        /* Blink the character & multi-cast for clients. */
-        BlinkComponent->Blink();
-
-        if (Role < ROLE_Authority)
+        /* Check if character has enough energy. */
+        if (EnergyComponent->OnCooldown == false)
         {
-            ServerBlink();
-        }
+            bIsBlinking = true;
 
-        EnergyComponent->SpendEnergy(BlinkCost);
+            /* Blink the character & multi-cast for clients. */
+            BlinkComponent->Blink();
+
+            if (Role < ROLE_Authority)
+            {
+                ServerBlink();
+            }
+
+            EnergyComponent->SpendEnergy(BlinkCost);
+        }
     }
 }
 
 void ABlastRadiusCharacter::LobGrenade()
+{
+    /* Check if character is alive. */
+    if (bIsDead == false)
+    {
+        /* Check if character has enough energy. */
+        if (EnergyComponent->OnCooldown == false)
+        {
+            bIsFiring = true;
+
+            /* Shoot. */
+            if (Role == ROLE_Authority)
+                ServerLobGrenade();
+            else if (Role < ROLE_Authority)
+                ServerLobGrenade();
+        }
+    }
+}
+
+void ABlastRadiusCharacter::ServerLobGrenade_Implementation()
 {
     // Raycast to see if something is blocking the grenade.
     if (!GetPickableActor_LineTraceTestByObjectType(EObjectTypeQuery::ObjectTypeQuery1))
@@ -548,17 +514,16 @@ void ABlastRadiusCharacter::LobGrenade()
                     FVector LaunchDirection = GetActorRotation().Vector();
                     Grenade->LobInDirection(LaunchDirection);
                 }
+
+                // Play the sound for exploding
+                AudioComponent->SetSound(ThrowSound);
+                AudioComponent->Play();
             }
         }
 
         // Spend Energy.
         EnergyComponent->SpendEnergy(GrenadeCost);
     }
-}
-
-void ABlastRadiusCharacter::ServerLobGrenade_Implementation()
-{
-    LobGrenade();
 }
 
 bool ABlastRadiusCharacter::ServerLobGrenade_Validate()
@@ -578,23 +543,39 @@ bool ABlastRadiusCharacter::ServerFire_Validate()
 
 void ABlastRadiusCharacter::Fire()
 {
-    /* Check if character has enough energy. */
-    if (EnergyComponent->OnCooldown == false)
+    /* Check if character is alive. */
+    if (bIsDead == false)
     {
-        bIsFiring = true;
-        /* Shoot. */
-        ServerFire();
+        /* Check if character has enough energy. */
+        if (EnergyComponent->OnCooldown == false)
+        {
+            bIsFiring = true;
+
+            /* Shoot. */
+            if (Role == ROLE_Authority)
+                Weapon->Fire();
+            else if (Role < ROLE_Authority)
+                ServerFire();
+        }
     }
 }
 
 void ABlastRadiusCharacter::Melee()
 {
-    if (Sword != nullptr)
+    /* Check if character is alive. */
+    if (bIsDead == false)
     {
-        bIsMeleeAttacking = true;
-        GetWorld()->GetTimerManager().SetTimer(TimerHandle_MeleeTimer, this, &ABlastRadiusCharacter::PutAwaySword, 0.5f, true);
-        Sword->Activate();
-        EnergyComponent->SpendEnergy(MeleeCost);
+        /* Check if character has enough energy. */
+        if (EnergyComponent->OnCooldown == false)
+        {
+            if (Sword != nullptr)
+            {
+                bIsMeleeAttacking = true;
+                GetWorld()->GetTimerManager().SetTimer(TimerHandle_MeleeTimer, this, &ABlastRadiusCharacter::PutAwaySword, 0.5f, true);
+                Sword->Activate();
+                EnergyComponent->SpendEnergy(MeleeCost);
+            }
+        }
     }
 }
 
@@ -606,6 +587,9 @@ void ABlastRadiusCharacter::PutAwaySword()
 
 void ABlastRadiusCharacter::NetMultiCastOnDeath_Implementation()
 {
+    /* Set player dead state */
+    bIsDead = true;
+
     /* Stop ticking while dead */
     PrimaryActorTick.bCanEverTick = false;
 
