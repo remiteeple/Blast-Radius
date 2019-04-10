@@ -197,6 +197,9 @@ public:
 
     /*  Returns Health component  */
     FORCEINLINE class UBlinkComponent* GetBlinkComponent() const { return BlinkComponent; }
+    /*  Returns Team component  */
+    UFUNCTION(BlueprintCallable)
+    FORCEINLINE int GetPlayerTeam() const { return playerTeam; }
 #pragma endregion Getters
 
 #pragma region Components
