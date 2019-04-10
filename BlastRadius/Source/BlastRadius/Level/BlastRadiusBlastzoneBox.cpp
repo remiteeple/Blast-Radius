@@ -32,16 +32,22 @@ void ABlastRadiusBlastzoneBox::Tick(float DeltaTime)
 
 void ABlastRadiusBlastzoneBox::OnComponentOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-    if (OtherActor)
+    if (Role = ROLE_Authority)
     {
-        ABlastRadiusCharacter* Player = Cast<ABlastRadiusCharacter>(OtherActor);
-        if (Player != nullptr)
+        if (OtherActor)
         {
-            ABlastRadiusPlayerState* PlayerState = Player->GetPlayerState();
-            if (PlayerState)
+            ABlastRadiusCharacter* Player = Cast<ABlastRadiusCharacter>(OtherActor);
+            if (Player != nullptr)
             {
-                PlayerState->DecrementLives();
-                Player->OnDeath();
+                if (Player->bIsDead == false)
+                {
+                    ABlastRadiusPlayerState* PlayerState = Player->GetPlayerState();
+                    if (PlayerState)
+                    {
+                        PlayerState->DecrementLives();
+                        Player->OnDeath();
+                    }
+                }
             }
         }
     }
