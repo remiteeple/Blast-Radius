@@ -30,16 +30,6 @@ void ABlastRadiusGameMode::HandleStartingNewPlayer_Implementation(APlayerControl
     HandleNewPlayer(NewPlayer);
 }
 
-int ABlastRadiusGameMode::GetWinningTeam()
-{
-    return WinningTeam;
-}
-
-int ABlastRadiusGameMode::GetLosingTeam()
-{
-    return LosingTeam;
-}
-
 void ABlastRadiusGameMode::RespawnPlayer(APlayerController* NewPlayer, int playerTeam, int NetIndex)
 {
     /* Define local actor arrays */
@@ -48,6 +38,7 @@ void ABlastRadiusGameMode::RespawnPlayer(APlayerController* NewPlayer, int playe
     TArray<AActor*> PreferredStarts;
     TArray <ABlastRadiusCharacter*> OtherPlayers;
     ABlastRadiusCharacter* OtherPlayer = nullptr;
+    
 
     /* Get actors of class type in world */
     UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerStart::StaticClass(), PlayerStarts);
@@ -90,13 +81,19 @@ void ABlastRadiusGameMode::RespawnPlayer(APlayerController* NewPlayer, int playe
             {
                 if (playerTeam == 1)
                 {
-                    WinningTeam = 0;
+
+                    
+
+                   ABlastRadiusGameStateBase* GState  = Cast<ABlastRadiusGameStateBase>(GetWorld()->GetGameState());
+                   GState->WinningTeam = 0;
                 }
                 else
                 {
-                    WinningTeam = 1;
+                    ABlastRadiusGameStateBase* GState = Cast<ABlastRadiusGameStateBase>(GetWorld()->GetGameState());
+                    GState->WinningTeam = 1;
                 }
-                LosingTeam = playerTeam;
+                ABlastRadiusGameStateBase* GState = Cast<ABlastRadiusGameStateBase>(GetWorld()->GetGameState());
+                GState->LosingTeam = playerTeam;
                 for (int i = 0; i < OtherPlayers.Num(); i++)
                 {
                     if (OtherPlayers[i]->GetController())

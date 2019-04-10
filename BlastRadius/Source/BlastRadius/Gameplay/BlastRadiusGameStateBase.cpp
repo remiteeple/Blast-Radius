@@ -10,8 +10,8 @@ void ABlastRadiusGameStateBase::GetLifetimeReplicatedProps(TArray< FLifetimeProp
 
     //REPLICATE 
     DOREPLIFETIME(ABlastRadiusGameStateBase, TeamsEnabled);
-    DOREPLIFETIME(ABlastRadiusGameStateBase, TeamOneScore);
-    DOREPLIFETIME(ABlastRadiusGameStateBase, TeamTwoScore);
+    DOREPLIFETIME(ABlastRadiusGameStateBase, WinningTeam);
+    DOREPLIFETIME(ABlastRadiusGameStateBase, LosingTeam);
 
     DOREPLIFETIME(ABlastRadiusGameStateBase, TeamOneSize);
     DOREPLIFETIME(ABlastRadiusGameStateBase, TeamTwoSize);
