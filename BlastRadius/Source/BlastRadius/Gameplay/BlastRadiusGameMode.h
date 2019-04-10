@@ -41,21 +41,9 @@ public:
         FTimerHandle StartCountDown;
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
         FTimerHandle EndCountDown;
-    
-    /* Var for team win/loss */
-    int WinningTeam = -1;
-    int LosingTeam = -1;
+
 #pragma endregion Members
 
-#pragma region Getters
-public:
-    /* Get Winning Team */
-    UFUNCTION(BlueprintCallable)
-        int GetWinningTeam();
-    /* Get Losing Team */
-    UFUNCTION(BlueprintCallable)
-        int GetLosingTeam();
-#pragma endregion Getters
 };
 
 

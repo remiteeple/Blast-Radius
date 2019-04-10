@@ -25,11 +25,12 @@ public:
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Gameplay, Replicated)
         bool TeamsEnabled = true;
 
+    /* Var for team win/loss */
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Gameplay, meta = (ClampMin = 0), Replicated)
-        int TeamOneScore;
+        int WinningTeam = -1;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Gameplay, meta = (ClampMin = 0), Replicated)
-        int TeamTwoScore;
+        int LosingTeam = -1;
 
 
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Gameplay, meta = (ClampMin = 0), Replicated)
