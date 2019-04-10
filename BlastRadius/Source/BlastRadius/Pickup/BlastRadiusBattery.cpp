@@ -5,10 +5,6 @@
 
 ABlastRadiusBattery::ABlastRadiusBattery()
 {
+    // Add unique identifier for Battery
     Tags.Add("Battery");
-}
-
-void ABlastRadiusBattery::NotifyActorBeginOverlap(AActor* OtherActor)
-{
-    Super::NotifyActorBeginOverlap(OtherActor);
 }

@@ -19,6 +19,16 @@ protected:
     virtual void Tick(float DeltaTime) override;
 
 #pragma region Members
+public:
+    /*  Energy Spendature Values  */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy)
+        float BlinkCost = 35.0f;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy)
+        float ShootCost = 15.0f;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy)
+        float MeleeCost = 25.0f;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy)
+        float GrenadeCost = 25.0f;
 protected:
     /* Replicated Orientation */
     UPROPERTY(Replicated)
@@ -29,14 +39,6 @@ protected:
         float MaxWalkSpeed;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
         float MaxRunSpeed;
-
-    /*  Energy Spendature Values  */
-        UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy_Cost)
-        float BlinkCost = 35.0f;
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy_Cost)
-        float ShootCost = 15.0f;
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy_Cost)
-        float MeleeCost = 25.0f;
 
     /*  Spawn location variable  */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
@@ -62,11 +64,14 @@ protected:
     /* Templates */
     UPROPERTY(EditDefaultsOnly, Category = Projectile)
         TSubclassOf<class ABlastRadiusProjectile> ProjectileClass;
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+    UPROPERTY(EditDefaultsOnly, Category = Projectile)
+        TSubclassOf<class ABlastRadiusGrenade> GrenadeClass;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
         TSubclassOf<class ABlastRadiusSword> SwordClass;
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
         TSubclassOf<class ABlastRadiusWeapon> WeaponClass;
 
+    /* Weapons */
     UPROPERTY(Replicated)
         ABlastRadiusSword* Sword;
     UPROPERTY(Replicated)
@@ -74,41 +79,37 @@ protected:
 
 public:
     /* Team Variables */
-    //TODO Week 7:The player's current team.
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "MPCharacter|Gameplay", Replicated)// ReplicatedUsing = OnRep_ChangeColor)//meta = (ClampMin = "1", ClampMax = "2"), Replicated
         int playerTeam;
-    //TODO Week 7:Size of team one (grabbed from game state)
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "MPCharacter|Debug", Replicated) //meta = (EditCondition = "AreTeamsEnabled", ClampMin = "0")
         int TeamOneCount;
-    //TODO Week 7: Size of team two (grabbed from game state)
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "MPCharacter|Debug", Replicated) // , meta = (EditCondition = "AreTeamsEnabled", ClampMin = "0")
         int TeamTwoCount;
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "MPCharacter|Debug", Replicated)
         int NetIndex;
-    //TODO Week 7: Players Material Color
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MPCharacter|Mesh", Replicated)
         class UMaterialInterface* DefaultTPMaterials;
-    //TODO Week 7: Update Player Timer
-    //Calls UpdateAndCheckPlayer
-    FTimerHandle UpdateHandle;
 
-    //TODO Week 7: PostBeginPlay Timer`
+    /* Team Update */
+    FTimerHandle UpdateHandle;
     UPROPERTY(Replicated)
         FTimerHandle PostBeginPlayDelay;
 #pragma endregion Members
 
 #pragma region Methods
 public:
+    /* Raycast */
+    bool GetPickableActor_LineTraceTestByObjectType(EObjectTypeQuery ObjectType);
+    void SetupRay(FVector &StartTrace, FVector &Direction, FVector &EndTrace);
+
     /* Team Functions */
     void AssignTeams();
-    //TODO Week 7: Assigns a Network Index to the player that logs in
     void AssignNetIndex();
-    //TODO Week 7: Multicasts to all clients to assign the team color to Simulated_Proxy's and Autonomous_Proxy's when player logs in(CALLED FROM SERVER)
     UFUNCTION(NetMulticast, Reliable)
         void Multicast_AssignTeamsColor();
-    UFUNCTION(BlueprintCallable, Category = FPSWizard)
+    UFUNCTION(BlueprintCallable)
         virtual void UpdateAndCheckPlayer();
-    UFUNCTION(BlueprintCallable, Category = FPSWizard)
+    UFUNCTION(BlueprintCallable)
         void PostBeginPlay();
 
     /*  Called for directional movement */
@@ -125,6 +126,11 @@ public:
     /*  Server Call when blink is activated  */
     UFUNCTION(Server, Reliable, WithValidation)
         void ServerBlink();
+
+    /* Call for grenade */
+    void LobGrenade();
+    UFUNCTION(Server, Reliable, WithValidation)
+        void ServerLobGrenade();
 
     /*  Call for shooting  */
     void Fire();
@@ -150,7 +156,7 @@ public:
     UFUNCTION(BlueprintCallable)
         class ABlastRadiusGameStateBase* GetGameState();
 
-    /*  Teleports player upon stock loss to spawn point  */
+    /* Teleports player upon stock loss to spawn point  */
     void Respawn();
 
     /*  Handle character overlap  */
@@ -167,6 +173,7 @@ public:
     bool bIsMeleeAttacking = false;
     bool bIsFiring = false;
     bool bIsBlinking = false;
+    bool bIsDead = false;
 #pragma endregion States
 
 #pragma region Getters
@@ -208,6 +215,9 @@ protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Audio, meta = (AllowPrivateAccess = "true"))
         class UAudioComponent* AudioComponent;
 
+    /* Arrow Component */
+    class UArrowComponent* ArrowComponent;
+
     /* Skeletal Mesh Component */
     class USkeletalMeshComponent* SkeletalMesh;
 
@@ -228,7 +238,6 @@ protected:
     /* Energy Component */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Energy, meta = (AllowPrivateAccess = "true"))
         class UEnergyComponent* EnergyComponent;
-
 #pragma endregion Components
 };
 

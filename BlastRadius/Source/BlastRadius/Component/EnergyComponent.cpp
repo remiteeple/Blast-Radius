@@ -9,23 +9,15 @@
 // Sets default values for this component's properties
 UEnergyComponent::UEnergyComponent()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
 
     OnSpend.AddDynamic(this, &UEnergyComponent::SpendEnergy);
 }
-
 
 // Called when the game starts
 void UEnergyComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// ...
-	
 }
 
 void UEnergyComponent::SpendEnergy(float EnergyCost)
@@ -45,7 +37,6 @@ void UEnergyComponent::ToggleCoolDown()
 {
     OnCooldown = !OnCooldown;
 }
-
 
 // Called every frame
 void UEnergyComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -79,14 +70,14 @@ void UEnergyComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 
     if (GetOwner())
     {
-        //Displays current character energy. For Debugging, remove on HUD implementation.
+        // Displays current character energy. For Debugging, remove on HUD implementation.
         GEngine->AddOnScreenDebugMessage(5, 5.f, FColor::Cyan, "Energy %: " + CurrentEnergyDisplayValue);
 
-        //Displays current character energy. For Debugging, remove on HUD implementation.
+        // Displays current character energy. For Debugging, remove on HUD implementation.
         GEngine->AddOnScreenDebugMessage(40, 5.f, FColor::Green, FString::Printf(TEXT("Fast Charge: %x"), FastCharge));
     }
-	// ...
-     //Get the player state to modify current player damage
+
+    // Get the player state to modify current player damage
     ABlastRadiusPlayerState* PlayerState = Cast<ABlastRadiusCharacter>(GetOwner())->GetPlayerState();
     if (PlayerState)
         PlayerState->CurrentEnergy = CurrentEnergy;
@@ -95,8 +86,6 @@ void UEnergyComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 void UEnergyComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-
-    // Here we list the variables we want to replicate + a condition if wanted
 
     DOREPLIFETIME(UEnergyComponent, CurrentEnergy);
     DOREPLIFETIME(UEnergyComponent, FastCharge);

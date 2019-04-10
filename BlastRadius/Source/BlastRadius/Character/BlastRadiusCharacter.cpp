@@ -16,6 +16,7 @@
 #include "Component/EnergyComponent.h"
 #include "Weapon/BlastRadiusSword.h"
 #include "Weapon/BlastRadiusProjectile.h"
+#include "Weapon/BlastRadiusGrenade.h"
 #include "Pickup/BlastRadiusPickup.h"
 #include "Pickup/BlastRadiusBattery.h"
 #include "Gameplay/BlastRadiusGameStateBase.h"
@@ -28,6 +29,7 @@
 #include "Runtime/Engine/Classes/Particles/ParticleSystemComponent.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
+#include "DrawDebugHelpers.h"
 
 //////////////////////////////////////////////////////////////////////////
 // ABlastRadiusCharacter
@@ -42,6 +44,7 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
     // Set size for collision capsule
     GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
     GetCapsuleComponent()->SetCollisionProfileName(UCollisionProfile::BlockAll_ProfileName);
+    GetCapsuleComponent()->SetCollisionObjectType(ECC_Pawn);
 
     // Don't rotate when the controller rotates. Let that just affect the camera.
     bUseControllerRotationPitch = false;
@@ -59,7 +62,7 @@ ABlastRadiusCharacter::ABlastRadiusCharacter() :
     CameraBoom->SetupAttachment(RootComponent);
     CameraBoom->bUsePawnControlRotation = true;
     CameraBoom->bEnableCameraLag = true;
-    CameraBoom->CameraLagSpeed = 5.0f;
+    CameraBoom->CameraLagSpeed = 50.0f;
     CameraBoom->CameraLagMaxDistance = 250.0f;
     CameraBoom->bDoCollisionTest = false;
 
@@ -100,11 +103,15 @@ void ABlastRadiusCharacter::PostInitializeComponents()
 {
     Super::PostInitializeComponents();
 
+    /* Retrieve the arrow component */
+    ArrowComponent = GetArrowComponent(); // ACharacter always has an arrow component.
+
     /* Retrieve the skeletal mesh */
     SkeletalMesh = GetMesh();
     if (SkeletalMesh != nullptr)
     {
         check(SkeletalMesh != nullptr && "Character doesn't have a skeletal mesh!");
+        SkeletalMesh->SetCollisionObjectType(ECC_Pawn);
 
         /* Retrieve the animation instance */
         AnimationInstance = Cast<UCharacterAnimInstance>(SkeletalMesh->GetAnimInstance());
@@ -166,22 +173,22 @@ void ABlastRadiusCharacter::BeginPlay()
         Weapon->Attach(this);
     }
 
+    /* UpdateAndCheckPlayer at slower delay. */
     GetWorldTimerManager().SetTimer(UpdateHandle, this, &ABlastRadiusCharacter::UpdateAndCheckPlayer, 0.03333f, true, 0.0f);
-    //PostBeginPlay arguments (non looping: PostBeginPlayDelay, this, &ACharacterBase::PostBeginPlay, 1.0f, false
+
+    /* Prevent players from connecting at the same time. */
     GetWorldTimerManager().SetTimer(PostBeginPlayDelay, this, &ABlastRadiusCharacter::PostBeginPlay, 1.0f, false);
 
     if (Role > ROLE_AutonomousProxy)
     {
-        //WHOOPS! WON'T WORK IF PLAYERS ARE ALL ADDED AT SAME TIME
-        //Set an index reference for this character based on what number player it is in the game
-        //SET/ASSIGN NetIndex to GetWorld()->GetGameState()->AuthorityGameMode->GetNumPlayers() - 1
+        // Assign net index a value of player number in gamemode.
         NetIndex = GetWorld()->GetGameState()->AuthorityGameMode->GetNumPlayers() - 1;
     }
 }
 
 void ABlastRadiusCharacter::Tick(float DeltaTime)
 {
-    Super::Tick(DeltaTime);	
+    Super::Tick(DeltaTime);
 
     /* Set movement state. */
     float CurrentSpeed = GetVelocity().Size(); // Get character's current speed
@@ -232,6 +239,37 @@ void ABlastRadiusCharacter::Tick(float DeltaTime)
     }
 }
 
+bool ABlastRadiusCharacter::GetPickableActor_LineTraceTestByObjectType(EObjectTypeQuery ObjectType)
+{
+    bool hit = false;
+    FVector StartTrace;
+    FVector Direction;
+    FVector EndTrace;
+
+    SetupRay(StartTrace, Direction, EndTrace);
+    FCollisionQueryParams TraceParams;
+    TraceParams.AddIgnoredActor(this);
+    TraceParams.bTraceComplex = true;
+    TraceParams.bReturnPhysicalMaterial = true;
+
+    TEnumAsByte<EObjectTypeQuery> ObjectToTrace = ObjectType;
+    TArray<TEnumAsByte<EObjectTypeQuery> > ObjectsToTraceAsByte;
+    ObjectsToTraceAsByte.Add(ObjectToTrace);
+
+    FHitResult Hit(ForceInit);
+    UWorld* World = GetWorld();
+    hit = World->LineTraceTestByObjectType(StartTrace, EndTrace, FCollisionObjectQueryParams(ObjectsToTraceAsByte), TraceParams); // simple trace function
+    DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor::Magenta, true, 1, 0, 5.0f);
+    return hit;
+}
+
+void ABlastRadiusCharacter::SetupRay(FVector &StartTrace, FVector &Direction, FVector &EndTrace)
+{
+    StartTrace = GetActorLocation() + GetActorRotation().Vector();
+    Direction = GetActorRotation().Vector();
+    EndTrace = StartTrace + Direction * 150.0f;
+}
+
 //////////////////////////////////////////////////////////////////////////
 // States / Conditions
 void ABlastRadiusCharacter::OnDeath()
@@ -263,8 +301,12 @@ void ABlastRadiusCharacter::Respawn()
         if (GM)
         {
             //CALL RespawnPlayer() on the GM passing in playerTeam, NetIndex
+            EnergyComponent->CurrentEnergy = EnergyComponent->MaxEnergy;
+            Cast<ABlastRadiusPlayerState>(PlayerState)->SetDamage(0);
+            /* Re-enable the actor's tick */
+            PrimaryActorTick.bCanEverTick = true;
             GM->RespawnPlayer(Cast<APlayerController>(GetController()), playerTeam, NetIndex);
-           
+
         }
         //ENDIF
     }
@@ -295,10 +337,6 @@ void ABlastRadiusCharacter::Respawn()
     //}
 
     /* Refill energy */
-    EnergyComponent->CurrentEnergy = EnergyComponent->MaxEnergy;
-    Cast<ABlastRadiusPlayerState>(PlayerState)->SetDamage(0);
-    /* Re-enable the actor's tick */
-    PrimaryActorTick.bCanEverTick = true;
 }
 
 void ABlastRadiusCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult)
@@ -328,28 +366,28 @@ void ABlastRadiusCharacter::AssignTeams()
     TeamOneCount = GetGameState()->TeamOneSize;
     TeamTwoCount = GetGameState()->TeamTwoSize;
 
-        //IF TeamOneCount is GREATER than TeamTwoCount
-        if (TeamOneCount > TeamTwoCount)
-        {
-            //GET the Game State and Increment TeamTwoSize
-            GetGameState()->TeamTwoSize++;
-            //SET/Assign playerTeam to 1
-            playerTeam = 1;
-        }
-        else if (TeamOneCount < TeamTwoCount)
-        {
-            //GET the Game State and Increment TeamOneSize
-            GetGameState()->TeamOneSize++;
-            //SET/Assign playerTeam to 0
-            playerTeam = 0;
-        }
-        else
-        {
-            //GET the Game State and Increment TeamTwoSize
-            GetGameState()->TeamTwoSize++;
-            //SET/Assign playerTeam to 1
-            playerTeam = 1;
-        }
+    //IF TeamOneCount is GREATER than TeamTwoCount
+    if (TeamOneCount > TeamTwoCount)
+    {
+        //GET the Game State and Increment TeamTwoSize
+        GetGameState()->TeamTwoSize++;
+        //SET/Assign playerTeam to 1
+        playerTeam = 1;
+    }
+    else if (TeamOneCount < TeamTwoCount)
+    {
+        //GET the Game State and Increment TeamOneSize
+        GetGameState()->TeamOneSize++;
+        //SET/Assign playerTeam to 0
+        playerTeam = 0;
+    }
+    else
+    {
+        //GET the Game State and Increment TeamTwoSize
+        GetGameState()->TeamTwoSize++;
+        //SET/Assign playerTeam to 1
+        playerTeam = 1;
+    }
     //Update the PlayerTeam on the PlayerState
     //CALL GetPlayerState() and SET the PlayerTeam to this instance's playerTeam
     if (GetPlayerState())
@@ -388,24 +426,24 @@ void ABlastRadiusCharacter::Multicast_AssignTeamsColor_Implementation()
             //If the first person material array for team one isn't null,
             //assign those materials to the first person mesh
             //IF GetGameState()->TeamOnePMaterials.Num() is GREATER than 0
-           
+
                 //SET/ASSIGN DefaultTPMaterials to the GameStates's TeamOnePMaterials
-                DefaultTPMaterials = GetGameState()->TeamOnePMaterials;
-                //CALL ApplyMaterialsToMesh() and pass in GetSkeletalMesh(), DefaultTPMaterials
-                SkeletalMesh->SetMaterial(0, DefaultTPMaterials);
+            DefaultTPMaterials = GetGameState()->TeamOnePMaterials;
+            //CALL ApplyMaterialsToMesh() and pass in GetSkeletalMesh(), DefaultTPMaterials
+            SkeletalMesh->SetMaterial(0, DefaultTPMaterials);
 
         }
         //ELSE IF playerTeam is 1  //Otherwise if we're on team two, do the same as above but for team two        
         else if (playerTeam == 1)
         {
             //IF GetGameState()->TeamTwoPMaterials.Num() is GREATER than 0
-          
+
                 //SET/ASSIGN DefaultTPMaterials to the GameStates's TeamTwoPMaterials
-                DefaultTPMaterials = GetGameState()->TeamTwoPMaterials;
-                SkeletalMesh->SetMaterial(0, DefaultTPMaterials);
-                //CALL ApplyMaterialsToMesh() and pass in GetSkeletalMesh(), DefaultTPMaterials
-               
-        
+            DefaultTPMaterials = GetGameState()->TeamTwoPMaterials;
+            SkeletalMesh->SetMaterial(0, DefaultTPMaterials);
+            //CALL ApplyMaterialsToMesh() and pass in GetSkeletalMesh(), DefaultTPMaterials
+
+
         }
         //ENDIF
     }
@@ -418,23 +456,22 @@ void ABlastRadiusCharacter::Move(FVector Direction, float Scale)
 {
     if ((Controller != nullptr) && (Scale != 0.0f))
     {
-        // discern forward direction
+        // Discern forward direction.
         const FRotator Rotation = GetCameraBoom()->GetTargetRotation(); //Controller->GetControlRotation();
         const FRotator YawRotation(0, Rotation.Yaw, 0);
 
-        // get forward vector
         if (Direction.X != 0.0f)
         {
             const FVector DirectionX = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 
-            // apply movement
+            // Add Movement Input
             AddMovementInput(DirectionX, Scale);
         }
         else if (Direction.Y != 0.0f)
         {
             const FVector DirectionY = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 
-            // apply movement
+            // Add Movement Input
             AddMovementInput(DirectionY, Scale);
         }
     }
@@ -442,6 +479,7 @@ void ABlastRadiusCharacter::Move(FVector Direction, float Scale)
 
 void ABlastRadiusCharacter::LookAt(FVector Direction)
 {
+    /* Set Character's direction for server & client. */
     if ((Controller != nullptr) && (Direction != FVector::ZeroVector))
     {
         SetActorRotation(Direction.Rotation());
@@ -466,17 +504,66 @@ bool ABlastRadiusCharacter::ServerBlink_Validate()
 
 void ABlastRadiusCharacter::Blink()
 {
+    /* Check if character has enough energy. */
     if (EnergyComponent->OnCooldown == false)
     {
+        bIsBlinking = true;
+
+        /* Blink the character & multi-cast for clients. */
         BlinkComponent->Blink();
 
         if (Role < ROLE_Authority)
         {
-           ServerBlink();
+            ServerBlink();
         }
 
         EnergyComponent->SpendEnergy(BlinkCost);
     }
+}
+
+void ABlastRadiusCharacter::LobGrenade()
+{
+    // Raycast to see if something is blocking the grenade.
+    if (!GetPickableActor_LineTraceTestByObjectType(EObjectTypeQuery::ObjectTypeQuery1))
+    {
+        // Attempt to lob a grenade.
+        if (GrenadeClass)
+        {
+            UWorld* World = GetWorld();
+            if (World)
+            {
+                // Set grenade spawn params.
+                FActorSpawnParameters SpawnParams;
+                SpawnParams.Owner = this;
+                SpawnParams.Instigator = Instigator;
+
+                // Spawn the projectile at the in front of the character.
+                const FVector SpawnLocation = GetActorLocation() + GetActorRotation().Vector() * 150.0f;
+                const FRotator SpawnRotation = GetActorRotation();
+                ABlastRadiusGrenade* Grenade = World->SpawnActor<ABlastRadiusGrenade>(GrenadeClass, SpawnLocation, SpawnRotation, SpawnParams);
+
+                if (Grenade)
+                {
+                    // Set the projectile's initial trajectory.
+                    FVector LaunchDirection = GetActorRotation().Vector();
+                    Grenade->LobInDirection(LaunchDirection);
+                }
+            }
+        }
+
+        // Spend Energy.
+        EnergyComponent->SpendEnergy(GrenadeCost);
+    }
+}
+
+void ABlastRadiusCharacter::ServerLobGrenade_Implementation()
+{
+    LobGrenade();
+}
+
+bool ABlastRadiusCharacter::ServerLobGrenade_Validate()
+{
+    return true;
 }
 
 void ABlastRadiusCharacter::ServerFire_Implementation()
@@ -491,11 +578,12 @@ bool ABlastRadiusCharacter::ServerFire_Validate()
 
 void ABlastRadiusCharacter::Fire()
 {
-    bIsFiring = true;
+    /* Check if character has enough energy. */
     if (EnergyComponent->OnCooldown == false)
     {
+        bIsFiring = true;
+        /* Shoot. */
         ServerFire();
-        EnergyComponent->SpendEnergy(ShootCost);
     }
 }
 

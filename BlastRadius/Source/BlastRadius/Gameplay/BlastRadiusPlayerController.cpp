@@ -37,6 +37,9 @@ void ABlastRadiusPlayerController::SetupInputComponent()
     InputComponent->BindAction("Walk", IE_Released, this, &ABlastRadiusPlayerController::WalkReleased);
 
     /* Actions */
+    InputComponent->BindAction("Grenade", IE_Pressed, this, &ABlastRadiusPlayerController::GrenadePressed);
+    InputComponent->BindAction("Grenade", IE_Released, this, &ABlastRadiusPlayerController::GrenadeReleased);
+
     InputComponent->BindAction("Fire", IE_Pressed, this, &ABlastRadiusPlayerController::FirePressed);
     InputComponent->BindAction("Fire", IE_Released, this, &ABlastRadiusPlayerController::FireReleased);
 
@@ -83,13 +86,16 @@ void ABlastRadiusPlayerController::Tick(float DeltaTime)
 
 void ABlastRadiusPlayerController::AimForward(float Scale)
 {
-    if (Character == nullptr)
-        return;
+    if (this != nullptr)
+    {
+        if (Character == nullptr)
+            return;
 
-    LookForwardValue = -Scale;
+        LookForwardValue = -Scale;
 
-    /* Rotate the character */
-    Character->SetActorRotation(LookDirection);
+        /* Rotate the character */
+        Character->SetActorRotation(LookDirection);
+    }
 }
 
 void ABlastRadiusPlayerController::AimRight(float Scale)
@@ -169,6 +175,20 @@ void ABlastRadiusPlayerController::WalkReleased()
 
 
     Character->bIsWalking = false;
+}
+
+void ABlastRadiusPlayerController::GrenadePressed()
+{
+    if (Character == nullptr)
+        return;
+
+    Character->LobGrenade();
+}
+
+void ABlastRadiusPlayerController::GrenadeReleased()
+{
+    if (Character == nullptr)
+        return;
 }
 
 void ABlastRadiusPlayerController::FirePressed()
@@ -272,7 +292,27 @@ void ABlastRadiusPlayerController::LookAtMouseCursor(float DeltaTime)
         // Remove vertical axis orientation.
         Direction.Z = 0.0f;
 
-        // Make character look at 
+        // Make character look at target.
         Character->LookAt(Direction);
+
+        // Move camera between target and player position.
+        //FVector DesiredCameraPosition;
+        //DesiredCameraPosition.X = ((TargetLocation.X - Character->GetActorLocation().X) / 2) + Character->GetActorLocation().X;
+        //DesiredCameraPosition.Y = ((TargetLocation.Y - Character->GetActorLocation().Y) / 2) + Character->GetActorLocation().Y;
+        //DesiredCameraPosition.Z = 1800.0f;
+
+        //Character->GetFollowCamera()->SetWorldLocation(DesiredCameraPosition);
+
+        //Obj.position = new Vector3((WorldPosition.X - Character->GetActorLocation().X) / 2.0f + Character->GetActorLocation().X, (WorldPosition.Y - Character->GetActorLocation().Y) / 2.0f + Character->GetActorLocation().Y, Obj.position.z);
+
+    //    Dist = Vector2.Distance(new Vector2(Obj.position.x, Obj.position.y), new Vector2(Parent.position.x, Parent.position.y));
+
+    //    if (Dist > Radius)
+    //    {
+    //        var norm = MouseOffset.normalized;
+    //        //Obj.position.x = norm.x * Radius + Parent.position.x;
+    //        //Obj.position.y = norm.y * Radius + Parent.position.y;
+    //        Obj.position = new Vector3(norm.x * Radius + Parent.position.x, norm.y * Radius + Parent.position.y, Obj.position.z);
+    //}
     }
 }

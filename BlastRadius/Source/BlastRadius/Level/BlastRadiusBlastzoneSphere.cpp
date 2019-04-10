@@ -10,29 +10,25 @@
 // Sets default values
 ABlastRadiusBlastzoneSphere::ABlastRadiusBlastzoneSphere()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-    
+    // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+    PrimaryActorTick.bCanEverTick = true;
+
     OuterKillSphere = CreateDefaultSubobject<USphereComponent>(TEXT("Kill Shere"));
     OuterKillSphere->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-    
     OuterKillSphere->OnComponentEndOverlap.AddDynamic(this, &ABlastRadiusBlastzoneSphere::OnComponentEndOverlap);
-
- 
-
 }
 
 // Called when the game starts or when spawned
 void ABlastRadiusBlastzoneSphere::BeginPlay()
 {
-	Super::BeginPlay();
-    
+    Super::BeginPlay();
+
 }
 
 // Called every frame
 void ABlastRadiusBlastzoneSphere::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaTime);
+    Super::Tick(DeltaTime);
 
 }
 
@@ -48,7 +44,6 @@ void ABlastRadiusBlastzoneSphere::OnComponentEndOverlap(UPrimitiveComponent* Ove
             {
                 PlayerState->DecrementLives();
                 Player->OnDeath();
-
             }
         }
     }

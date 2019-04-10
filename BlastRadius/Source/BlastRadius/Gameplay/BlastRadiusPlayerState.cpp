@@ -5,6 +5,12 @@
 #include "Runtime/Engine/Classes/Engine/Engine.h"
 #include "Net/UnrealNetwork.h"
 
+ABlastRadiusPlayerState::ABlastRadiusPlayerState()
+{
+    // Enable network replication
+    SetReplicates(true);
+}
+
 void ABlastRadiusPlayerState::DecrementLives()
 {
     if (CurrentLives != 0)
@@ -16,12 +22,13 @@ void ABlastRadiusPlayerState::DecrementLives()
         RoundEnd();
     }
     GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, FString::FromInt(CurrentLives));
-
 }
+
 void ABlastRadiusPlayerState::RoundEnd()
 {
     GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, TEXT("WIN"));
 }
+
 void ABlastRadiusPlayerState::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
 {
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);

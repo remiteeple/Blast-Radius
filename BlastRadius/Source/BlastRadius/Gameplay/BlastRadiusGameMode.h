@@ -11,38 +11,51 @@ class ABlastRadiusGameMode : public AGameMode
 {
     GENERATED_BODY()
         
+#pragma region Methods
 public:
 	ABlastRadiusGameMode();
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Gameplay)
-        int TeamOneScore = 0;
+    void BeginPlay() override;
 
-    //TODO Week 7:Team Two's Score
-    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Gameplay)
-        int TeamTwoScore = 0;
-
-    //TODO Week 7: Override from GameMode to handle when a new player logs in
+    /* Handle new player override from AGameMode */
     virtual void HandleStartingNewPlayer_Implementation(APlayerController* NewPlayer) override;
 
-    //TODO Week 7: Respawn the player that has died
+    /* Respawn player */
     void RespawnPlayer(APlayerController* NewPlayer, int playerTeam, int NetIndex);
 
-    ///** Called when the state transitions to WaitingToStart */
-    //virtual void HandleMatchIsWaitingToStart() override;
-
-    ///** Called when the state transitions to InProgress */
-    //virtual void HandleMatchHasStarted() override;
-
-    ///** Called when the map transitions to WaitingPostMatch */
+    ///* Called when the map transitions to WaitingPostMatch */
     //virtual void HandleMatchHasEnded() override;
 
-    ///** @return true if ready to End Match. */
-    //virtual bool ReadyToEndMatch_Implementation() override;
+    /* Start Count Down Function */
+    UFUNCTION(BlueprintCallable)
+        void EnablePlayers();
 
 private:
-    //TODO Week 7: Handle the new player
     void HandleNewPlayer(APlayerController* NewPlayer);
+#pragma endregion Methods
+
+#pragma region Members
+public:
+    /* Match Timer */
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+        FTimerHandle StartCountDown;
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+        FTimerHandle EndCountDown;
     
+    /* Var for team win/loss */
+    int WinningTeam = -1;
+    int LosingTeam = -1;
+#pragma endregion Members
+
+#pragma region Getters
+public:
+    /* Get Winning Team */
+    UFUNCTION(BlueprintCallable)
+        int GetWinningTeam();
+    /* Get Losing Team */
+    UFUNCTION(BlueprintCallable)
+        int GetLosingTeam();
+#pragma endregion Getters
 };
 
 

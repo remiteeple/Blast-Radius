@@ -13,9 +13,7 @@ ABlastRadiusBlastzoneBox::ABlastRadiusBlastzoneBox()
 
     KillBox = CreateDefaultSubobject<UBoxComponent>(TEXT("Kill Capsule"));
     KillBox->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-
     KillBox->OnComponentBeginOverlap.AddDynamic(this, &ABlastRadiusBlastzoneBox::OnComponentOverlapBegin);
-
 }
 
 // Called when the game starts or when spawned
@@ -44,7 +42,6 @@ void ABlastRadiusBlastzoneBox::OnComponentOverlapBegin(UPrimitiveComponent* Over
             {
                 PlayerState->DecrementLives();
                 Player->OnDeath();
-
             }
         }
     }

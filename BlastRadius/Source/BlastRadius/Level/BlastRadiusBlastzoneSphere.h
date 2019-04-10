@@ -15,20 +15,17 @@ public:
 	// Sets default values for this actor's properties
     ABlastRadiusBlastzoneSphere();
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Gameplay)
-        class USphereComponent* OuterKillSphere;
-    
-
-
+    // Called every frame
+    virtual void Tick(float DeltaTime) override;
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+    // Called when the game starts or when spawned
+    virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+protected:
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Gameplay)
+        class USphereComponent* OuterKillSphere;
+
     UFUNCTION()
-    void OnComponentEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
-	
+        void OnComponentEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 };
