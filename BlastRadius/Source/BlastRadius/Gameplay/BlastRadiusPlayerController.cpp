@@ -26,8 +26,6 @@ void ABlastRadiusPlayerController::SetupInputComponent()
 
     /* Camera */
     InputComponent->BindAxis("LookRight", this, &ABlastRadiusPlayerController::LookRight);
-    //InputComponent->BindAction("SnapRight", IE_Pressed, this, &ABlastRadiusPlayerController::SnapRightPressed);
-    //InputComponent->BindAction("SnapRight", IE_Released, this, &ABlastRadiusPlayerController::SnapRightReleased);
 
     /* Movement */
     InputComponent->BindAxis("MoveVertical", this, &ABlastRadiusPlayerController::MoveVertical);
@@ -77,11 +75,6 @@ void ABlastRadiusPlayerController::Tick(float DeltaTime)
         LookDirection = UKismetMathLibrary::MakeRotationFromAxes(ThumbStickDir, FVector(0, 0, 0), FVector(0, 0, 0));
         Character->SetActorRotation(LookDirection);
     }
-
-    //if (RightTapPressed)
-    //    TimeSinceLastRightTap += DeltaTime;
-    //else
-    //    TimeSinceLastRightTap = 0.0f;
 }
 
 void ABlastRadiusPlayerController::AimForward(float Scale)
@@ -117,30 +110,6 @@ void ABlastRadiusPlayerController::LookRight(float Scale)
     /* Orbit camera around character */
     Character->AddControllerYawInput(Scale * CameraSensitivity * GetWorld()->GetDeltaSeconds());
 }
-
-//void ABlastRadiusPlayerController::SnapRightPressed()
-//{
-//    if (Character == nullptr)
-//        return;
-//
-//    if (RightTapPressed == false)
-//    {
-//        /* Start double tap timer. */
-//        RightTapPressed = true;
-//    }
-//
-//    if (RightTapPressed && TimeSinceLastRightTap >= 0.15f)
-//    {
-//        /* Add 45 degrees to camera orbit around player. */
-//        float CurrentControlRotation = Character->GetController()->GetControlRotation().Yaw;
-//        Character->AddControllerYawInput(45.0f);
-//    }
-//}
-//
-//void ABlastRadiusPlayerController::SnapRightReleased()
-//{
-//
-//}
 
 void ABlastRadiusPlayerController::MoveVertical(float Scale)
 {
@@ -217,8 +186,6 @@ void ABlastRadiusPlayerController::BlinkReleased()
 {
     if (Character == nullptr)
         return;
-
-    //Character->bIsBlinking = false;
 }
 
 void ABlastRadiusPlayerController::MeleePressed()
@@ -233,8 +200,6 @@ void ABlastRadiusPlayerController::MeleeReleased()
 {
     if (Character == nullptr)
         return;
-
-    //Character->bIsMeleeAttacking = false;
 }
 
 void ABlastRadiusPlayerController::LookAtMouseCursor(float DeltaTime)
@@ -294,25 +259,5 @@ void ABlastRadiusPlayerController::LookAtMouseCursor(float DeltaTime)
 
         // Make character look at target.
         Character->LookAt(Direction);
-
-        // Move camera between target and player position.
-        //FVector DesiredCameraPosition;
-        //DesiredCameraPosition.X = ((TargetLocation.X - Character->GetActorLocation().X) / 2) + Character->GetActorLocation().X;
-        //DesiredCameraPosition.Y = ((TargetLocation.Y - Character->GetActorLocation().Y) / 2) + Character->GetActorLocation().Y;
-        //DesiredCameraPosition.Z = 1800.0f;
-
-        //Character->GetFollowCamera()->SetWorldLocation(DesiredCameraPosition);
-
-        //Obj.position = new Vector3((WorldPosition.X - Character->GetActorLocation().X) / 2.0f + Character->GetActorLocation().X, (WorldPosition.Y - Character->GetActorLocation().Y) / 2.0f + Character->GetActorLocation().Y, Obj.position.z);
-
-    //    Dist = Vector2.Distance(new Vector2(Obj.position.x, Obj.position.y), new Vector2(Parent.position.x, Parent.position.y));
-
-    //    if (Dist > Radius)
-    //    {
-    //        var norm = MouseOffset.normalized;
-    //        //Obj.position.x = norm.x * Radius + Parent.position.x;
-    //        //Obj.position.y = norm.y * Radius + Parent.position.y;
-    //        Obj.position = new Vector3(norm.x * Radius + Parent.position.x, norm.y * Radius + Parent.position.y, Obj.position.z);
-    //}
     }
 }

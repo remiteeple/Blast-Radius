@@ -134,13 +134,6 @@ void ABlastRadiusWeapon::NetMultiCastFire_Implementation()
             ParticleSystemComponent->SetTemplate(ProjectileFX);
             ParticleSystemComponent->SecondsBeforeInactive = 0.5;
         }
-
-        // Play the sound for shooting.
-        //if (ShootingSound)
-        //{
-        //    AudioComponent->SetSound(ShootingSound);
-        //    AudioComponent->Play();
-        //}
     }
 }
 

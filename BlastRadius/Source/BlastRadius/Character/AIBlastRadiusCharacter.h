@@ -6,9 +6,6 @@
 #include "Character/BlastRadiusCharacter.h"
 #include "AIBlastRadiusCharacter.generated.h"
 
-/**
- * 
- */
 
 class UPawnSensingComponent;
 
@@ -23,13 +20,13 @@ enum class EAIState : uint8
 UCLASS()
 class BLASTRADIUS_API AAIBlastRadiusCharacter : public ABlastRadiusCharacter
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 public:
     AAIBlastRadiusCharacter();
 
 protected:
     virtual void BeginPlay() override;
-	
+
     /** Components **/
     UPROPERTY(VisibleAnywhere, Category = "Pawn Sensor")
         UPawnSensingComponent* PawnSensingComponent;
@@ -48,10 +45,7 @@ protected:
     UFUNCTION()
         void ResetPatrol();
 
-    //UPROPERTY(ReplicatedUsing = OnRep_GuardState)
-        EAIState AIState;
-    //UFUNCTION()
-    	//void OnRep_GuardState(); //Gets called when GuardState changes, but only on the clients
+    EAIState AIState;
 
     void SetState(EAIState NewState);
 
@@ -89,5 +83,5 @@ public:
     virtual void Tick(float DeltaTime) override;
 
 private:
-    AActor* TargetActor;	
+    AActor * TargetActor;
 };

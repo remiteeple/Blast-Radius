@@ -22,14 +22,12 @@ ABlastRadiusBlastzoneSphere::ABlastRadiusBlastzoneSphere()
 void ABlastRadiusBlastzoneSphere::BeginPlay()
 {
     Super::BeginPlay();
-
 }
 
 // Called every frame
 void ABlastRadiusBlastzoneSphere::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
-
 }
 
 void ABlastRadiusBlastzoneSphere::OnComponentEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)

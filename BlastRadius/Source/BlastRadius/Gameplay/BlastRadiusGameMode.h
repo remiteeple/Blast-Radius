@@ -21,11 +21,6 @@ public:
     /* Respawn player */
     void RespawnPlayer(APlayerController* NewPlayer, int playerTeam, int NetIndex);
 
-    ///* Called when the map transitions to WaitingPostMatch */
-    //virtual void HandleMatchHasEnded() override;
-
-   
-
 private:
     void HandleNewPlayer(APlayerController* NewPlayer);
 #pragma endregion Methods
@@ -33,7 +28,6 @@ private:
 #pragma region Members
 public:
     /* Match Timer */
-    
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
         FTimerHandle EndCountDown;
 
