@@ -44,10 +44,10 @@ public:
         FString CurrentEnergyDisplayValue;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
-        float RechargeRateSlow = 0.05f;
+        float RechargeRateSlow = 0.1f;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attributes)
-        float RechargeRateFast = 0.2f;
+        float RechargeRateFast = 0.4f;
 
     //Bool for checking if the timer is finished.
     bool OnCooldown = false;
