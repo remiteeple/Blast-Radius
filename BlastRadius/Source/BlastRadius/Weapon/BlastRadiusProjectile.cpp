@@ -61,20 +61,17 @@ ABlastRadiusProjectile::ABlastRadiusProjectile()
     // Damage
     LaserDamage = 50.0f;
 
+    //Keeps track of amount of times the projectile bounced.
+    BouncesMade = 0.0f;
+
     // Max amount of bounces until object is destroyed.
-    BouncesRemaining = 5.0f;
+    MaxBounces = 4.0f;
 
     // Knock back Amount for collision with projectile. This might be Health percentage * 10 later.
     KnockbackFactor = 100.0f;
 
     // Blow back range for projectile on projectile explosion
     BlowBackRange = 25.0f;
-
-    /*
-    In Blueprint editor:
-    For a multiplayer game, We'll need to uncheck "Initial Velocity in Local Space"
-    in the "MovementComp" Component in order for this projectile to replicate correctly over a server.
-    */
 
     // Setup particle system component
     ParticleSystemComponent = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("MyPSC1"));
@@ -109,15 +106,28 @@ void ABlastRadiusProjectile::BeginPlay()
 void ABlastRadiusProjectile::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
-
-    if (BouncesRemaining <= 0)
-        DestroySelf();
 }
 
 
 void ABlastRadiusProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-    BouncesRemaining--;
+    //Increment bounce when hitting walls until bounce limit is hit.
+    BouncesMade++;
+    if (BouncesMade <= MaxBounces)
+    {
+        LaserDamage += BouncesMade * 3;
+        if (ProjectileDestroyFX)
+        {
+            //Spawn ParticleSystem using GamePlayStatics
+            UGameplayStatics::SpawnEmitterAtLocation(this, ProjectileDestroyFX, GetActorLocation());
+            //OR Spawn Particle using UParticleSystemComponent
+            ParticleSystemComponent->SetTemplate(ProjectileDestroyFX);
+        } 
+    }
+    else
+        DestroySelf();
+
+
     if (OtherActor != nullptr && OtherComp != nullptr)
     {
         // Collision Response between projectile & character.
@@ -160,39 +170,6 @@ void ABlastRadiusProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
                 }
             }
 
-            // Projectile 2 Projectile logic. - Remi
-            //Get a list of characters.
-            //Calculate math
-            //  Damage = m_LaserDamage / m_MaxBounceAmount;  this prevents the maximum damage build up from being higher than a base attack.
-            //  blowback direction = direction * velocity
-            //  blowback vector = -direction * m_MaxBounceAmount
-            //Check if the character actors are within range.
-            //apply damage to characters in range
-            // Logic expanded:
-            //// Cycle through all players.
-            //for (auto Actor : CharacterActors)
-            //{
-                //FVector difference = OtherProjectile->GetActorLocation() - Actor->GetActorLocation();
-                //FVector direction = difference.GetSafeNormal();
-                //float distance = difference.Size();
-
-                //// Calculate direction & distance to impact for each character(actor)
-                //FVector directionToImpactLocation = FVector(difference - Actor->GetActorLocation()).GetSafeNormal();
-                //float playerToImpactDistance = FVector(this->GetActorLocation() - Actor->GetActorLocation()).Size();
-
-                //FVector BlowBackVector = directionToImpactLocation * m_MaxBounceAmount;
-
-                //// If player is in range.
-                //if (playerToImpactDistance > m_BlowBackRange)
-                //{
-                //    // Call TakeDamage on all characters within range's HealthComponent. 
-                //    ABlastRadiusCharacter* Character = Cast<ABlastRadiusCharacter>(Actor);
-                //    const UDamageType* Laser_DamageType = Cast<UDamageType>(UDamageType::StaticClass());
-                //    Character->GetHealthComponent()->TakeDamage(m_LaserDamage / m_MaxBounceAmount, Laser_DamageType, Character->GetInstigatorController(), GetOwner(), BlowBackVector * GetVelocity());
-                //    //GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Red, "BlowBackDamage % - " + FString::SanitizeFloat(Character->GetHealthComponent()->GetCurrentHealth())); // DEBUG
-                //}
-            //}
-
             if (ProjectileDestroyFX)
             {
                 UGameplayStatics::SpawnEmitterAtLocation(this, ProjectileDestroyFX, GetActorLocation());
@@ -201,27 +178,6 @@ void ABlastRadiusProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
 
             DestroySelf();
         }
-
-        // this doesn't work
-        ////Decrement bounce when hitting walls until bounce limit is hit.
-        //if (BouncesRemaining != 0)
-        //{
-        //    if (OtherActor->ActorHasTag("Wall"))
-        //    {
-        //        BouncesRemaining--;
-        //    }
-        //}
-        //else
-        //{
-        //    if (ProjectileDestroyFX)
-        //    {
-        //        //Spawn ParticleSystem using GamePlayStatics
-        //        UGameplayStatics::SpawnEmitterAtLocation(this, ProjectileDestroyFX, GetActorLocation());
-        //        //OR Spawn Particle using UParticleSystemComponent
-        //        ParticleSystemComponent->SetTemplate(ProjectileDestroyFX);
-        //    }
-        //    DestroySelf();
-        //}
     }
 }
 

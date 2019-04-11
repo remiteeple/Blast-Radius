@@ -6,9 +6,7 @@
 #include "Pickup/BlastRadiusPickup.h"
 #include "BlastRadiusBattery.generated.h"
 
-/**
- * 
- */
+
 UCLASS()
 class BLASTRADIUS_API ABlastRadiusBattery : public ABlastRadiusPickup
 {
