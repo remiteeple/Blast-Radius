@@ -26,6 +26,9 @@ protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Gameplay)
         class USphereComponent* OuterKillSphere;
 
+    UPROPERTY(EditAnywhere)
+        class UStaticMeshComponent* SphereMesh;
+
     UFUNCTION()
         void OnComponentEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 };
