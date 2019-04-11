@@ -51,7 +51,8 @@ void ABlastRadiusExplosion::BeginPlay()
         {
             //GEngine->AddOnScreenDebugMessage(-1, 15, FColor::Cyan, Hit.GetActor()->GetActorLabel());
 
-            if (Hit.GetActor()->ActorHasTag("Player"))
+            ABlastRadiusCharacter* Character = Cast<ABlastRadiusCharacter>(Hit.GetActor());
+            if (Character)
             {
                 // Calculate knockback.
                 FVector difference = Hit.GetActor()->GetActorLocation() - ExplosionLocation;
@@ -59,9 +60,6 @@ void ABlastRadiusExplosion::BeginPlay()
                 float distance = difference.Size();
 
                 FVector BlowBackVector = direction * 10000;
-
-                // Cast Character.
-                ABlastRadiusCharacter* Character = Cast<ABlastRadiusCharacter>(Hit.GetActor());
 
                 // Apply knockback and damage to character.
                 const UDamageType* Laser_DamageType = Cast<UDamageType>(UDamageType::StaticClass());

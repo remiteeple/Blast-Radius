@@ -20,6 +20,9 @@ void ABlastRadiusPlayerController::SetupInputComponent()
 {
     Super::SetupInputComponent();
 
+    /* Fix double click mouse input. */
+    SetInputMode(FInputModeGameAndUI());
+
     /* Aim */
     InputComponent->BindAxis("AimForward", this, &ABlastRadiusPlayerController::AimForward);
     InputComponent->BindAxis("AimRight", this, &ABlastRadiusPlayerController::AimRight);
