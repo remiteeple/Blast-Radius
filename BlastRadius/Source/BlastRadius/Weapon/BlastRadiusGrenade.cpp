@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "BlastRadiusGrenade.h"
+#include "BlastRadiusGrenade.h" 
 #include "BlastRadiusExplosion.h"
 #include "BlastRadiusProjectile.h"
 #include "GameFramework/ProjectileMovementComponent.h"
@@ -16,6 +16,7 @@
 #include "Runtime/Engine/Classes/Particles/ParticleSystemComponent.h"
 #include "Runtime/Engine/Classes/Engine/World.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "Component/EnergyComponent.h"
 #include "Net/UnrealNetwork.h"
 
 // Sets default values

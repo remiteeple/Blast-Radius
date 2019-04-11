@@ -93,7 +93,7 @@ void ABlastRadiusWeapon::SetupRay(FVector &StartTrace, FVector &Direction, FVect
 
 void ABlastRadiusWeapon::Fire()
 {
-    NetMultiCastFire();
+    return NetMultiCastFire();
 }
 
 void ABlastRadiusWeapon::NetMultiCastFire_Implementation()
@@ -131,6 +131,10 @@ void ABlastRadiusWeapon::NetMultiCastFire_Implementation()
             ParticleSystemComponent->SetTemplate(ProjectileFX);
             ParticleSystemComponent->SecondsBeforeInactive = 0.5;
         }
+
+        // Spend energy.
+        ABlastRadiusCharacter* Character = Cast<ABlastRadiusCharacter>(GetOwner());
+        Character->GetEnergyComponent()->SpendEnergy(Character->ShootCost);
     }
 }
 

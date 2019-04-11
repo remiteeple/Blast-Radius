@@ -42,7 +42,5 @@ private:
     /* Blink Particles */
     UPROPERTY(EditDefaultsOnly, Category = FX)
         UParticleSystem* BlinkParticleFX;
-    UPROPERTY(EditDefaultsOnly, Category = FX)
-        UParticleSystem* BlinkBeamParticleFX;
 #pragma endregion Members
 };

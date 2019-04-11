@@ -486,7 +486,7 @@ void ABlastRadiusCharacter::LobGrenade()
                 ServerLobGrenade();
 
             /* Spend Energy */
-            this->GetEnergyComponent()->SpendEnergy(GrenadeCost);
+            //this->GetEnergyComponent()->SpendEnergy(GrenadeCost);
 
             /* Play the sound for throwing */
             AudioComponent->SetSound(ThrowSound);
@@ -527,6 +527,9 @@ void ABlastRadiusCharacter::ServerLobGrenade_Implementation()
                             // Set the projectile's initial trajectory.
                             FVector LaunchDirection = GetActorRotation().Vector();
                             Grenade->LobInDirection(LaunchDirection);
+
+                            /* Spend Energy. */
+                            this->GetEnergyComponent()->SpendEnergy(GrenadeCost);
                         }
                     }
                 }
@@ -565,9 +568,6 @@ void ABlastRadiusCharacter::Fire()
                 Weapon->Fire();
             else if (Role == ROLE_AutonomousProxy)
                 ServerFire();
-
-            /* Spend Energy */
-            this->GetEnergyComponent()->SpendEnergy(ShootCost);
 
             /* Play Sound */
             AudioComponent->SetSound(FireSound);
