@@ -4,6 +4,7 @@
 #include "EngineGlobals.h"
 #include "Runtime/Engine/Classes/Engine/Engine.h"
 #include "Net/UnrealNetwork.h"
+#include "BlastRadiusPlayerController.h"
 
 ABlastRadiusPlayerState::ABlastRadiusPlayerState()
 {
@@ -17,16 +18,7 @@ void ABlastRadiusPlayerState::DecrementLives()
     {
         CurrentLives--;
     }
-    if (CurrentLives <= 0)
-    {
-        RoundEnd();
-    }
     GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, FString::FromInt(CurrentLives));
-}
-
-void ABlastRadiusPlayerState::RoundEnd()
-{
-    GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, TEXT("WIN"));
 }
 
 void ABlastRadiusPlayerState::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const

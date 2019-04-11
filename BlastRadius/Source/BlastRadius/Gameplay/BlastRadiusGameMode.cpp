@@ -22,10 +22,6 @@ ABlastRadiusGameMode::ABlastRadiusGameMode()
 void ABlastRadiusGameMode::HandleStartingNewPlayer_Implementation(APlayerController* NewPlayer)
 {
     Super::HandleStartingNewPlayer_Implementation(NewPlayer);
-
-    /* Disable input on newPlayer */
-    NewPlayer->DisableInput(NewPlayer);
-
     /* Handle the new player. */
     HandleNewPlayer(NewPlayer);
 }
@@ -128,28 +124,6 @@ void ABlastRadiusGameMode::RespawnPlayer(APlayerController* NewPlayer, int playe
 //      }*/
 //}
 
-void ABlastRadiusGameMode::BeginPlay()
-{
-    Super::BeginPlay();
-
-    /* Start countdown before starting gameplay */
-    GetWorld()->GetTimerManager().SetTimer(StartCountDown, this, &ABlastRadiusGameMode::EnablePlayers, 3.0f, false);
-}
-
-void ABlastRadiusGameMode::EnablePlayers()
-{
-    /* Get list of all players in world */
-    TArray<AActor*> Players;
-    ABlastRadiusCharacter* Player = nullptr;
-    UGameplayStatics::GetAllActorsOfClass(GetWorld(), ABlastRadiusCharacter::StaticClass(), Players);
-
-    /* Enable input for all players spawned in world */
-    for (AActor* Actor : Players)
-    {
-        Player = Cast<ABlastRadiusCharacter>(Actor);
-        Player->GetController()->EnableInput(Cast<APlayerController>(Player->GetController()));
-    }
-}
 
 void ABlastRadiusGameMode::HandleNewPlayer(APlayerController* NewPlayer)
 {

@@ -15,8 +15,6 @@ class ABlastRadiusGameMode : public AGameMode
 public:
 	ABlastRadiusGameMode();
 
-    void BeginPlay() override;
-
     /* Handle new player override from AGameMode */
     virtual void HandleStartingNewPlayer_Implementation(APlayerController* NewPlayer) override;
 
@@ -26,9 +24,7 @@ public:
     ///* Called when the map transitions to WaitingPostMatch */
     //virtual void HandleMatchHasEnded() override;
 
-    /* Start Count Down Function */
-    UFUNCTION(BlueprintCallable)
-        void EnablePlayers();
+   
 
 private:
     void HandleNewPlayer(APlayerController* NewPlayer);
@@ -37,8 +33,7 @@ private:
 #pragma region Members
 public:
     /* Match Timer */
-    UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-        FTimerHandle StartCountDown;
+    
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
         FTimerHandle EndCountDown;
 

@@ -16,12 +16,13 @@ class BLASTRADIUS_API ABlastRadiusGameStateBase : public AGameState
 	
 public:
 #pragma region Members
+    /* Materials for the teams (Blue/Orange) */
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = Materials, Replicated)
         class UMaterialInterface* TeamOnePMaterials;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = Materials, Replicated)
         class UMaterialInterface* TeamTwoPMaterials;
-
+    /* Check for teams being enabled */
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Gameplay, Replicated)
         bool TeamsEnabled = true;
 
@@ -32,11 +33,31 @@ public:
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Gameplay, meta = (ClampMin = 0), Replicated)
         int LosingTeam = -1;
 
-
+    /* Vars for team sizes */
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Gameplay, meta = (ClampMin = 0), Replicated)
         int TeamOneSize = 0;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Gameplay, meta = (ClampMin = 0), Replicated)
         int TeamTwoSize = 0;
+    /* Count down to allowing gameplay */
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+        FTimerHandle StartCountDown;
+
 #pragma endregion Members
+    
+
+#pragma region Methods
+    void BeginPlay() override;
+    /* Function to Disable players to start round */
+    void StartRound();
+    /* Function to re-enable players */
+    UFUNCTION(BlueprintCallable)
+        void EnablePlayers();
+    /* Cast Enabling to clients */
+    UFUNCTION(NetMulticast, Reliable, WithValidation)
+        void NM_EnablePlayers();
+    /* Cast starting the round to clients */
+    UFUNCTION(NetMulticast, Reliable, WithValidation)
+        void NM_StartRound();
+#pragma endregion Methods
 };

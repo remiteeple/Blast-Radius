@@ -35,8 +35,6 @@ public:
     /* Decrement Lives */
     void DecrementLives();
 
-    /* End Round */
-    void RoundEnd();
 #pragma endregion Methods
 
 #pragma region Getters
