@@ -23,7 +23,7 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Damage, Replicated)
         int CurrentDamage = 0;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Damage, Replicated)
-        int CurrentEnergy = 0;
+        int CurrentEnergy = 100;
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Team, Replicated)
         int PlayerTeam;
 #pragma endregion Members

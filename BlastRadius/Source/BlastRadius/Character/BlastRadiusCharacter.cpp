@@ -107,7 +107,7 @@ void ABlastRadiusCharacter::PostInitializeComponents()
     if (SkeletalMesh != nullptr)
     {
         check(SkeletalMesh != nullptr && "Character doesn't have a skeletal mesh!");
-        SkeletalMesh->SetCollisionObjectType(ECC_Pawn);
+        //SkeletalMesh->SetCollisionObjectType(ECC_Pawn);
 
         /* Retrieve the animation instance */
         AnimationInstance = Cast<UCharacterAnimInstance>(SkeletalMesh->GetAnimInstance());
@@ -367,7 +367,7 @@ void ABlastRadiusCharacter::PostBeginPlay()
 
 void ABlastRadiusCharacter::Multicast_AssignTeamsColor_Implementation()
 {
-    if (GetGameState()) 
+    if (GetGameState())
     {
         if (playerTeam == 0)
         {
@@ -484,57 +484,60 @@ void ABlastRadiusCharacter::LobGrenade()
                 ServerLobGrenade();
             else if (Role < ROLE_Authority)
                 ServerLobGrenade();
+
+            /* Spend Energy */
+            this->GetEnergyComponent()->SpendEnergy(GrenadeCost);
+
+            /* Play the sound for throwing */
+            AudioComponent->SetSound(ThrowSound);
+            AudioComponent->Play();
         }
     }
 }
 
 void ABlastRadiusCharacter::ServerLobGrenade_Implementation()
 {
-    // Raycast to see if something is blocking the grenade.
-    if (!GetPickableActor_LineTraceTestByObjectType(EObjectTypeQuery::ObjectTypeQuery1))
+    /* Check if character is alive. */
+    if (bIsDead == false)
     {
-        // Attempt to lob a grenade.
-        if (GrenadeClass)
+        /* Check if character has enough energy. */
+        if (EnergyComponent->OnCooldown == false)
         {
-            UWorld* World = GetWorld();
-            if (World)
+            // Raycast to see if something is blocking the grenade.
+            if (!GetPickableActor_LineTraceTestByObjectType(EObjectTypeQuery::ObjectTypeQuery1))
             {
-                // Set grenade spawn params.
-                FActorSpawnParameters SpawnParams;
-                SpawnParams.Owner = this;
-                SpawnParams.Instigator = Instigator;
-
-                // Spawn the projectile at the in front of the character.
-                const FVector SpawnLocation = GetActorLocation() + GetActorRotation().Vector() * 150.0f;
-                const FRotator SpawnRotation = GetActorRotation();
-                ABlastRadiusGrenade* Grenade = World->SpawnActor<ABlastRadiusGrenade>(GrenadeClass, SpawnLocation, SpawnRotation, SpawnParams);
-
-                if (Grenade)
+                // Attempt to lob a grenade.
+                if (GrenadeClass)
                 {
-                    // Set the projectile's initial trajectory.
-                    FVector LaunchDirection = GetActorRotation().Vector();
-                    Grenade->LobInDirection(LaunchDirection);
-                }
+                    UWorld* World = GetWorld();
+                    if (World)
+                    {
+                        // Set grenade spawn params.
+                        FActorSpawnParameters SpawnParams;
+                        SpawnParams.Owner = this;
+                        SpawnParams.Instigator = Instigator;
 
-                // Play the sound for exploding
-                AudioComponent->SetSound(ThrowSound);
-                AudioComponent->Play();
+                        // Spawn the projectile at the in front of the character.
+                        const FVector SpawnLocation = GetActorLocation() + GetActorRotation().Vector() * 150.0f;
+                        const FRotator SpawnRotation = GetActorRotation();
+                        ABlastRadiusGrenade* Grenade = World->SpawnActor<ABlastRadiusGrenade>(GrenadeClass, SpawnLocation, SpawnRotation, SpawnParams);
+
+                        if (Grenade)
+                        {
+                            // Set the projectile's initial trajectory.
+                            FVector LaunchDirection = GetActorRotation().Vector();
+                            Grenade->LobInDirection(LaunchDirection);
+                        }
+                    }
+                }
             }
         }
-
-        // Spend Energy.
-        EnergyComponent->SpendEnergy(GrenadeCost);
     }
 }
 
 bool ABlastRadiusCharacter::ServerLobGrenade_Validate()
 {
     return true;
-}
-
-void ABlastRadiusCharacter::ClientFire_Implementation()
-{
-    Weapon->Fire();
 }
 
 void ABlastRadiusCharacter::ServerFire_Implementation()
@@ -560,9 +563,13 @@ void ABlastRadiusCharacter::Fire()
             /* Shoot. */
             if (Role == ROLE_Authority)
                 Weapon->Fire();
-            else if (Role < ROLE_Authority)
+            else if (Role == ROLE_AutonomousProxy)
                 ServerFire();
 
+            /* Spend Energy */
+            this->GetEnergyComponent()->SpendEnergy(ShootCost);
+
+            /* Play Sound */
             AudioComponent->SetSound(FireSound);
             AudioComponent->Play();
         }

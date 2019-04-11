@@ -80,7 +80,7 @@ void ABlastRadiusPickup::Enable_Implementation()
     if (SphereComponent)
     {
         /* Show & Enable Pickup */
-        MeshComponent->SetHiddenInGame(true);
+        MeshComponent->SetHiddenInGame(false);
         SphereComponent->SetActive(true);
         SphereComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
     }

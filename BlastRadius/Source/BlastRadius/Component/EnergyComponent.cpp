@@ -30,7 +30,7 @@ void UEnergyComponent::SpendEnergy(float EnergyCost)
     //Get the player state to modify current player damage
     ABlastRadiusPlayerState* PlayerState = Cast<ABlastRadiusCharacter>(GetOwner())->GetPlayerState();
     if (PlayerState)
-         PlayerState->CurrentEnergy = CurrentEnergy;
+        PlayerState->SetEnergy(CurrentEnergy);
 }
 
 void UEnergyComponent::ToggleCoolDown()
@@ -80,7 +80,7 @@ void UEnergyComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
     // Get the player state to modify current player damage
     ABlastRadiusPlayerState* PlayerState = Cast<ABlastRadiusCharacter>(GetOwner())->GetPlayerState();
     if (PlayerState)
-        PlayerState->CurrentEnergy = CurrentEnergy;
+        PlayerState->SetEnergy(CurrentEnergy);
 }
 
 void UEnergyComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

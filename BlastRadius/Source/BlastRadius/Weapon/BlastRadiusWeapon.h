@@ -28,9 +28,6 @@ protected:
 #pragma region Members
 public:
 
-    /* Energy Consumption */
-    float ShootCost;
-
     /** Projectile Template **/
     UPROPERTY(EditDefaultsOnly, Category = Projectile)
         TSubclassOf<class ABlastRadiusProjectile> ProjectileClass;
