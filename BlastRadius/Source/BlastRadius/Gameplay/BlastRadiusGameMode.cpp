@@ -38,30 +38,58 @@ void ABlastRadiusGameMode::RespawnPlayer(APlayerController* NewPlayer, int playe
     /* Get actors of class type in world */
     UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerStart::StaticClass(), PlayerStarts);
     UGameplayStatics::GetAllActorsOfClass(GetWorld(), ABlastRadiusCharacter::StaticClass(), Players);
+    //Loop through all actors in the array of players
     for (AActor* Actor : Players)
     {
-        OtherPlayer = Cast<ABlastRadiusCharacter>(Actor);
-        if (OtherPlayer->GetController() != NewPlayer)
+        ABlastRadiusCharacter* PlayerActor = Cast<ABlastRadiusCharacter>(Actor);
+        //Check if actor from loop is the actor being respawned
+        if (PlayerActor->GetController() != NewPlayer)
         {
-            OtherPlayers.Add(OtherPlayer);
+            //Set OtherPlayer for use
+            OtherPlayer = Cast<ABlastRadiusCharacter>(PlayerActor);
+            break;
         }
     }
-    for (int i = 0; i < PlayerStarts.Num(); i++)
+    //Loop through all actors in the array of players
+    for (AActor* Actor : Players)
     {
-        float Distance = OtherPlayer->GetDistanceTo(Cast<AActor>(PlayerStarts[i]));
-        if (Distance >= 700.0f)
+        //Get the actor and check if it is not equal to player being respawned
+        ABlastRadiusCharacter* OtherPlayerToAdd = Cast<ABlastRadiusCharacter>(Actor);
+
+        if (OtherPlayerToAdd->GetController() != NewPlayer)
         {
-            PreferredStarts.Add(PlayerStarts[i]);
+            //Add player to Other player array
+            OtherPlayers.Add(OtherPlayerToAdd);
         }
     }
 
+    //Loop through Player Starts
+    for (int i = 0; i < PlayerStarts.Num(); i++)
+    {
+        //Check if we have other player
+        if (OtherPlayer != nullptr)
+        {
+
+            //Get distance between the player start and the other player
+            float Distance = OtherPlayer->GetDistanceTo(Cast<AActor>(PlayerStarts[i]));
+          
+            if (Distance >= 700.0f)
+            {
+                //Add PlayerStart to Array of preffered starts
+                PreferredStarts.Add(PlayerStarts[i]);
+            }
+        }
+    }
+    //Create new pawn for use
     APawn* pawn = nullptr;
+    //Spawn the new pawn at the first preffered start with the NewPlayer controller
     pawn = SpawnDefaultPawnFor(NewPlayer, PreferredStarts[0]);
     if (pawn)
     {
         ABlastRadiusCharacter* Player = Cast<ABlastRadiusCharacter>(pawn);
         if (Player)
         {
+            //If the players lives arent 0 then spawn normally
             if (Cast<ABlastRadiusPlayerState>(NewPlayer->PlayerState)->GetLives() > 0)
             {
                 /* Assign team & netIndex to pawn passed in */
@@ -72,37 +100,50 @@ void ABlastRadiusGameMode::RespawnPlayer(APlayerController* NewPlayer, int playe
                 NewPlayer->SetPawn(pawn);
                 RestartPlayer(NewPlayer);
             }
+            //If the player's lives are 0 or lower then end match
             else
             {
                 if (playerTeam == 1)
                 {
 
                     
-
+                    //Set the winning team in the gamestate to the opposite of the respawned player's team
                    ABlastRadiusGameStateBase* GState  = Cast<ABlastRadiusGameStateBase>(GetWorld()->GetGameState());
                    GState->WinningTeam = 0;
                 }
                 else
                 {
+                    //Set the winning team in the gamestate to the opposite of the respawned player's team
+
                     ABlastRadiusGameStateBase* GState = Cast<ABlastRadiusGameStateBase>(GetWorld()->GetGameState());
                     GState->WinningTeam = 1;
                 }
+                //Set the losing team in the gamestate to the respawned player's team
                 ABlastRadiusGameStateBase* GState = Cast<ABlastRadiusGameStateBase>(GetWorld()->GetGameState());
                 GState->LosingTeam = playerTeam;
+                //Loop through all otherplayers 
                 for (int i = 0; i < OtherPlayers.Num(); i++)
                 {
+                    //Check if the have a controller
                     if (OtherPlayers[i]->GetController())
                     {
+                        //Reduce the players lives to 0
                             OtherPlayers[i]->GetPlayerState()->CurrentLives = 0;
+                            //Set them to be hidden
                             OtherPlayers[i]->SetActorHiddenInGame(true);
+                            //Move the player below the kill plane
                             OtherPlayers[i]->SetActorLocation(FVector(-10000000.0f, -100000000.0f, -100000000.0f));
                         
                     }
                 }
+                //Disable the input of the killed player
                 NewPlayer->DisableInput(NewPlayer);
+                //Hide the new player
                 NewPlayer->SetActorHiddenInGame(true);
+                //Move the player below the kill plane
                 Cast<AActor>(NewPlayer)->SetActorLocation(FVector(-10000000.0f, -100000000.0f, -100000000.0f));
-                GetWorld()->GetTimerManager().SetTimer(EndCountDown, this, &ABlastRadiusGameMode::HandleMatchHasEnded, 3.0f, false);
+                //Start timer for match end
+               // GetWorld()->GetTimerManager().SetTimer(EndCountDown, this, &ABlastRadiusGameMode::HandleMatchHasEnded, 3.0f, false);
             }
         }
     }
