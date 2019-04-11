@@ -50,6 +50,10 @@ public:
     UFUNCTION()
         void Fire();
 
+    /* Server Call for Shooting */
+    UFUNCTION(NetMulticast, Reliable, WithValidation)
+        void NetMultiCastFire();
+
     /* Attach the weapon to the character */
     void Attach(class ABlastRadiusCharacter* Character);
 #pragma endregion Methods

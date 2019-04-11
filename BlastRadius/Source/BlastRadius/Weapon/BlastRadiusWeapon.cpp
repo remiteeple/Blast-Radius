@@ -94,6 +94,11 @@ void ABlastRadiusWeapon::SetupRay(FVector &StartTrace, FVector &Direction, FVect
 
 void ABlastRadiusWeapon::Fire()
 {
+    NetMultiCastFire();
+}
+
+void ABlastRadiusWeapon::NetMultiCastFire_Implementation()
+{
     // Raycast to see if something is blocking the shot.
     if (!GetPickableActor_LineTraceTestByObjectType(EObjectTypeQuery::ObjectTypeQuery1))
     {
@@ -130,10 +135,18 @@ void ABlastRadiusWeapon::Fire()
             ParticleSystemComponent->SecondsBeforeInactive = 0.5;
         }
 
-        // Play the sound for shooting
-        AudioComponent->SetSound(ShootingSound);
-        AudioComponent->Play();
+        // Play the sound for shooting.
+        //if (ShootingSound)
+        //{
+        //    AudioComponent->SetSound(ShootingSound);
+        //    AudioComponent->Play();
+        //}
     }
+}
+
+bool ABlastRadiusWeapon::NetMultiCastFire_Validate()
+{
+    return true;
 }
 
 void ABlastRadiusWeapon::Attach(class ABlastRadiusCharacter* Character)

@@ -532,6 +532,11 @@ bool ABlastRadiusCharacter::ServerLobGrenade_Validate()
     return true;
 }
 
+void ABlastRadiusCharacter::ClientFire_Implementation()
+{
+    Weapon->Fire();
+}
+
 void ABlastRadiusCharacter::ServerFire_Implementation()
 {
     Weapon->Fire();
@@ -557,6 +562,9 @@ void ABlastRadiusCharacter::Fire()
                 Weapon->Fire();
             else if (Role < ROLE_Authority)
                 ServerFire();
+
+            AudioComponent->SetSound(FireSound);
+            AudioComponent->Play();
         }
     }
 }

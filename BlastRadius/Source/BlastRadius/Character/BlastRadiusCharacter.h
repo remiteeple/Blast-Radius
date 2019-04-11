@@ -62,6 +62,8 @@ protected:
         class USoundBase* DeathSound;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Audio)
         class USoundBase* ThrowSound;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Audio)
+        class USoundBase* FireSound;
 
     /* Templates */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Projectile)
@@ -142,6 +144,9 @@ public:
     /* Server Call for Shooting */
     UFUNCTION(Server, Reliable, WithValidation)
         void ServerFire();
+
+    UFUNCTION(Client, Reliable)
+        void ClientFire();
 
     /*  Called for melee attack  */
     void Melee();
