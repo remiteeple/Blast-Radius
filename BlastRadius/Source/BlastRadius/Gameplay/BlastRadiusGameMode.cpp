@@ -67,7 +67,7 @@ void ABlastRadiusGameMode::RespawnPlayer(APlayerController* NewPlayer, int playe
     for (int i = 0; i < PlayerStarts.Num(); i++)
     {
         //Check if we have other player
-        if (OtherPlayer != nullptr)
+        if (OtherPlayer)
         {
 
             //Get distance between the player start and the other player
@@ -77,7 +77,14 @@ void ABlastRadiusGameMode::RespawnPlayer(APlayerController* NewPlayer, int playe
             {
                 //Add PlayerStart to Array of preffered starts
                 PreferredStarts.Add(PlayerStarts[i]);
+
             }
+        }
+        //If there is no other actor just set the original spawn
+        else 
+        {
+                PreferredStarts.Add(PlayerStarts[i]);
+                break;
         }
     }
     //Create new pawn for use
