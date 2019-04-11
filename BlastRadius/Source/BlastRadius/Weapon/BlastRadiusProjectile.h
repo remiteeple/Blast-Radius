@@ -68,17 +68,18 @@ protected:
 #pragma region Members
 public:
     /* Projectile Variables */
-    UPROPERTY(BlueprintReadWrite, Category = Projectile)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Projectile)
         float LifeSpan;
-    UPROPERTY(BlueprintReadWrite, Category = Projectile)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Projectile)
         float LaserDamage;
     UPROPERTY(BlueprintReadWrite, Category = Projectile)
-        int BouncesRemaining;
+        int BouncesMade;
     UPROPERTY(BlueprintReadWrite, Category = Projectile)
         float KnockbackFactor;
     UPROPERTY(BlueprintReadWrite, Category = Projectile)
         float BlowBackRange;
-
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Projectile)
+        int MaxBounces;
     /* Explosion Template */
     UPROPERTY(EditDefaultsOnly, Category = Projectile)
         TSubclassOf<class ABlastRadiusExplosion> ExplosionClass;

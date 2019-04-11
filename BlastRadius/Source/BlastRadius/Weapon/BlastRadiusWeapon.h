@@ -27,11 +27,6 @@ protected:
 
 #pragma region Members
 public:
-    /* Muzzle Location & Rotation Variables */
-    FVector MuzzleDirectionOffSet;
-    FRotator MuzzleRotation;
-    FVector MuzzleLocation;
-    float MagnitudeOffSet;
 
     /** Projectile Template **/
     UPROPERTY(EditDefaultsOnly, Category = Projectile)

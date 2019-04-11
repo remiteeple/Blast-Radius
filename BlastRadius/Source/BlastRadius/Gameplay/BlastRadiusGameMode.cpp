@@ -16,7 +16,6 @@ ABlastRadiusGameMode::ABlastRadiusGameMode()
 {
     PrimaryActorTick.bStartWithTickEnabled = true;
     PrimaryActorTick.bCanEverTick = true;
-
 }
 
 void ABlastRadiusGameMode::HandleStartingNewPlayer_Implementation(APlayerController* NewPlayer)
@@ -108,22 +107,6 @@ void ABlastRadiusGameMode::RespawnPlayer(APlayerController* NewPlayer, int playe
         }
     }
 }
-
-//void ABlastRadiusGameMode::HandleMatchHasEnded()
-//{
-//    /*  Super::HandleMatchHasEnded();
-//      TArray<AActor*> Players;
-//      ABlastRadiusCharacter* Player = nullptr;
-//      UGameplayStatics::GetAllActorsOfClass(GetWorld(), ABlastRadiusCharacter::StaticClass(), Players);
-//
-//      for (AActor* Actor : Players)
-//      {
-//          Player = Cast<ABlastRadiusCharacter>(Actor);
-//          if (Player->GetController())
-//          Player->GetController()->DisableInput(Cast<APlayerController>(Player->GetController()));
-//      }*/
-//}
-
 
 void ABlastRadiusGameMode::HandleNewPlayer(APlayerController* NewPlayer)
 {

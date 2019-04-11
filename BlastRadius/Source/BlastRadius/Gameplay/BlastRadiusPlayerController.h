@@ -34,8 +34,6 @@ private:
     void AimRight(float Scale);
 
     void LookRight(float Scale);
-    //void SnapRightPressed();
-    //void SnapRightReleased();
 
     void MoveVertical(float Scale);
     void MoveHorizontal(float Scale);
@@ -71,11 +69,5 @@ private:
     FRotator LookDirection;
 
     float CameraSensitivity = 25.0f;
-
-    //bool RightTapPressed;
-    //bool LeftTapPressed;
-
-    //float TimeSinceLastRightTap;
-    //float TimeSinceLastLeftTap;
 #pragma endregion Members
 };

@@ -34,7 +34,8 @@ void AAIBlastRadiusCharacter::BeginPlay()
 {
     Super::BeginPlay();
 
-    DefaultRotation = GetActorRotation(); // Get the default rotation for the actor based on world position.
+    // Get the default rotation for the actor based on world position.
+    DefaultRotation = GetActorRotation(); 
 
     // Initiate patrol routine.
     if (bPatrol)
@@ -135,11 +136,6 @@ void AAIBlastRadiusCharacter::Tick(float DeltaTime)
         Direction.Normalize();
         
         SetActorRotation(FMath::Lerp(GetActorRotation(), Direction.Rotation(), 0.25f));
-
-        // Begin shooting if looking at target
-        //if (GetActorRotation().Equals(Direction.Rotation(), 0.5f) && AIState == EAIState::Alerted)
-        //    SetState(EAIState::Attacking);
-
     }
 
     // Fire at target
