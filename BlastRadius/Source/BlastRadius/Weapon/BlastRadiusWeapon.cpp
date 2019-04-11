@@ -50,9 +50,8 @@ ABlastRadiusWeapon::ABlastRadiusWeapon()
 void ABlastRadiusWeapon::BeginPlay()
 {
     Super::BeginPlay();
+    MeshComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
-    // Get shooting cost from owner.
-    ShootCost = Cast<ABlastRadiusCharacter>(GetOwner())->ShootCost;
 }
 
 // Called every frame
@@ -123,8 +122,6 @@ void ABlastRadiusWeapon::NetMultiCastFire_Implementation()
                     Projectile->FireInDirection(LaunchDirection);
                 }
             }
-            ABlastRadiusCharacter* Character = Cast<ABlastRadiusCharacter>(GetOwner());
-            Character->GetEnergyComponent()->SpendEnergy(ShootCost);
         }
 
         // Spawn particles.

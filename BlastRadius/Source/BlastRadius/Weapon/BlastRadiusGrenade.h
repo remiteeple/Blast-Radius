@@ -29,6 +29,12 @@ public:
 
     /* Spawn explosion */
     void Explode();
+    UFUNCTION(Server, Reliable, WithValidation)
+        void ServerExplode();
+
+    /* Play Explosion Effect */
+    UFUNCTION(NetMulticast, Reliable)
+        void PlayExplosionEffect();
 
     /* Timer callable function for destruction */
     void DestroySelf();
@@ -77,7 +83,7 @@ protected:
 #pragma region Members
 public:
     /* Grenade Variables */
-    UPROPERTY(BlueprintReadWrite, Category = Projectile)
+    UPROPERTY(Replicated, BlueprintReadWrite, Category = Projectile)
         float FuseTime;
     UPROPERTY(BlueprintReadWrite, Category = Projectile)
         float GrenadeDamage;

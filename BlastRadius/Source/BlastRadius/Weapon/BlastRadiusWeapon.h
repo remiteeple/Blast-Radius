@@ -33,8 +33,6 @@ public:
     FVector MuzzleLocation;
     float MagnitudeOffSet;
 
-    float ShootCost;
-
     /** Projectile Template **/
     UPROPERTY(EditDefaultsOnly, Category = Projectile)
         TSubclassOf<class ABlastRadiusProjectile> ProjectileClass;

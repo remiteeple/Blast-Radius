@@ -28,7 +28,7 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy)
         float MeleeCost = 25.0f;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Energy)
-        float GrenadeCost = 25.0f;
+        float GrenadeCost = 35.0f;
 protected:
     /* Replicated Orientation */
     UPROPERTY(Replicated)
@@ -82,7 +82,6 @@ protected:
         ABlastRadiusWeapon* Weapon;
     UPROPERTY(Replicated)
         ABlastRadiusGrenade* Grenade;
-
 
 public:
     /* Team Variables */
@@ -144,9 +143,6 @@ public:
     /* Server Call for Shooting */
     UFUNCTION(Server, Reliable, WithValidation)
         void ServerFire();
-
-    UFUNCTION(Client, Reliable)
-        void ClientFire();
 
     /*  Called for melee attack  */
     void Melee();

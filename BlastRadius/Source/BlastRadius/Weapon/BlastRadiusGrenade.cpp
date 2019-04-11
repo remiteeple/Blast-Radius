@@ -145,6 +145,19 @@ void ABlastRadiusGrenade::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor
 
 void ABlastRadiusGrenade::Explode()
 {
+    /* Explode */
+    if (Role == ROLE_Authority)
+        ServerExplode();
+    else if (Role == ROLE_AutonomousProxy)
+        ServerExplode();
+
+    /* Play Sound */
+    AudioComponent->SetSound(ExplodeSound);
+    AudioComponent->Play();
+}
+
+void ABlastRadiusGrenade::ServerExplode_Implementation()
+{
     // Spawn explosion.
     if (ExplosionClass != nullptr)
     {
@@ -159,6 +172,20 @@ void ABlastRadiusGrenade::Explode()
         }
     }
 
+    // Mutlicast explosion effect.
+    PlayExplosionEffect();
+
+    // Remove grenade from world
+    DestroySelf();
+}
+
+bool ABlastRadiusGrenade::ServerExplode_Validate()
+{
+    return true;
+}
+
+void ABlastRadiusGrenade::PlayExplosionEffect_Implementation()
+{
     // Play grenade destruction particle system.
     if (GrenadeDestroyFX)
     {
@@ -170,12 +197,16 @@ void ABlastRadiusGrenade::Explode()
     // Play the sound for exploding
     AudioComponent->SetSound(ExplodeSound);
     AudioComponent->Play();
-
-    // Remove grenade from world
-    DestroySelf();
 }
 
 void ABlastRadiusGrenade::DestroySelf()
 {
     this->Destroy();
+}
+
+void ABlastRadiusGrenade::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+    Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+    DOREPLIFETIME(ABlastRadiusGrenade, FuseTime);
 }
