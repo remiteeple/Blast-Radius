@@ -50,9 +50,18 @@ void UBlinkComponent::Blink()
         // Move player to end location.
         Player->SetActorLocation(FMath::Lerp(StartLocation, EndLocation, 1));
 
+        // Spawn Beam
+        if (BlinkBeamParticleFX)
+        {
+            ParticleSystemComponent->SetTemplate(BlinkBeamParticleFX);
+            ParticleSystemComponent->SetBeamSourcePoint(1, StartLocation, 0);
+            ParticleSystemComponent->SetBeamTargetPoint(1, EndLocation, 0);
+        }
+
         // Spawn particle after translating player position.
         if (BlinkParticleFX)
         {
+            ParticleSystemComponent->SetTemplate(BlinkParticleFX);
             ParticleSystemComponent->SetRelativeLocation(Player->GetActorLocation());
             UGameplayStatics::SpawnEmitterAtLocation(this, BlinkParticleFX, Player->GetActorLocation());
         }
