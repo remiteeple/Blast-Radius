@@ -169,6 +169,7 @@ void ABlastRadiusCharacter::BeginPlay()
         Weapon->Attach(this);
     }
 
+
     /* UpdateAndCheckPlayer at slower delay. */
     GetWorldTimerManager().SetTimer(UpdateHandle, this, &ABlastRadiusCharacter::UpdateAndCheckPlayer, 0.03333f, true, 0.0f);
 
@@ -631,6 +632,7 @@ void ABlastRadiusCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
     DOREPLIFETIME(ABlastRadiusCharacter, Weapon);
+    DOREPLIFETIME(ABlastRadiusCharacter, Grenade);
     DOREPLIFETIME(ABlastRadiusCharacter, Sword);
     DOREPLIFETIME(ABlastRadiusCharacter, Orientation);
     DOREPLIFETIME(ABlastRadiusCharacter, DefaultTPMaterials);

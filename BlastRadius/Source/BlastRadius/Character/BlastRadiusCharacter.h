@@ -64,9 +64,9 @@ protected:
         class USoundBase* ThrowSound;
 
     /* Templates */
-    UPROPERTY(EditDefaultsOnly, Category = Projectile)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Projectile)
         TSubclassOf<class ABlastRadiusProjectile> ProjectileClass;
-    UPROPERTY(EditDefaultsOnly, Category = Projectile)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Projectile)
         TSubclassOf<class ABlastRadiusGrenade> GrenadeClass;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
         TSubclassOf<class ABlastRadiusSword> SwordClass;
@@ -78,6 +78,9 @@ protected:
         ABlastRadiusSword* Sword;
     UPROPERTY(Replicated)
         ABlastRadiusWeapon* Weapon;
+    UPROPERTY(Replicated)
+        ABlastRadiusGrenade* Grenade;
+
 
 public:
     /* Team Variables */
