@@ -20,14 +20,12 @@ ABlastRadiusBlastzoneBox::ABlastRadiusBlastzoneBox()
 void ABlastRadiusBlastzoneBox::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
 void ABlastRadiusBlastzoneBox::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 void ABlastRadiusBlastzoneBox::OnComponentOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)

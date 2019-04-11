@@ -21,7 +21,6 @@ void ABlastRadiusGameStateBase::GetLifetimeReplicatedProps(TArray< FLifetimeProp
 
     DOREPLIFETIME(ABlastRadiusGameStateBase, TeamOnePMaterials);
     DOREPLIFETIME(ABlastRadiusGameStateBase, TeamTwoPMaterials);
-
 }
 
 void ABlastRadiusGameStateBase::StartRound()
@@ -39,7 +38,6 @@ void ABlastRadiusGameStateBase::StartRound()
                 Player = Cast<ABlastRadiusCharacter>(Actor);
                 if (Player->GetInstigatorController() != nullptr)
                     Player->GetController()->DisableInput(Cast<APlayerController>(Player->GetController()));
-            
         }
     }
     NM_StartRound_Implementation();
@@ -118,7 +116,6 @@ void ABlastRadiusGameStateBase::NM_StartRound_Implementation()
             Player->GetController()->DisableInput(Cast<APlayerController>(Player->GetController()));
         }
     }
-
 }
 
 bool ABlastRadiusGameStateBase::NM_StartRound_Validate()

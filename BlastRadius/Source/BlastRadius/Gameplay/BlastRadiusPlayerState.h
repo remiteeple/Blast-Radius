@@ -6,9 +6,7 @@
 #include "GameFramework/PlayerState.h"
 #include "BlastRadiusPlayerState.generated.h"
 
-/**
- * 
- */
+
 UCLASS()
 class BLASTRADIUS_API ABlastRadiusPlayerState : public APlayerState
 {

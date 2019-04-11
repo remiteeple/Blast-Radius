@@ -12,18 +12,14 @@
 // Sets default values
 ABlastRadiusSword::ABlastRadiusSword()
 {
-    // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
     PrimaryActorTick.bCanEverTick = true;
 
     StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
-    //StaticMesh->SetupAttachment(RootComponent);
-    //StaticMesh->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
     StaticMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
     RootComponent = StaticMesh;
 
     HitBoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("Hit Box"));
     HitBoxComponent->SetupAttachment(RootComponent);
-    //SetActorEnableCollision(false);
     HitBoxComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
     SetActorHiddenInGame(true);
     HitBoxComponent->OnComponentBeginOverlap.AddDynamic(this, &ABlastRadiusSword::OnOverlapBegin);
@@ -38,16 +34,12 @@ ABlastRadiusSword::ABlastRadiusSword()
 void ABlastRadiusSword::BeginPlay()
 {
     Super::BeginPlay();
-
-
 }
 
 // Called every frame
 void ABlastRadiusSword::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
-
-
 }
 
 void ABlastRadiusSword::Attach(class ABlastRadiusCharacter* Character)
@@ -58,19 +50,14 @@ void ABlastRadiusSword::Attach(class ABlastRadiusCharacter* Character)
     SetOwner(Character);
     SetActorHiddenInGame(true);
 
-    // Disable weapon's physics.
-    //SetActorEnableCollision(false);
-
     // Attach weapon to the character's mesh.
     AttachToComponent(Character->GetSkeletalMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, "SwordSocket");
-
 }
 
 void ABlastRadiusSword::Activate()
 {
     SetActorHiddenInGame(false);
     HitBoxComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-
 }
 
 void ABlastRadiusSword::PutAway()
@@ -78,7 +65,6 @@ void ABlastRadiusSword::PutAway()
     SetActorHiddenInGame(true);
     HitBoxComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
     DeflectedOnce = false;
-
 }
 
 ABlastRadiusSword* ABlastRadiusSword::GetSword()
@@ -92,7 +78,6 @@ void ABlastRadiusSword::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp
     if (OtherProjectile != nullptr && DeflectedOnce == false)
     {
         DeflectedOnce = true;
-        //OtherProjectile->FlipVelocity();
         OtherProjectile->FireInDirection(GetOwner()->GetActorRotation().Vector());
     }
 }
