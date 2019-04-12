@@ -1,6 +1,24 @@
 # TeamJ-SON
-
 ## **Blast Raidus v.2.0**
+
+- **Jason Allen** *Project Manager/Programmer*
+- **Remi Teeple** *Programmer*
+- **Kaylin Gilbey** *Artist*
+- **Richard Hildson** *Programmer*
+- **David Silva-Parent** *Artist* 
+- **Sam Paquette** *Programmer*
+
+### **INSTRUCTIONS**
+
+### **GAMEPLAY**
+Shoot your opponenet increase their damage percentage. 
+As the percentage increases so will their knockback, use this to knock them off of
+the stage. Run with 2 players to see an example of respawning. 
+You can also Blink around to dodge and go through walls. 
+Using blinking you can save yourself from death if your fast enough.
+Shoot walls to have them richochet off of walls in order to flank your opponent.
+Shooting and blinking use your energy so in order to win you have to manage
+your energy use.
 
 ### **CONTROLS**
 **KEYBOARD**
