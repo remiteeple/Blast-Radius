@@ -102,10 +102,6 @@ void ABlastRadiusGrenade::BeginPlay()
     {
         ParticleSystemComponent->SetTemplate(GrenadeFX);
     }
-
-    //// Add the player's velocity to prevent instant collision.
-    //FVector test = GetOwner()->GetVelocity();
-    //GrenadeMovementComponent->SetVelocityInLocalSpace(GrenadeMovementComponent->Velocity + test);
 }
 
 // Called every frame

@@ -60,81 +60,43 @@ void ABlastRadiusWeapon::Tick(float DeltaTime)
     Super::Tick(DeltaTime);
 }
 
-bool ABlastRadiusWeapon::GetPickableActor_LineTraceTestByObjectType(EObjectTypeQuery ObjectType)
-{
-    bool hit = false;
-    FVector StartTrace;
-    FVector Direction;
-    FVector EndTrace;
-
-    SetupRay(StartTrace, Direction, EndTrace);
-    FCollisionQueryParams TraceParams;
-    TraceParams.AddIgnoredActor(this);
-    TraceParams.bTraceComplex = true;
-    TraceParams.bReturnPhysicalMaterial = true;
-
-    TEnumAsByte<EObjectTypeQuery> ObjectToTrace = ObjectType;
-    TArray<TEnumAsByte<EObjectTypeQuery> > ObjectsToTraceAsByte;
-    ObjectsToTraceAsByte.Add(ObjectToTrace);
-
-    FHitResult Hit(ForceInit);
-    UWorld* World = GetWorld();
-    hit = World->LineTraceTestByObjectType(StartTrace, EndTrace, FCollisionObjectQueryParams(ObjectsToTraceAsByte), TraceParams); // simple trace function
-    DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor::Magenta, true, 1, 0, 5.0f);
-    return hit;
-}
-
-void ABlastRadiusWeapon::SetupRay(FVector &StartTrace, FVector &Direction, FVector &EndTrace)
-{
-    StartTrace = GetOwner()->GetActorLocation() + GetOwner()->GetActorRotation().Vector();
-    Direction = GetOwner()->GetActorRotation().Vector();
-    EndTrace = StartTrace + Direction * 150.0f;
-}
-
 void ABlastRadiusWeapon::Fire()
 {
-    return NetMultiCastFire();
+    /* Fire */
+    NetMultiCastFire();
 }
 
 void ABlastRadiusWeapon::NetMultiCastFire_Implementation()
 {
-    // Raycast to see if something is blocking the shot.
-    if (!GetPickableActor_LineTraceTestByObjectType(EObjectTypeQuery::ObjectTypeQuery1))
+    // Attempt to fire a projectile.
+    if (ProjectileClass)
     {
-        // Attempt to fire a projectile.
-        if (ProjectileClass)
+        UWorld* World = GetWorld();
+        if (World)
         {
-            UWorld* World = GetWorld();
-            if (World)
-            {
-                FActorSpawnParameters SpawnParams;
-                SpawnParams.Owner = this->GetOwner();
-                SpawnParams.Instigator = Instigator;
-                // Spawn the projectile at the player's forward vector (muzzle causes offset).
-                const FVector SpawnLocation = GetOwner()->GetActorLocation() + GetOwner()->GetActorRotation().Vector() * 150.0f;
-                const FRotator SpawnRotation = GetOwner()->GetActorRotation();
-                ABlastRadiusProjectile* Projectile = World->SpawnActor<ABlastRadiusProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, SpawnParams);
+            FActorSpawnParameters SpawnParams;
+            SpawnParams.Owner = this->GetOwner();
+            SpawnParams.Instigator = Instigator;
+            // Spawn the projectile at the player's forward vector (muzzle causes offset).
+            const FVector SpawnLocation = GetOwner()->GetActorLocation() + GetOwner()->GetActorRotation().Vector() * 150.0f;
+            const FRotator SpawnRotation = GetOwner()->GetActorRotation();
+            ABlastRadiusProjectile* Projectile = World->SpawnActor<ABlastRadiusProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, SpawnParams);
 
-                if (Projectile)
-                {
-                    // Set the projectile's initial trajectory.
-                    FVector LaunchDirection = GetOwner()->GetActorRotation().Vector();
-                    Projectile->FireInDirection(LaunchDirection);
-                }
+            if (Projectile)
+            {
+                // Set the projectile's initial trajectory.
+                FVector LaunchDirection = GetOwner()->GetActorRotation().Vector();
+                Projectile->FireInDirection(LaunchDirection);
             }
         }
+    }
 
-        // Spawn particles.
-        if (ProjectileFX)
-        {
-            UGameplayStatics::SpawnEmitterAtLocation(this, ProjectileFX, MuzzleArrow->GetComponentLocation());
-            ParticleSystemComponent->SetTemplate(ProjectileFX);
-            ParticleSystemComponent->SecondsBeforeInactive = 0.5;
-        }
-
-        // Spend energy.
-        ABlastRadiusCharacter* Character = Cast<ABlastRadiusCharacter>(GetOwner());
-        Character->GetEnergyComponent()->SpendEnergy(Character->ShootCost);
+    // Spawn particles.
+    if (ProjectileFX)
+    {
+        UGameplayStatics::SpawnEmitterAtLocation(this, ProjectileFX, MuzzleArrow->GetComponentLocation());
+        ParticleSystemComponent->SetTemplate(ProjectileFX);
+        ParticleSystemComponent->SecondsBeforeInactive = 0.5;
     }
 }
 

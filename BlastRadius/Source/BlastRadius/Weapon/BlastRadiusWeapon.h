@@ -35,10 +35,6 @@ public:
 
 #pragma region Methods
 public:
-    /* Raycast */
-    bool GetPickableActor_LineTraceTestByObjectType(EObjectTypeQuery ObjectType);
-    void SetupRay(FVector &StartTrace, FVector &Direction, FVector &EndTrace);
-
     /* Fire the weapon */
     UFUNCTION()
         void Fire();
