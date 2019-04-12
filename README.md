@@ -3,7 +3,8 @@
 ## **Blast Raidus v.2.0**
 
 ### **CONTROLS**
-    **KEYBOARD**
+**KEYBOARD**
+
 *MOVEMENT*
 - *(WASD / Arrow Keys)* Basic Directional Movement
 
@@ -20,6 +21,7 @@
 - *(Tab)* Lob Grenade
 
 **GAMEPAD**
+
 *MOVEMENT*
 - *(Gamepad Left ThumbStick)* Basic Directional Movement
 
@@ -38,8 +40,7 @@
 ### **CREDITS**
 
 *Audio From:*
-https://freesound.org/
-https://freemusicarchive.org
+https://freesound.org/ & https://freemusicarchive.org
 
 **Laser03.wav** *by* [Sharesynth](https://freesound.org/people/sharesynth/sounds/344511/)
 
