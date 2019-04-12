@@ -32,7 +32,7 @@ void ABlastRadiusBlastzoneSphere::Tick(float DeltaTime)
 
 void ABlastRadiusBlastzoneSphere::OnComponentEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-    if (Role = ROLE_Authority)
+    if (Role == ROLE_Authority)
     {
         if (OtherActor)
         {

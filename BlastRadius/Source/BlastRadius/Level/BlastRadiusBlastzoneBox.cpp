@@ -30,7 +30,7 @@ void ABlastRadiusBlastzoneBox::Tick(float DeltaTime)
 
 void ABlastRadiusBlastzoneBox::OnComponentOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-    if (Role = ROLE_Authority)
+    if (Role == ROLE_Authority)
     {
         if (OtherActor)
         {
