@@ -102,6 +102,22 @@ void UHealthComponent::TakeDamage(float Damage, const class UDamageType* DamageT
     }
 }
 
+void UHealthComponent::Heal(float value)
+{
+    //Get the player state to modify current player damage
+    ABlastRadiusPlayerState* PlayerState = Cast<ABlastRadiusCharacter>(GetOwner())->GetPlayerState();
+    //Add Health to player damage
+    PlayerState->DecrementDamage(value);
+    //Get the current damage from the player state
+    CurrentHealth = PlayerState->GetDamage();
+
+    //If the characters health is below 0, make it 0.
+    if (CurrentHealth < 0.f)
+    {
+        PlayerState->SetDamage(0.f);
+    }
+}
+
 void UHealthComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);

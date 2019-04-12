@@ -52,6 +52,7 @@ public:
 
 #pragma region Setters
     /* Apply Damage */
+    FORCEINLINE void DecrementDamage(float Damage) { CurrentDamage -= Damage; }
     FORCEINLINE void IncrementDamage(float Damage) { CurrentDamage += Damage; }
     FORCEINLINE void SetDamage(float Damage) { CurrentDamage = Damage; }
 	FORCEINLINE void SetEnergy(float Energy) { CurrentEnergy = Energy; }

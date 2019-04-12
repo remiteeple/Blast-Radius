@@ -55,6 +55,8 @@ public:
     UFUNCTION(BluePrintCallable)
         void TakeDamage(float Damage, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser, FVector HitFrom);
 
+    UFUNCTION(BlueprintCallable)
+        void Heal(float value);
     //Function To Allow Damage To Be Taken On Clients
     UFUNCTION(Server, Reliable, WithValidation)
         void ServerTakeDamage(FVector LaunchVelocity, float Knockback);

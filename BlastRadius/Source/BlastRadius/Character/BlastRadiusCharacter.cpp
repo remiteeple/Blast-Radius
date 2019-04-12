@@ -18,6 +18,7 @@
 #include "Weapon/BlastRadiusGrenade.h"
 #include "Pickup/BlastRadiusPickup.h"
 #include "Pickup/BlastRadiusBattery.h"
+#include "Pickup/BlastRadiusHealthKit.h"
 #include "Gameplay/BlastRadiusGameStateBase.h"
 #include "Gameplay/BlastRadiusPlayerState.h"
 #include "Weapon/BlastRadiusWeapon.h"
@@ -311,6 +312,19 @@ void ABlastRadiusCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedCompon
                 GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Black, "Picked Up Battery");
                 EnergyComponent->CurrentEnergy += Battery->Charge;
                 Battery->Disable();
+            }
+        }
+
+        // Pickup HealthKit.
+        if (OtherActor->ActorHasTag("HealthKit"))
+        {
+            ABlastRadiusHealthKit* HealthKit = Cast<ABlastRadiusHealthKit>(OtherActor);
+            if (HealthKit)
+            {
+                // Heal the player
+                GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Black, "Picked Up Health-Kit");
+                HealthComponent->Heal((HealthComponent->CurrentHealth * HealthKit->HealPercent));
+                HealthKit->Disable();
             }
         }
     }
