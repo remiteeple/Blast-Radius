@@ -1,24 +1,21 @@
-# TeamJ-SON
-## **Blast Raidus v.2.0**
+# **Blast Radius v.2.0**
 
-- **Jason Allen** *Project Manager/Programmer*
-- **Remi Teeple** *Programmer*
-- **Kaylin Gilbey** *Artist*
+Blast Radius is a small propject created during the Algonquin College Game Development program that uses Unreal Engine v.4.  Blast Radius is a networked top-down arena style shooter where the primary goal is to knock your opponent off a platform to gain points.
+
+## THE TEAM
+- **Jason Allen** *Project Manager / Programmer*
+- **Remi Teeple** *Lead Programmer*
 - **Richard Hildson** *Programmer*
-- **David Silva-Parent** *Artist* 
 - **Sam Paquette** *Programmer*
+- **Kaylin Gilbey** *Artist*
+- **David Silva-Parent** *Artist* 
 
 ### **INSTRUCTIONS**
 
 ### **GAMEPLAY**
-Shoot your opponenet increase their damage percentage. 
-As the percentage increases so will their knockback, use this to knock them off of
-the stage. Run with 2 players to see an example of respawning. 
-You can also Blink around to dodge and go through walls. 
-Using blinking you can save yourself from death if your fast enough.
-Shoot walls to have them richochet off of walls in order to flank your opponent.
-Shooting and blinking use your energy so in order to win you have to manage
-your energy use.
+Shooting your opponent increase their stored damage. 
+As a player's damage increases so will their knockback, use this to knock other players off of
+the stage. Run with 2 players to see an example of respawning. You can also Blink around to dodge and go through walls. Blinking can save yourself from death if you're fast enough.  Shooting walls richochets your bullets, use this to zone your opponent and gain the advantage during a match.  Shooting and blinking use your energy so in order to win you have to manage your energy use.
 
 ### **CONTROLS**
 **KEYBOARD**
@@ -61,9 +58,6 @@ your energy use.
 https://freesound.org/ & https://freemusicarchive.org
 
 **Laser03.wav** *by* [Sharesynth](https://freesound.org/people/sharesynth/sounds/344511/)
-
 **Laser Shot Silenced** *by* [Bubaproducer](https://freesound.org/people/bubaproducer/sounds/151022/)
-
 **Concrete Footsteps 2** *by* [Yoyodamn234](https://freesound.org/people/Yoyodaman234/sounds/166508/)
-
 **Fans Trance - Loop (ID 777)** *by* [Lobo Loco](http://freemusicarchive.org/music/Lobo_Loco/Wittness_for_Fittness/Fans_Trance_-_Loop_ID_777)
