@@ -3,7 +3,7 @@
 Blast Radius is a small propject created during the Algonquin College Game Development program that uses Unreal Engine v.4.  Blast Radius is a networked top-down arena style shooter where the primary goal is to knock your opponent off a platform to gain points.
 
 ## THE TEAM
-- **Jason Allen** *Project Manager / Programmer*
+- **Jason Allen** *Project Manager / Programmer / Git Manager*
 - **Remi Teeple** *Lead Programmer*
 - **Richard Hildson** *Programmer*
 - **Sam Paquette** *Programmer*
